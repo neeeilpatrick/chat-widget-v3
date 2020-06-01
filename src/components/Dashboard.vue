@@ -1,9 +1,9 @@
 <template>
     <div>
         <Business />
-        <ChatBubble />
+        <ChatBubble @update="chatBubble" />
         <Features />
-        <Widget />
+        <Widget @update="widget" />
     </div>
 </template>
 
@@ -22,6 +22,15 @@ export default {
         Features,
         Widget
     },
-    props: ["location"]
+    props: ["location"],
+
+    methods: {
+        chatBubble(config){
+            this.location.chatBuble = config;
+        },
+        widget(config){
+            this.location.widget = config;
+        }
+    }
 }
 </script>
