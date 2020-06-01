@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # chat-widget-v3
 
 ## Project setup
@@ -22,3 +23,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+# chat-widget-v3
+>>>>>>> e2fe95eacd398d6aa051516480ab5b235748c1da
