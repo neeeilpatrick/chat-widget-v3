@@ -1,28 +1,47 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <Navbar :locations="locations" @updateLocations="addNewLocation" @displayLocation="display" />
+
+    <v-content>
+      <Dashboard :location="currentLocation"/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from './components/Navbar';
+import Dashboard from './components/Dashboard'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+    Navbar,
+    Dashboard
+  },
+
+  data: () => ({
+    currentLocation: null,
+    locations: [{
+                zipcode: "9000",
+                address: "CDO",
+                id: "132",
+                name: "Cagayan de Oro"
+            },{
+                zipcode: "9001",
+                address: "Lanao del Norte",
+                id: "ldn",
+                name: "Candis, Tubod LDN"
+            }]
+  }),
+  methods: {
+    addNewLocation(location){
+      this.locations.push(location);
+    },
+
+    display(location){
+      this.currentLocation = location
+    }
+  }
+};
+</script>
