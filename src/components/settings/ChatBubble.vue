@@ -8,13 +8,13 @@
         <v-text-field outlined :rules="rules.bubbleImage" label="Bubble Image" placeholder="https://msg.everypages.com/resources/profile.jpg"></v-text-field>
 
         <v-text-field @click="config.colorScheme.isActive = !config.colorScheme.isActive" v-model="config.colorScheme.hexValue" label="Color Scheme" ></v-text-field>
-        <v-color-picker v-if="config.colorScheme.isActive" hide-mode-switch v-model="config.colorScheme.hexValue"></v-color-picker>
+        <v-color-picker v-if="config.colorScheme.isActive"  :mode.sync="hex" v-model="config.colorScheme.hexValue"></v-color-picker>
         
         <v-text-field @click="config.backgroundColor.isActive = !config.backgroundColor.isActive" v-model="config.backgroundColor.hexValue" label="Background Color" ></v-text-field>
-        <v-color-picker v-if="config.backgroundColor.isActive" hide-mode-switch v-model="config.backgroundColor.hexValue"></v-color-picker>
+        <v-color-picker v-if="config.backgroundColor.isActive"  :mode.sync="hex" v-model="config.backgroundColor.hexValue"></v-color-picker>
         
         <v-text-field @click="config.textColor.isActive = !config.textColor.isActive" v-model="config.textColor.hexValue" label="Text Color" ></v-text-field>
-        <v-color-picker v-if="config.textColor.isActive" hide-mode-switch v-model="config.textColor.hexValue"></v-color-picker>
+        <v-color-picker v-if="config.textColor.isActive"  :mode.sync="hex" v-model="config.textColor.hexValue"></v-color-picker>
         
         <v-btn @click="validate" :disabled="!valid" color="primary">
              Next
