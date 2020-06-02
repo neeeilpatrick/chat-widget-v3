@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card>
-            <v-stepper>
+            <v-stepper class="elevation-0" >
                 <v-stepper-header>
                     <v-stepper-step
                         editable
@@ -45,27 +45,27 @@
                     </v-stepper-step>
                 </v-stepper-header>
 
-                <v-stepper-items>
+                <v-stepper-items class="elevation-0">
                     <v-stepper-content step="1" >
-                        <v-card height="auto" class="stepperCard">
+                        <v-card height="auto" class="elevation-0 stepperCard">
                             <Business />
                         </v-card>
                     </v-stepper-content>
 
                     <v-stepper-content step="2" >
-                        <v-card height="auto" class="stepperCard">
+                        <v-card height="auto" class="elevation-0 stepperCard">
                             <ChatBubble @update="chatBubble" />
                         </v-card>
                     </v-stepper-content>
 
                     <v-stepper-content step="3" >
-                        <v-card height="auto" class="stepperCard">
+                        <v-card height="auto" class="elevation-0 stepperCard">
                             <Features />
                         </v-card>
                     </v-stepper-content>
 
                     <v-stepper-content step="4" >
-                        <v-card height="auto" class="stepperCard">
+                        <v-card height="auto" class="elevation-0 stepperCard">
                             <Widget @update="widget" />
                         </v-card>
                     </v-stepper-content>
