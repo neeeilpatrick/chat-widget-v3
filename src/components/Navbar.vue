@@ -1,7 +1,8 @@
 <template>
     <nav>
         <v-navigation-drawer
-        app
+        permanent
+        absolute
         >
 
             <v-btn 

@@ -47,27 +47,76 @@
 
                 <v-stepper-items class="elevation-0">
                     <v-stepper-content step="1" >
-                        <v-card height="auto" class="elevation-0 stepperCard">
-                            <Business />
-                        </v-card>
+                        <v-row no-gutters>
+                            <v-col cols-6>
+                                <v-card height="auto" class="elevation-0">
+                                    <Business />
+                                </v-card>
+                            </v-col>
+
+                            <v-col cols-6>
+                                <v-card height="420pt" class="gray lighten-1">
+                                    <v-card-text>
+                                        <h1 style="text-align:center;">This is view</h1>
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
                     </v-stepper-content>
 
                     <v-stepper-content step="2" >
-                        <v-card height="auto" class="elevation-0 stepperCard">
-                            <ChatBubble @update="chatBubble" />
-                        </v-card>
+                        <v-row no-gutters>
+                            <v-col cols-6>
+                                <v-card height="auto" class="elevation-0">
+                                    <ChatBubble @update="chatBubble" />
+                                </v-card>
+                            </v-col>
+
+                            <v-col cols-6>
+                                <v-card height="420pt" class="gray lighten-1">
+                                    <v-card-text>
+                                        <h1 style="text-align:center;">This is view</h1>
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
                     </v-stepper-content>
 
                     <v-stepper-content step="3" >
-                        <v-card height="auto" class="elevation-0 stepperCard">
-                            <Features />
-                        </v-card>
+                        <Navbar :locations="locations" @displayLocation="display" />
+                        <v-row no-gutters>
+                            <v-col cols-6>
+                                <v-card height="450pt" class="elevation-0 stepperCard">
+                                    <Features />
+                                </v-card>
+                            </v-col>
+
+                            <v-col cols-6>
+                                <v-card height="420pt" class="gray lighten-1">
+                                    <v-card-text>
+                                        <h1 style="text-align:center;">This is view</h1>
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
                     </v-stepper-content>
 
                     <v-stepper-content step="4" >
-                        <v-card height="auto" class="elevation-0 stepperCard">
-                            <Widget @update="widget" />
-                        </v-card>
+                        <v-row no-gutters>
+                            <v-col cols-6>
+                                <v-card height="auto" class="elevation-0 stepperCard">
+                                    <Widget @update="widget" />
+                                </v-card>
+                            </v-col>
+
+                            <v-col cols-6>
+                                <v-card height="450pt" class="gray lighten-1">
+                                    <v-card-text>
+                                        <h1 style="text-align:center;">This is view</h1>
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
@@ -88,6 +137,7 @@ import Business from './../components/settings/Business';
 import ChatBubble from './../components/settings/ChatBubble';
 import Features from './../components/settings/Features';
 import Widget from './../components/settings/Widget';
+import Navbar from './../components/Navbar';
 
 
 export default {
@@ -95,9 +145,26 @@ export default {
         Business,
         ChatBubble,
         Features,
-        Widget
+        Widget,
+        Navbar
     },
     props: ["location"],
+    data(){
+        return{
+            toggleFeatureNav: false,
+            locations: [{
+                zipcode: "9000",
+                address: "CDO",
+                id: "132",
+                name: "Cagayan de Oro"
+            },{
+                zipcode: "9001",
+                address: "Lanao del Norte",
+                id: "ldn",
+                name: "Candis, Tubod LDN"
+            }]
+        }
+    },
     methods: {
         chatBubble(config){
             this.location.chatBuble = config;
@@ -105,8 +172,16 @@ export default {
         widget(config){
             this.location.widget = config;
         },
+        addNewLocation(location){
+            this.locations.push(location);
+        },
+
+        display(location){
+            this.currentLocation = location
+        },
         openFeature(toggle){
-            this.$emit('openFeature', toggle);
+            this.toggleFeatureNav = toggle;
+            // this.$emit('openFeature', toggle);
         }
     }
 }
