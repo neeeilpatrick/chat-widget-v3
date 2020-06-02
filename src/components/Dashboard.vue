@@ -5,28 +5,41 @@
                 <v-stepper-header>
                     <v-stepper-step
                         editable
+                        alt-labels
                         step="1"
+                        @click="openFeature(false)"
                     >
                         Business Settings
                     </v-stepper-step>
+                    <v-divider></v-divider>
+
 
                     <v-stepper-step
                         editable
+                        alt-labels
                         step="2"
+                        @click="openFeature(false)"
                     >
                         Proactive Chat Bubble
                     </v-stepper-step>
+                    <v-divider></v-divider>
+
 
                     <v-stepper-step
                         editable
+                        alt-labels
                         step="3"
+                        @click="openFeature(true)"
                     >
                         Features
                     </v-stepper-step>
+                    <v-divider></v-divider>
 
                     <v-stepper-step
                         editable
+                        alt-labels
                         step="4"
+                        @click="openFeature(false)"
                     >
                         Widget
                     </v-stepper-step>
@@ -85,13 +98,15 @@ export default {
         Widget
     },
     props: ["location"],
-
     methods: {
         chatBubble(config){
             this.location.chatBuble = config;
         },
         widget(config){
             this.location.widget = config;
+        },
+        openFeature(toggle){
+            this.$emit('openFeature', toggle);
         }
     }
 }

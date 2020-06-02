@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <Navbar :locations="locations" @updateLocations="addNewLocation" @displayLocation="display" />
+    <Navbar v-if="openFeatureNav" :locations="locations" @updateLocations="addNewLocation" @displayLocation="display" />
 
     <v-content>
-      <Dashboard :location="currentLocation"/>
+      <Dashboard @openFeature="toggleFeatureNav" :location="currentLocation"/>
     </v-content>
   </v-app>
 </template>
@@ -22,6 +22,7 @@ export default {
 
   data: () => ({
     currentLocation: null,
+    openFeatureNav: false,
     locations: [{
                 zipcode: "9000",
                 address: "CDO",
@@ -41,6 +42,10 @@ export default {
 
     display(location){
       this.currentLocation = location
+    },
+
+    toggleFeatureNav(emited){
+      this.openFeatureNav = emited;
     }
   }
 };
