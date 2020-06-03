@@ -1,5 +1,5 @@
 <template>
-    <v-container-fluid>
+    <v-container fluid>
         <h1>Widget</h1>
         
 
@@ -62,7 +62,7 @@
 
         <v-btn depressed color="primary" :disabled="!valid" @click="validate">Next</v-btn>
 
-    </v-container-fluid>
+    </v-container>
 </template>
 
 <script>
