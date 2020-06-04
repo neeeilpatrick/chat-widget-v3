@@ -1,7 +1,5 @@
 <template>
   <v-app>
-   
-
     <v-content>
       <Dashboard @openFeature="toggleFeatureNav" :location="currentLocation"/>
     </v-content>

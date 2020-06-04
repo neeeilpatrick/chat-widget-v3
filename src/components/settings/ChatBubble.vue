@@ -3,18 +3,23 @@
         <h1>Chat Bubble</h1>
         <v-form v-model="valid" lazy-validation ref="form">
 
-        <v-text-field outlined :rules="rules.icon" label="Icon" placeholder="https://yourwebsite.com/chaticon.png"></v-text-field>
-        <v-text-field outlined :rules="rules.bubbleMessage" label="Bubble Message" placeholder="Hi there, have a question? Text us here."></v-text-field>
-        <v-text-field outlined :rules="rules.bubbleImage" label="Bubble Image" placeholder="https://msg.everypages.com/resources/profile.jpg"></v-text-field>
+        <v-text-field outlined v-model="config.svg" :rules="rules.icon" label="Icon" placeholder="https://yourwebsite.com/chaticon.png"></v-text-field>
+        <v-text-field outlined v-model="config.bubble_message" :rules="rules.bubbleMessage" label="Bubble Message" placeholder="Hi there, have a question? Text us here."></v-text-field>
+        <v-text-field outlined v-model="config.bubble_image" :rules="rules.bubbleImage" label="Bubble Image" placeholder="https://msg.everypages.com/resources/profile.jpg"></v-text-field>
 
-        <v-text-field @click="config.colorScheme.isActive = !config.colorScheme.isActive" v-model="config.colorScheme.hexValue" label="Color Scheme" ></v-text-field>
-        <v-color-picker v-if="config.colorScheme.isActive"  :mode.sync="hex" v-model="config.colorScheme.hexValue"></v-color-picker>
+        <v-row>
+            <v-col cols="4">
+                <v-switch v-model="config.bubble_on_mobile" label="Appear On Mobile"></v-switch>
+            </v-col>
+        </v-row>
+        <v-text-field @click="color_scheme_active = !color_scheme_active" v-model="config.color_scheme" label="Color Scheme" ></v-text-field>
+        <v-color-picker v-if="color_scheme_active"  :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
         
-        <v-text-field @click="config.backgroundColor.isActive = !config.backgroundColor.isActive" v-model="config.backgroundColor.hexValue" label="Background Color" ></v-text-field>
-        <v-color-picker v-if="config.backgroundColor.isActive"  :mode.sync="hex" v-model="config.backgroundColor.hexValue"></v-color-picker>
+        <v-text-field @click="bubble_background_active = !bubble_background_active" v-model="config.bubble_background" label="Background Color" ></v-text-field>
+        <v-color-picker v-if="bubble_background_active"  :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
         
-        <v-text-field @click="config.textColor.isActive = !config.textColor.isActive" v-model="config.textColor.hexValue" label="Text Color" ></v-text-field>
-        <v-color-picker v-if="config.textColor.isActive"  :mode.sync="hex" v-model="config.textColor.hexValue"></v-color-picker>
+        <v-text-field @click="bubble_text_color_active = !bubble_text_color_active" v-model="config.bubble_text_color" label="Text Color" ></v-text-field>
+        <v-color-picker v-if="bubble_text_color_active"  :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
         
         <v-btn @click="validate" :disabled="!valid" color="primary">
              Next
@@ -30,22 +35,18 @@ export default {
         return {
             valid: true,
             config: {
-                icon: null,
-                bubbleMessage: null,
-                bubbleImage:null,
-                colorScheme: {
-                    hexValue: "#589bd6",
-                    isActive: false
-                },
-                backgroundColor: {
-                    hexValue: "#9e1a1a",
-                    isActive: false
-                },
-                textColor: {
-                    hexValue: "#cf1717",
-                    isActive: false
-                }
+                svg: null,
+                bubble_image: null,
+                bubble_message: null,
+                bubble_on_mobile: false,
+                color_scheme: "#589bd6",
+                bubble_background: "#9e1a1a", 
+                bubble_text_color: "#cf1717",
+                 
             },
+            color_scheme_active: false,
+            bubble_background_active: false,
+            bubble_text_color_active: false,
             rules: {
                 icon: [v => !!v || 'Icon is required'],
                 bubbleMessage: [v => !!v || 'Bubble Message is required'],
@@ -55,8 +56,8 @@ export default {
     },
     methods:{
         validate(){
-            this.$refs.form.validate();
-            this.$emit("update", this.config);
+            var isValid = this.$refs.form.validate();
+            if(isValid) this.$emit("update", this.config);
         }
     }
 }
