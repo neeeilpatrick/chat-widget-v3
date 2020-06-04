@@ -170,7 +170,7 @@ export default {
     computed: {
         generateCodeController(){
             var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig}
-            var jsonFormatCode =`<script>var config = ${JSON.stringify(jsonData)}</ script>`;
+            var jsonFormatCode =`<script>var config = ${JSON.stringify(jsonData)}</ script> \n \n <script src="https://msg.everypages.com/prompted-chat/v2/chatwidget.js"></ script>`;
             return jsonFormatCode;
         }
     },

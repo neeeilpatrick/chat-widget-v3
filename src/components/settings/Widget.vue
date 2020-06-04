@@ -14,7 +14,7 @@
             <v-text-field 
                     v-if="config.image_style=='picture'"
                     v-model="config.image_url"
-                    :rules="rules.imageLink"
+                    :rules="rules.image_url"
                     label="Image Link"
                     placeholder="https://msg.everypages.com/resources/profile.jpg"
                     outlined
@@ -22,7 +22,7 @@
 
             <v-text-field 
                     v-model="config.header_line_1"
-                    :rules="rules.header"
+                    :rules="rules.header_line_1"
                     label="Header"
                     placeholder="Hello!"
                     outlined
@@ -30,7 +30,7 @@
 
             <v-text-field 
                     v-model="config.header_line_2"
-                    :rules="rules.subheader"
+                    :rules="rules.header_line_2"
                     label="Subheader"
                     placeholder="What can we help you with?"
                     outlined
@@ -38,7 +38,7 @@
 
             <v-text-field 
                     v-model="config.welcome_message"
-                    :rules="rules.welcomeMessage"
+                    :rules="rules.welcome_message"
                     label="Welcome Message"
                     placeholder="Welcome! Click one of the buttons to get started!"
                     outlined
@@ -83,9 +83,9 @@ export default {
             powered_by_link: "",
             rules: {
                 image_url:  [ v => !!v || 'Image link is required' ],
-                header:  [ v => !!v || 'Header is required' ],
-                subheader:  [ v => !!v || 'Subheader is required' ],
-                welcomeMessage: [ v => !!v || 'Welcome message is required' ]
+                header_line_1:  [ v => !!v || 'Header is required' ],
+                header_line_2:  [ v => !!v || 'Subheader is required' ],
+                welcome_message: [ v => !!v || 'Welcome message is required' ]
             }
         }
     },
