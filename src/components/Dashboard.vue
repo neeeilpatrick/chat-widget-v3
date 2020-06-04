@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{generateCodeController}}
         <v-card>
             <v-stepper class="elevation-0" >
                 <v-stepper-header>
@@ -151,7 +152,8 @@ export default {
     props: ["location"],
     data(){
         return{
-            toggleFeatureNav: false,
+            chatBubbleConfig: {},
+            widgetConfig: {},
             locations: [{
                 zipcode: "9000",
                 address: "CDO",
@@ -165,14 +167,19 @@ export default {
             }]
         }
     },
+    computed: {
+        generateCodeController(){
+            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig}
+            var jsonFormatCode =`<script>var config = ${JSON.stringify(jsonData)}</ script>`;
+            return jsonFormatCode;
+        }
+    },
     methods: {
         chatBubble(config){
-            config = JSON.stringify(config);
-            var myScript = "<script> var data = "+config+ "</ script>";
-            console.log(myScript);
+            this.chatBubbleConfig = config; 
         },
         widget(config){
-            this.location.widget = config;
+            this.widgetConfig = config;
         },
         addNewLocation(location){
             this.locations.push(location);
