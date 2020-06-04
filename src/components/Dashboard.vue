@@ -167,7 +167,9 @@ export default {
     },
     methods: {
         chatBubble(config){
-            this.location.chatBuble = config;
+            config = JSON.stringify(config);
+            var myScript = "<script> var data = "+config+ "</ script>";
+            console.log(myScript);
         },
         widget(config){
             this.location.widget = config;
@@ -183,6 +185,7 @@ export default {
             this.toggleFeatureNav = toggle;
             // this.$emit('openFeature', toggle);
         }
+        
     }
 }
 </script>
