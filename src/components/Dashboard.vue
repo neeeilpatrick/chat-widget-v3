@@ -84,10 +84,10 @@
                     </v-stepper-content>
 
                     <v-stepper-content step="3" >
-                        <Navbar :locations="locations" @displayLocation="display" />
                         <v-row no-gutters>
+                            <Navbar :locations="locations" @displayLocation="display" />        
                             <v-col cols-6>
-                                <v-card height="450pt" class="elevation-0 stepperCard">
+                                <v-card height="450pt" class="elevation-0 featureCard stepperCard">
                                     <Features />
                                 </v-card>
                             </v-col>
@@ -131,6 +131,14 @@
     width: 500pt;
     margin: auto;
 }
+
+.featureCard{
+    margin-left: 200pt;
+    width: 350pt;
+}
+
+
+
 </style>
 
 <script>

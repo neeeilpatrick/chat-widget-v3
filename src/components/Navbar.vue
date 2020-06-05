@@ -1,7 +1,6 @@
 <template>
     <nav>
         <v-navigation-drawer
-        permanent
         absolute
         >
 
