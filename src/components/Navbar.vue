@@ -72,7 +72,7 @@
                             label="Zipcode"
                             v-model="store.zipcode"
                             :rules="rules.zipcode"
-                            outlined
+                            outlined 
                             dense
                             required    
                         ></v-text-field> 
