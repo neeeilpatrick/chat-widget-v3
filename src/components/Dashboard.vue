@@ -69,7 +69,7 @@
                             <Navbar :locations="locations" @displayLocation="display" />        
                             <v-col cols-6>
                                 <v-card height="450pt" class="elevation-0 featureCard stepperCard">
-                                    <Features />
+                                    <Features @delete="deleteFeatures" @update="features" />
                                 </v-card>
                             </v-col>
 
@@ -115,7 +115,9 @@
 
 .featureCard{
     margin-left: 200pt;
-    width: 350pt;
+    width: 320pt;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 
@@ -141,6 +143,7 @@ export default {
         return{
             chatBubbleConfig: {},
             widgetConfig: {},
+            featuresConfig: [],
             locations: [{
                 zipcode: "9000",
                 address: "CDO",
@@ -156,7 +159,7 @@ export default {
     },
     computed: {
         generateCodeController(){
-            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig}
+            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig, Features: this.featuresConfig}
             var jsonFormatCode =`<script>var config = ${JSON.stringify(jsonData)}</ script> \n \n <script src="https://msg.everypages.com/prompted-chat/v2/chatwidget.js"></ script>`;
             return jsonFormatCode;
         }
@@ -167,6 +170,14 @@ export default {
         },
         widget(config){
             this.widgetConfig = config;
+        },
+        features(config){
+            this.featuresConfig.push(config);
+            console.log(this.featuresConfig);
+        },
+        deleteFeatures(id){
+            var arr = this.featuresConfig.filter(value => value.id !== id);
+            this.featuresConfig = arr;
         },
         addNewLocation(location){
             this.locations.push(location);
