@@ -172,8 +172,25 @@ export default {
             this.widgetConfig = config;
         },
         features(config){
-            this.featuresConfig.push(config);
+
+            if(this.featuresConfig.length <= 0){
+                this.featuresConfig.push(config);
+            }
+            else{
+                const id = this.featuresConfig.findIndex((value => value.id == config.id));
+                if(typeof this.featuresConfig[id] == "undefined"){
+                    this.featuresConfig.push(config);
+                }
+                else{ 
+                    if(this.featuresConfig[id].type == 'review')
+                    if(this.featuresConfig[id].params.status == "Enable")this.featuresConfig[id] = config;
+                    else this.featuresConfig.splice(id);              
+                }
+            }
+
             console.log(this.featuresConfig);
+            
+
         },
         deleteFeatures(id){
             var arr = this.featuresConfig.filter(value => value.id !== id);

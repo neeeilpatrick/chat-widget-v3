@@ -115,7 +115,7 @@ export default {
                 confirmationhere: [v => !!v || 'Here Message is required'],
                 prefixstatus: [v => !!v || 'Prefix Status is required'],
                 prefixaway: [v => !!v || 'Prefix Away is required'],
-                prefixhere: [v => !!v || 'Prefix Here is required'],
+                prefixhere: [v => !!v || 'Prefix Here is required']
             }
          }
      },

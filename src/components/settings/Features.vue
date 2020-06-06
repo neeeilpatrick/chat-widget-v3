@@ -20,6 +20,7 @@
         <v-card v-for="feature in features" :key="feature.id">
             <CustomLink @updateLink="updateFeature" @deleteLink="deleteFeature" :config="feature" v-if="feature.type=='custom-link' && feature.id != null"></CustomLink>
             <Chat @updateChat="updateFeature" @deleteChat="deleteFeature" :config="feature" v-if="feature.type=='chat' && feature.id != null"></Chat>
+            <Review @updateReview="updateFeature" :config="feature" v-if="feature.type=='review' && feature.id != null"></Review>
         </v-card>
 
     </div>
@@ -28,11 +29,13 @@
 <script>
 import CustomLink from '../features/CustomLink';
 import Chat from '../features/Chat';
+import Review from '../features/Review';
 
 export default {
     components: {
         CustomLink,
-        Chat
+        Chat,
+        Review
     },
     data(){
         return {
@@ -57,7 +60,7 @@ export default {
                 {
                     id:2,
                     type: 'review',
-                    removable: false
+                    removable: false,
                 }
             ],
         }
@@ -73,10 +76,10 @@ export default {
             this.$emit("delete", id);
         },
         updateFeature(config){
-            this.features.findIndex((value => value.id == config.id));
-            this.features[config.id] = config;
+            var id =this.features.findIndex((value => value.id == config.id));
+            this.features[id] = config;
 
-            this.$emit("update", this.features[config.id]);
+            this.$emit("update", this.features[id]);
         }
     },
 }

@@ -35,7 +35,7 @@ export default {
             },
             rules: {
                 buttontextRule: [v => !!v || 'Button Text is required'],
-                linkRule: [v => !!v || 'Link is required'],
+                linkRule: [v => !!v || 'Link is required']
             }
         }
     },
