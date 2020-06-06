@@ -1,27 +1,43 @@
 <template>
     <div class="main-container">
-        <v-row>
-            <v-col class="d-flex" cols="12" sm="6">
-                <v-select
-                v-model="selectedType"
-                :items="featureType"
-                item-text="text"
-                item-value="value"
-                label="Select"
-                outlined
-                ></v-select>
-            </v-col>
+        <v-container fluid>
+            <v-row>
+                <v-col class="d-flex" cols="12" sm="6">
+                    <v-select
+                    v-model="selectedType"
+                    :items="featureType"
+                    item-text="text"
+                    item-value="value"
+                    label="Select"
+                    outlined
+                    ></v-select>
+                </v-col>
 
-            <v-col class="d-flex" cols="12" sm="6">
-                <v-btn @click="add" class="mt-2 blue lighten-2">Add</v-btn>
-            </v-col>
-        </v-row>
+                <v-col class="d-flex" cols="12" sm="6">
+                    <v-btn @click="add" class="mt-2 blue lighten-2">Add</v-btn>
+                </v-col>
+            </v-row>
 
-        <v-card v-for="feature in features" :key="feature.id">
-            <CustomLink @updateLink="updateFeature" @deleteLink="deleteFeature" :config="feature" v-if="feature.type=='custom-link' && feature.id != null"></CustomLink>
-            <Chat @updateChat="updateFeature" @deleteChat="deleteFeature" :config="feature" v-if="feature.type=='chat' && feature.id != null"></Chat>
-            <Review @updateReview="updateFeature" :config="feature" v-if="feature.type=='review' && feature.id != null"></Review>
-        </v-card>
+
+            <v-expansion-panels
+                class="mr-5 mt-3"
+                :accordion="true"
+                :popout="true"
+                :tile="false"
+            >
+            <v-expansion-panel
+                v-for="feature in features" :key="feature.id"
+            >
+                <v-expansion-panel-header>{{feature.type}}</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                <CustomLink @updateLink="updateFeature" @deleteLink="deleteFeature" :config="feature" v-if="feature.type=='Custom Link' && feature.id != null"></CustomLink>
+                <Chat @updateChat="updateFeature" @deleteChat="deleteFeature" :config="feature" v-if="feature.type=='Chat' && feature.id != null"></Chat>
+                <Review @updateReview="updateFeature" :config="feature" v-if="feature.type=='Review' && feature.id != null"></Review>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+            </v-expansion-panels>
+
+        </v-container>
 
     </div>
 </template>
@@ -43,23 +59,23 @@ export default {
             featureType: [
                 {
                     text: "Custom Link",
-                    value: "custom-link"
+                    value: "Custom Link"
                 },
                 {
                     text: "Chat",
-                    value: "chat"
+                    value: "Chat"
                 }
             ],
             features: [
                 {
                     id:1,
-                    type: 'chat',
+                    type: 'Chat',
                     removable: false
                     
                 },
                 {
                     id:2,
-                    type: 'review',
+                    type: 'Review',
                     removable: false,
                 }
             ],
@@ -85,6 +101,3 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>

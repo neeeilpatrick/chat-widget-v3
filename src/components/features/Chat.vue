@@ -1,7 +1,6 @@
 <template>
     <div class="mt-10">
         <v-container fluid>
-            <h3>Chat</h3>
             <v-form lazy-validation ref="form">
                 <v-text-field
                     v-model="params.buttontext"

@@ -65,15 +65,14 @@
 
                     <v-stepper-content step="1" >
                         <Navbar :locations="locations" @displayLocation="display" />
-                        <v-row no-gutters>
-                            <Navbar :locations="locations" @displayLocation="display" />        
-                            <v-col cols-6>
+                        <v-row no-gutters>       
+                            <v-col cols="12" sm="8">
                                 <v-card height="450pt" class="elevation-0 featureCard stepperCard">
                                     <Features @delete="deleteFeatures" @update="features" />
                                 </v-card>
                             </v-col>
 
-                            <v-col cols-6>
+                            <v-col cols="12" sm="4">
                                 <v-card height="420pt" class="gray lighten-1">
                                     <v-card-text>
                                         <h1 style="text-align:center;">This is view</h1>
@@ -115,7 +114,7 @@
 
 .featureCard{
     margin-left: 200pt;
-    width: 320pt;
+    width: 520pt !important;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -159,7 +158,7 @@ export default {
     },
     computed: {
         generateCodeController(){
-            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig, Features: this.featuresConfig}
+            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig, features: this.featuresConfig}
             var jsonFormatCode =`<script>var config = ${JSON.stringify(jsonData)}</ script> \n \n <script src="https://msg.everypages.com/prompted-chat/v2/chatwidget.js"></ script>`;
             return jsonFormatCode;
         }
@@ -182,13 +181,13 @@ export default {
                     this.featuresConfig.push(config);
                 }
                 else{ 
-                    if(this.featuresConfig[id].type == 'review')
-                    if(this.featuresConfig[id].params.status == "Enable")this.featuresConfig[id] = config;
-                    else this.featuresConfig.splice(id);              
+                    if(this.featuresConfig[id].type == 'Review')
+                    if(this.featuresConfig[id].params.status == "Enable") this.featuresConfig[id] = config;
+                    else this.featuresConfig.splice(id);
+                    else this.featuresConfig[id] = config;
+
                 }
             }
-
-            console.log(this.featuresConfig);
             
 
         },
