@@ -32,7 +32,7 @@
         </v-navigation-drawer>
 
 
-        <v-dialog v-model="dialog" persistent max-width="300">
+        <v-dialog v-model="dialog" persistent :max-width="maxWidth">
             <v-card>
                 <v-card-title class="headline">Add a New Location</v-card-title>
                 <v-card-text>
@@ -78,11 +78,13 @@
 
 
                         <v-checkbox
-                            v-model="businessHours"
+                            v-model="isBusinessHours"
                             label="Business Hours"
                             ></v-checkbox>
+
+                        <business-hours v-if="isBusinessHours" :days="days" @updated-hours="updatedHours"></business-hours>
                     </v-form>
-                          
+                    
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -104,9 +106,12 @@ export default {
     },
     data(){
         return {
+            maxWidth: "300",
             dialog: false,
             valid: true,
+            isBusinessHours: false,
             selected: null,
+            
             rules: {
                 storename: [ v => !!v || 'Storename is required' ],
                 address: [ v => !!v || 'Address is required' ],
@@ -188,6 +193,13 @@ export default {
 
     },
 
+    watch: {
+        isBusinessHours(value){
+            if(value) this.maxWidth = "700";
+            else this.maxWidth = "300";
+        }
+    },
+
     computed: {
         locationRules: function(){
             var _self = this;
@@ -212,8 +224,12 @@ export default {
 
 
     methods: {
+        updatedHours(hours){
+            console.log(hours);
+        },
         updateTimezone(timezone){
-            alert(timezone);
+            
+            console.log(timezone);
         },
         checkIfSelected(id){
             return (id==this.selected);
