@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="text_widget.css">
+        
+    </head>
+    <body style="background: gray !important;">
+        <script src="text_widget.js" widget-token="U2FsdGVkX18RJANsDcUzoMHNmBGnYzmRbtfd6m8ZTzvix62Fr7nQSCSQc+of+Ghy"></script>
+        <script>
+            PROVISION.init('9Wn1N8sLZpJMU9EqgJAt', 
+            {
+            "header_line_1":"Hello!",
+            "header_line_2":"What can we help you with?",
+            "welcome_message":"Welcome! Click one of the buttons to get started!",
+            "work_hour":false,
+            "timezone":false,
+            "image_style":"picture",
+            "image_url":"https://swell-rails-production.s3.amazonaws.com/tmp/7EW22UBb9H54Wm52alBazPLPFBdvfnqdbBkxlagu.png",
+            "color_scheme":"ff695f",
+            "powered_by":"<a href='https://www.boltdental.com/' target='_blank'> Bolt Dental</a>",
+            "svg":"https://swell-rails-production.s3.amazonaws.com/tmp/EHd4VHGualVXxifChEuNt7W7nRZ3FWAV7yzVfygb.png",
+            "bubble":false,
+
+
+            "features": [
+                {
+                    "type": "chat",
+                    "button_text": "Connect with us!",
+                    "phone_number": "818-275-9692",
+                    "responses": {
+                        "initial": "Please enter your information and we'll send you a text!",
+                        "confirmation": {
+                            "away": false,
+                            "here": "Someone will reach you shortly",
+                            "default": "We received your message."
+                        },
+                        "prefix": {
+                            "here": "WebChatHere",
+                            "away": "WebChatAway",
+                            "status": true
+                        }
+                    },
+                    "endpoint": "https://api.gohighlevel.com"
+                },
+
+                {
+                    "type": "call",
+                    "button_text": "Call now",
+                    "phone_number": "818-275-9692"
+                },
+
+                {
+                    "type": "custom-link",
+                    "button_text": "Schedule a reservation",
+                    "link": "http://google.com"
+                },
+
+                {
+                    "type": "custom-link",
+                    "button_text": "Check our services",
+                    "link": "http://facebook.com.com"
+                },
+
+                {
+                    "type": "review",
+                    "button_text": "Leave a review",
+                    "responses": {
+                        "initial": "We always aim to help everyone. Please let us know if we fell short, so we can send your concern straight to the top."
+                    },
+                    "links": [
+                        {
+                            "name": "Facebook",
+                            "thumbnail": "https://image.flaticon.com/icons/png/512/124/124010.png",
+                            "link": "https://facebook.com"
+                        },
+                        {
+                            "name": "Instagram",
+                            "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqalAXGhUd-UUHqkgpUYaSnOEfJLu3PSRQdGvPuL0-eveDwiBK&s",
+                            "link": "https://facebook.com"
+                        }
+                    ]
+                }
+            ]
+            });
+        </script>
+    </body>
+</html>

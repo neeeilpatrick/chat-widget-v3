@@ -1,0 +1,92 @@
+<html>
+    
+<style>
+    body{
+        background: dimgray;
+    }
+</style>
+<body>
+
+        <button id="chatwidget">Test</button>
+</body>
+            
+    
+    <script>
+    var config = {
+            location_id: "XEn0hJ6ayPTHiiwSSHWx",
+            token: "U2FsdGVkX1/zOfeJaqaSHhyARcVMdDdMvy9fcbv0DNuobSm2XIcvp/zGer0pReGx",
+            settings: {"bubble_on_mobile":false,
+            "header_line_1":"Hello!",
+            "header_line_2":"What can we help you with?",
+            "welcome_message":"Welcome! Click one of the buttons to get started!",
+            "work_hour":{"Mon":{"start_hour":"09:00","end_hour":"18:00","enable_state":true},"Tue":{"start_hour":"09:00","end_hour":"18:00","enable_state":true},"Wed":{"start_hour":"09:00","end_hour":"18:00","enable_state":true},"Thu":{"start_hour":"09:00","end_hour":"18:00","enable_state":true},"Fri":{"start_hour":"09:00","end_hour":"18:00","enable_state":true},"Sat":{"start_hour":null,"end_hour":null,"enable_state":false},"Sun":{"start_hour":null,"end_hour":null,"enable_state":false}},
+            "timezone":"America/Chicago",
+            "image_style":"picture",
+            "powered_by":"<a href='https://asnmarketingplan.com' target='_blank'> Approved Senior Network Marketing</a>",
+            "bubble":true,
+            "bubble_message":"Hi there, have a question? Text us here.",
+            "here_prefix":"WebChatHere","away_prefix":"WebChatAway",
+            "status_prefix":"false",
+            "default_message":"We received your message.",
+            "here_message":"<p>Someone will reach you shortly</p>",
+            "away_message":"<p>Someone will text you when we get back</p>",
+            "location_id":"9Wn1N8sLZpJMU9EqgJAt",
+            "features":[
+                {
+                    "type":"chat",
+                    "button_text":"Text With Us!",
+                    "phone_number":"888-404-1513",
+                    "responses":{
+                        "initial":"Please enter your information and we'll send you a text!",
+                        "confirmation":{
+                            "away":"Someone will text you when we get back in",
+                            "here":"Someone will reach you shortly",
+                             "default":"We received your message."
+                        },
+                        "prefix":{
+                            "here":"WebChatHere",
+                            "away":"WebChatAway",
+                            "status":true
+                        }
+                    }
+                },
+                {
+                    "type":"call",
+                    "button_text":"Call us",
+                    "phone_number":"888-404-1513"
+                },
+                {
+                    "type":"custom-link",
+                    "button_text":"Client Support",
+                    "link":"https://support.approvedseniornetwork.com"
+                },
+                {
+                    "type":"custom-link",
+                    "button_text":"Fill Out Our Inquiry Form",
+                    "link":"https://www.asnmarketingplan.com/contact-us/"
+                    
+                }],
+            "image_url":"https://www.asnmarketingplan.com/wp-content/uploads/2020/01/26195782_808119726038396_3589195556888704348_n.jpg",
+            "bubble_image":"https://www.asnmarketingplan.com/wp-content/uploads/2020/01/26195782_808119726038396_3589195556888704348_n.jpg",
+            "bubble_background":"7a177a",
+            "bubble_text_color":"c7c7c7",
+            "color_scheme":"e021b4"}
+    }
+    
+    </script>
+    <script src="./chatwidget.js"></script>
+    <script>
+        document.onload = function(){
+            var toolkit = new ToolkitChat();
+            toolkit.open();
+        }
+
+        var checker = setInterval(function(){
+            if(document.getElementById("mtkchat")){
+                clearInterval(checker);
+                var toolkit = new ToolkitChat();
+            toolkit.open();
+            }
+        }, 1000);
+    </script>
+</html>
