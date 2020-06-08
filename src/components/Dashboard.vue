@@ -1,7 +1,6 @@
 <template>
     <div>
         <v-card>
-            {{generateCodeController}}
             <v-stepper class="elevation-0" >
                 <v-stepper-header>
 
@@ -50,13 +49,13 @@
 
                     <v-stepper-content step="2" >
                         <v-row no-gutters>
-                            <v-col cols-6>
-                                <v-card height="auto" class="elevation-0">
+                            <v-col cols="12" sm="8">
+                                <v-card height="450pt" class="stepperCard elevation-2">
                                     <ChatBubble @update="chatBubble" />
                                 </v-card>
                             </v-col>
 
-                            <v-col cols-6>
+                            <v-col cols="12" sm="4" >
                                 <v-card height="420pt" class="gray lighten-1">
                                     <v-card-text>
                                         <h1 style="text-align:center;">This is view</h1>
@@ -99,13 +98,13 @@
 
                     <v-stepper-content step="3" >
                         <v-row no-gutters>
-                            <v-col cols-6>
-                                <v-card height="auto" class="elevation-0 stepperCard">
+                            <v-col cols="12" sm="8">
+                                <v-card height="450pt" class="stepperCard elevation-2">
                                     <Widget @update="widget" />
                                 </v-card>
                             </v-col>
 
-                            <v-col cols-6>
+                            <v-col cols="12" sm="4">
                                 <v-card height="450pt" class="gray lighten-1">
                                     <v-card-text>
                                         <h1 style="text-align:center;">This is view</h1>
@@ -141,16 +140,29 @@
 
 <style scoped>
 .stepperCard{
-    height: auto;
-    width: auto;
-    margin: auto;
+    width: auto !important;
+    margin-right: 25pt;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .featureCard{
     margin-left: 200pt;
-    width: 520pt !important;
-    overflow-x: hidden;
-    overflow-y: auto;
+}
+
+.stepperCard::-webkit-scrollbar {
+    width: 3px;
+    background-color: #F5F5F5;
+} 
+
+.stepperCard::-webkit-scrollbar-thumb {
+    background-color: #1565C0;
+
+}
+
+.stepperCard::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
 }
 
 

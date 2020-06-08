@@ -77,8 +77,6 @@ export default {
             return (id==this.selected);
         },
 
-       
-
         selectLocation(location){
             console.log(location);
             this.selected = location.id;

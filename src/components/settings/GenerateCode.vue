@@ -1,6 +1,5 @@
 <template>
-    <v-container  fluid>
-        <h1>Generate Code</h1>
+    <v-container fluid>
         <v-textarea
           label="Generated Code"
           v-model="jsonFormatCode"

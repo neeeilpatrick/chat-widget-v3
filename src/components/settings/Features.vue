@@ -1,11 +1,17 @@
 <template>
     <div class="main-container">
+        <v-row>
+            <v-col cols="12" sm="6">
+                {{ (location!=null ? location.name : "")}}<br>
+                <span style="font-size:12px;">{{ (location!=null ? location.id : "")}}</span>
+            </v-col>
 
-
-        {{ (location!=null ? location.name : "")}}
-        <v-btn v-if="location!=null" @click="dialog=!dialog">
-            Edit Location
-        </v-btn>
+            <v-col cols="12" sm="6">
+                <v-btn class="float-right mr-3 mt-1" outlined v-if="location!=null" @click="dialog=!dialog">
+                    Edit Location
+                </v-btn>
+            </v-col>
+        </v-row>
 
         <LocationForm 
             :locations="locations" 
@@ -17,7 +23,7 @@
 
         <v-container fluid>
             <v-row>
-                <v-col class="d-flex" cols="12" sm="6">
+                <v-col cols="12" sm="6">
                     <v-select
                     v-model="selectedType"
                     :items="featureType"
@@ -28,8 +34,8 @@
                     ></v-select>
                 </v-col>
 
-                <v-col class="d-flex" cols="12" sm="6">
-                    <v-btn @click="add" class="mt-2 blue lighten-2">Add</v-btn>
+                <v-col cols="12" sm="6">
+                    <v-btn large @click="add" color="blue darken-4" outlined class="mt-1">Add</v-btn>
                 </v-col>
             </v-row>
 
@@ -38,7 +44,6 @@
                 v-if="renderComponent"
                 class="mr-5 mt-3"
                 :accordion="true"
-                :popout="true"
                 :tile="false"
             >
             <v-expansion-panel
@@ -98,7 +103,7 @@ export default {
     }, 
     data(){
         return {
-            selectedType: null,
+            selectedType:  null,
             renderComponent: true,
             dialog: false,
             featureType: [
@@ -128,7 +133,7 @@ export default {
     },
     methods: {
         add(){
-            this.features.push({type: this.selectedType, removable:true});    
+            if(this.selectedType != null) this.features.push({type: this.selectedType, removable:true});    
         },
         deleteFeature(id){
             this.$emit("delete", id);

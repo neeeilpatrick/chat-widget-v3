@@ -1,6 +1,5 @@
 <template>
     <v-container fluid>
-        <h1>Chat Bubble</h1>
         <v-form v-model="valid" lazy-validation ref="form">
 
         <v-text-field outlined v-model="config.svg" :rules="rules.icon" label="Icon" placeholder="https://yourwebsite.com/chaticon.png"></v-text-field>
@@ -12,16 +11,44 @@
                 <v-switch v-model="config.bubble_on_mobile" label="Appear On Mobile"></v-switch>
             </v-col>
         </v-row>
-        <v-text-field @click="color_scheme_active = !color_scheme_active" v-model="config.color_scheme" label="Color Scheme" ></v-text-field>
-        <v-color-picker v-if="color_scheme_active"  :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
+
+        <v-expansion-panels
+                class="mr-5 mt-3"
+                :accordion="true"
+                :tile="false"
+        >
+
+        <v-expansion-panel>
+                <v-expansion-panel-header>Color Scheme</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-text-field v-model="config.color_scheme" label="Color Scheme" ></v-text-field>
+                    <v-color-picker :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
+                </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+                <v-expansion-panel-header>Background Color</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-text-field v-model="config.bubble_background" label="Background Color" ></v-text-field>
+                    <v-color-picker :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
+                </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+                <v-expansion-panel-header>Text Color</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-text-field v-model="config.bubble_text_color" label="Text Color" ></v-text-field>
+                    <v-color-picker :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
+                </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        </v-expansion-panels>
         
-        <v-text-field @click="bubble_background_active = !bubble_background_active" v-model="config.bubble_background" label="Background Color" ></v-text-field>
-        <v-color-picker v-if="bubble_background_active"  :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
         
-        <v-text-field @click="bubble_text_color_active = !bubble_text_color_active" v-model="config.bubble_text_color" label="Text Color" ></v-text-field>
-        <v-color-picker v-if="bubble_text_color_active"  :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
         
-        <v-btn @click="validate" :disabled="!valid" color="primary">
+        
+        
+        <v-btn @click="validate" :disabled="!valid" class="mt-3" color="primary">
              Next
         </v-btn>
         </v-form>
@@ -58,7 +85,8 @@ export default {
         validate(){
             var isValid = this.$refs.form.validate();
             if(isValid) this.$emit("update", this.config);
-        }
+        },
+
     }
 }
 </script>

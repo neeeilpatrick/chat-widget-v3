@@ -1,8 +1,5 @@
 <template>
     <v-container fluid>
-        <h1>Widget</h1>
-        
-
         <v-form lazy-validation v-model="valid" ref="form">
             <v-radio-group v-model="config.image_style" row>
                 <v-radio label="Picture" value="picture"></v-radio>
