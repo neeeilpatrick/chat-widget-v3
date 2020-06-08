@@ -145,8 +145,15 @@ export default {
             this.$emit("update", config, index);
         },
 
-        updateLocation(){
+        updateLocation(location){
+            var list = this.locations;
+            list.forEach(function(loc, index){
+                if(loc.id==location.id){
+                    list[index] = location;
+                }
+            });
 
+            this.$emit("updateList", list);
         }
     },
 }

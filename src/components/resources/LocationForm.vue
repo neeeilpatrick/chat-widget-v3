@@ -64,7 +64,7 @@
                 <v-spacer></v-spacer>
                 <v-btn color="red darken-1" text @click="close">Cancel</v-btn>
                 <v-btn color="blue darken-5" text v-if="!isEdit" @click="addLocation()" :disabled="!valid">Add</v-btn>
-                <v-btn color="blue darken-5" text v-if="isEdit" @click="updateLocation()" :disabled="!valid">Update</v-btn>
+                <v-btn color="blue darken-5" text v-if="isEdit" @click="addLocation()" :disabled="!valid">Update</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -170,8 +170,15 @@ export default {
 
     watch: {
         isBusinessHours(value){
-            if(value) this.maxWidth = "700";
-            else this.maxWidth = "300";
+            if(value) {
+                this.maxWidth = "700";
+                this.locations.businessHours = this.daysDefault;
+            }
+            else{
+                this.maxWidth = "300";
+                this.locations.businessHours = false;
+                
+            }
         },
 
         isOpen(value){
@@ -255,6 +262,7 @@ export default {
         addLocation(){
             var isFormValid = this.$refs.form.validate();
             if(isFormValid){
+                console.log(this.store);
                 this.$emit("update", this.store);
 
                 this.store = {
@@ -269,8 +277,6 @@ export default {
                 this.$refs.form.reset();
                 this.days = this.daysDefault;
                 this.close();
-            }else{
-                console.log("DF");
             }
         },
 

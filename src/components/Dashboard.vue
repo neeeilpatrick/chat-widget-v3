@@ -82,6 +82,7 @@
                                         :locations="locations"
                                         :data="featuresConfig" 
                                         @delete="deleteFeatures" 
+                                        @updateList="updateList"
                                         @update="features" />
                                 </v-card>
                             </v-col>
@@ -261,6 +262,14 @@ export default {
             console.log(this.locations);
         },
 
+        updateList(locations){
+            var _self =this;
+            _self.locations = locations;
+            _self.locations.forEach(function(location){
+                if(location.id==_self.selectedLocation.id) 
+                    _self.selectedLocation = location;
+            });
+        },
         showLocation(location){
             this.selectedLocation = location;
 
