@@ -90,38 +90,21 @@ export default {
                     value: "Chat"
                 }
             ],
-            
-            features: [
-                {
-                    type: 'Chat',
-                    removable: false
-                    
-                },
-                {
-                    type: 'Review',
-                    removable: false,
-                }
-            ],
+            features: [],
         }
     },
-    // watch:{
-    //     data: {
-    //         deep: true,
-    //          handler(data){
-    //             var _self = this;
-    //             if(this.data.length > 0){
-    //                 data.forEach((value, index) => {
-    //                    _self.$set(_self.features, index, value );
-    //                 });
-    //             }
-    //             else{
-    //                 _self.staticFeatures.forEach((value, index) => {
-    //                    _self.$set(_self.features, index, value );
-    //                 });
-    //             }
-    //         }
-    //     }
-    // },
+    watch:{
+        data: {
+            deep: true,
+             handler(data){
+                var _self = this;
+                _self.features = [];
+                data.forEach((value, index) => {
+                       _self.$set(_self.features, index, value );
+                });
+            }
+        }
+    },
     mounted(){
         this.$emit("update", this.features);
     },

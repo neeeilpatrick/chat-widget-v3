@@ -72,7 +72,7 @@
                         <v-row no-gutters>       
                             <v-col cols="12" sm="8">
                                 <v-card height="450pt" class="elevation-0 featureCard stepperCard">
-                                    <Features  @delete="deleteFeatures" @update="features" />
+                                    <Features  :data="featuresConfig" @delete="deleteFeatures" @update="features" />
                                 </v-card>
                             </v-col>
 
@@ -201,8 +201,7 @@ export default {
     },
     computed: {
         generateCodeController(){
-            var filtered = this.featuresConfig.filter(function (el) { return el != null; });
-            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig, features: filtered}
+            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig, locations: this.locations}
             return jsonData;
         }
     },
@@ -219,6 +218,14 @@ export default {
             else this.$set(this.featuresConfig, id, null); 
             else this.$set(this.featuresConfig, id, config);
 
+            this.updateLocation(this.currentLocation);
+        },
+        updateLocation(location){
+            var id = this.locations.findIndex((value => value.id == location.id));
+            var filtered = this.featuresConfig.filter(function (el) { return el != null; });
+            this.locations[id].features = filtered;
+
+            console.log(this.locations);
         },
         deleteFeatures(id){
             this.featuresConfig.splice(id, 1);
@@ -229,14 +236,22 @@ export default {
 
         display(location){
             this.currentLocation = location
-            // if(typeof location.features != "undefined"){
-            //     location.features.forEach((value, index) => {
-            //         this.$set(this.featuresConfig, index,value);
-            //     });
-            // }
-            // else{
-            //     this.featuresConfig = [];
-            // }
+            if(typeof this.currentLocation.features != "undefined"){
+                this.featuresConfig = this.currentLocation.features;
+            }
+            else{
+                this.featuresConfig = [
+                {
+                    type: 'Chat',
+                    removable: false
+                    
+                },
+                {
+                    type: 'Review',
+                    removable: false,
+                }]
+            }
+
         },
         openFeature(toggle){
             this.toggleFeatureNav = toggle;
