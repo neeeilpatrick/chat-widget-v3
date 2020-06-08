@@ -65,7 +65,7 @@
                             required    
                         ></v-text-field>
                         
-                        <Timezone @updateTimezone="updateTimezone" />
+                        <Timezone :timezone="store.timezone" @updateTimezone="updateTimezone" />
 
                         <v-text-field
                             label="Zipcode"
@@ -125,72 +125,71 @@ export default {
                 timezone: "America/Los_Angeles",
                 businessHours: false
             },
-            days: {
+            days: {},
+            daysDefault: {
                 sunday: [
-                    {
-                    open: '',
-                    close: '',
-                    id: '5ca5578b0c5c7',
-                    isOpen: false
+                    { 
+                        open: '',
+                        close: '',
+                        id: '5ca5578b0c5c7',
+                        isOpen: true
                     }
                 ],
                 monday: [
                     {
-                    open: '0800',
-                    close: '1700',
-                    id: '5ca5578b0c5d1',
-                    isOpen: true
+                        open: '',
+                        close: '',
+                        id: '5ca5578b0c5d1',
+                        isOpen: true
                     }
                 ],
                 tuesday: [
                     {
-                    open: '0800',
-                    close: '1700',
-                    id: '5ca5578b0c5d8',
-                    isOpen: true
+                        open: '',
+                        close: '',
+                        id: '5ca5578b0c5d2',
+                        isOpen: true
                     }
                 ],
                 wednesday: [
                     {
-                    open: '0800',
-                    close: '1700',
-                    id: '5ca5578b0c5df',
-                    isOpen: true
+                        open: '',
+                        close: '',
+                        id: '5ca5578b0c5df',
+                        isOpen: true
                     }
                 ],
                 thursday: [
                     {
-                    open: '0800',
-                    close: '1700',
-                    id: '5ca5578b0c5e6',
-                    isOpen: true
+                        open: '',
+                        close: '',
+                        id: '5ca5578b0c5e6',
+                        isOpen: true
                     }
                 ],
                 friday: [
                     {
-                    open: '0800',
-                    close: '1700',
-                    id: '5ca5578b0c5ec',
-                    isOpen: true
-                    },
-                    {
-                    open: '1900',
-                    close: '2200',
-                    id: '5ca5578b0c5f2',
-                    isOpen: true
+                        open: '',
+                        close: '',
+                        id: '5ca5578b0c5ec',
+                        isOpen: true
                     }
                 ],
                 saturday: [
                     {
-                    open: '24hrs',
-                    close: '24hrs',
-                    id: '5ca5578b0c5f8',
-                    isOpen: true
+                        open: '',
+                        close: '',
+                        id: '5ca5578b0c5f8',
+                        isOpen: true
                     }
                 ]
             }
         }
 
+    },
+
+    mounted(){
+        this.days = this.daysDefault;
     },
 
     watch: {
@@ -224,27 +223,42 @@ export default {
 
 
     methods: {
+
         updatedHours(hours){
-            console.log(hours);
+            var _self = this;
+            Object.keys(hours).forEach(function(day){
+                _self[day] = hours[day];
+            });
+
+            if(_self.isBusinessHours){
+                _self.store.businessHours = _self.days;
+            }
         },
+
         updateTimezone(timezone){
-            
-            console.log(timezone);
+            this.store.timezone = timezone;
         },
+
         checkIfSelected(id){
             return (id==this.selected);
         },
+
         addLocation(){
             this.$refs.form.validate();
             this.$emit("updateLocations", this.store);
-            this.dialog = false;
 
             this.store = {
                 zipcode: "",
                 address: "",
                 id: "",
+                businessHours: false,
                 name: ""
             }
+
+            this.isBusinessHours = false;
+            this.$refs.form.reset();
+            this.days = this.daysDefault;
+            this.dialog = false;
         },
 
         selectLocation(location){

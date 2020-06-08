@@ -64,7 +64,7 @@
 
 
                     <v-stepper-content step="1" >
-                        <Navbar :locations="locations" @displayLocation="display" />
+                        <Navbar :locations="locations" @updateLocations="updateLocation" />
                         <v-row no-gutters>       
                             <v-col cols="12" sm="8">
                                 <v-card height="450pt" class="elevation-0 featureCard stepperCard">
@@ -205,6 +205,10 @@ export default {
         openFeature(toggle){
             this.toggleFeatureNav = toggle;
             // this.$emit('openFeature', toggle);
+        },
+
+        updateLocation(location){
+            this.locations.push(location);
         }
         
     }
