@@ -6,12 +6,12 @@
 
             <v-btn 
                 v-for="location in locations" 
-                :key="location.id"
                 text
                 outlined
                 block
                 tile
                 color="blue"
+                :key="location.id"
                 :class="{active: checkIfSelected(location.id)}"
                 @click="selectLocation(location)"
                 >
@@ -32,7 +32,13 @@
         </v-navigation-drawer>
 
 
-        <LocationForm :locations="locations" :isOpen="dialog" @update="updateLocation" @close="dialog=false"/>
+        <LocationForm 
+            :locations="locations" 
+            :isOpen="dialog" 
+            @update="updateLocation" 
+            @edit="editLocation"
+            @close="dialog=false"
+        />
     </nav>
 </template>
 
@@ -52,8 +58,12 @@ export default {
 
     },
 
-  
-
+    
+    mounted(){
+       if(this.locations.length!=0 && this.selected==null){
+            this.selectLocation(this.locations[0]);
+       }
+    },
 
     methods: {
 
@@ -77,6 +87,9 @@ export default {
 
         updateLocation(location){
             this.$emit('update', location);
+        },
+
+        editLocation(){
 
         }
     }

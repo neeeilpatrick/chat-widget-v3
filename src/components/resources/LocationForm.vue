@@ -1,17 +1,19 @@
 <template>
     <v-dialog v-model="dialog" persistent :max-width="maxWidth">
         <v-card>
-            <v-card-title class="headline">Add a New Location</v-card-title>
+            <v-card-title class="headline" v-if="!isEdit">Add a New Location</v-card-title>
+            <v-card-title class="headline" v-if="isEdit">Update Location</v-card-title>
             <v-card-text>
                 
                 <v-form v-model="valid" lazy-validation ref="form">
                     <v-text-field  
                         label="Location ID"
                         v-model="store.id"
+                        required   
                         :rules="locationRules"
                         outlined
-                        dense
-                        required    
+                        dense 
+                        :disabled="isEdit"
                     ></v-text-field>
 
                     <v-text-field
@@ -32,7 +34,9 @@
                         required    
                     ></v-text-field>
                     
-                    <Timezone :timezone="store.timezone" @updateTimezone="updateTimezone" />
+                    <Timezone 
+                        :timezone="store.timezone" 
+                        @updateTimezone="updateTimezone" />
 
                     <v-text-field
                         label="Zipcode"
@@ -49,14 +53,18 @@
                         label="Business Hours"
                         ></v-checkbox>
 
-                    <business-hours v-if="isBusinessHours" :days="days" @updated-hours="updatedHours"></business-hours>
+                    <business-hours 
+                        v-if="isBusinessHours" 
+                        :days="days" 
+                        @updated-hours="updatedHours"></business-hours>
                 </v-form>
                 
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="red darken-1" text @click="close">Cancel</v-btn>
-                <v-btn color="blue darken-5" text @click="addLocation()" :disabled="!valid">Add</v-btn>
+                <v-btn color="blue darken-5" text v-if="!isEdit" @click="addLocation()" :disabled="!valid">Add</v-btn>
+                <v-btn color="blue darken-5" text v-if="isEdit" @click="updateLocation()" :disabled="!valid">Update</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -66,7 +74,7 @@
 <script>
 import Timezone from './Timezone';
 export default {
-    props: ["isOpen", "locations"],
+    props: ["isOpen", "locations", "location"],
     components: {
         Timezone
     },
@@ -74,7 +82,8 @@ export default {
         return {
             maxWidth: "300",
             dialog: false,
-            valid: true,
+            valid:  true,
+            isEdit: false,
             isBusinessHours: false,
             selected: null,
             
@@ -167,6 +176,27 @@ export default {
 
         isOpen(value){
             this.dialog = value;
+            
+            
+            if(value && this.location!=null){
+                console.log(this.location);
+                this.isEdit = true;
+                this.store = {
+                    zipcode: this.location.zipcode,
+                    address: this.location.address,
+                    id: this.location.id,
+                    businessHours: this.location.businessHours,
+                    name: this.location.name
+                }
+
+                if(typeof this.location.businessHours=='undefined' || this.location.businessHours==false){
+                    this.isBusinessHours = false;
+                    this.days = this.daysDefault;
+                } else {
+                    this.days = this.location.businessHours;
+                    this.isBusinessHours = true;
+                }
+            }
         }
     },
 
@@ -178,16 +208,20 @@ export default {
             var rules = [];
 
 
-            var locationString = !!_self.store.id;
+
+            var locationString = !!_self.store.id && _self.store.id!="";
             (  locationString ? rules.push(true) : "Location ID is required");
+
+
 
             // Check for duplicate
             var isExist = false;
+
             _self.locations.forEach(function(location){
                 if(location.id==_self.store.id) isExist = true;
             });
 
-            if(isExist) rules.push("Location ID already exists!");
+            if(isExist && this.isEdit!=true) rules.push("Location ID already exists!");
             else rules.push(true);
 
             return rules;
@@ -219,22 +253,25 @@ export default {
    
 
         addLocation(){
-            this.$refs.form.validate();
-            this.$emit("update", this.store);
+            var isFormValid = this.$refs.form.validate();
+            if(isFormValid){
+                this.$emit("update", this.store);
 
-            this.store = {
-                zipcode: "",
-                address: "",
-                id: "",
-                businessHours: false,
-                
-                name: ""
+                this.store = {
+                    zipcode: "",
+                    address: "",
+                    id: "",
+                    businessHours: false,
+                    name: ""
+                }
+
+                this.isBusinessHours = false;
+                this.$refs.form.reset();
+                this.days = this.daysDefault;
+                this.close();
+            }else{
+                console.log("DF");
             }
-
-            this.isBusinessHours = false;
-            this.$refs.form.reset();
-            this.days = this.daysDefault;
-            this.close();
         },
 
         selectLocation(location){
