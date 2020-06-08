@@ -32,7 +32,7 @@
         </v-navigation-drawer>
 
 
-        <LocationForm :locations="locations" :isOpen="dialog" :update="updateLocation" />
+        <LocationForm :locations="locations" :isOpen="dialog" @update="updateLocation" @close="dialog=false"/>
     </nav>
 </template>
 

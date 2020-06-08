@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="isOpen" persistent :max-width="maxWidth">
+    <v-dialog v-model="dialog" persistent :max-width="maxWidth">
         <v-card>
             <v-card-title class="headline">Add a New Location</v-card-title>
             <v-card-text>
@@ -55,7 +55,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="red darken-1" text @click="isOpen=false">Cancel</v-btn>
+                <v-btn color="red darken-1" text @click="close">Cancel</v-btn>
                 <v-btn color="blue darken-5" text @click="addLocation()" :disabled="!valid">Add</v-btn>
             </v-card-actions>
         </v-card>
@@ -163,8 +163,14 @@ export default {
         isBusinessHours(value){
             if(value) this.maxWidth = "700";
             else this.maxWidth = "300";
+        },
+
+        isOpen(value){
+            this.dialog = value;
         }
     },
+
+
 
     computed: {
         locationRules: function(){
@@ -191,6 +197,10 @@ export default {
 
     methods: {
 
+        close(){
+            this.dialog = false;
+            this.$emit("close", false);
+        },
         updatedHours(hours){
             var _self = this;
             Object.keys(hours).forEach(function(day){
@@ -224,7 +234,7 @@ export default {
             this.isBusinessHours = false;
             this.$refs.form.reset();
             this.days = this.daysDefault;
-            this.dialog = false;
+            this.close();
         },
 
         selectLocation(location){
@@ -249,4 +259,5 @@ export default {
 .active {
     opacity: .3;
 }
+
 </style>
