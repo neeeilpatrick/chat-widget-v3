@@ -1,7 +1,7 @@
 <template>
     <nav>
         <v-navigation-drawer
-        app
+        absolute
         >
 
             <v-btn 
@@ -32,22 +32,27 @@
         </v-navigation-drawer>
 
 
-        <v-dialog v-model="dialog" persistent max-width="290">
+        <v-dialog v-model="dialog" persistent max-width="300">
             <v-card>
                 <v-card-title class="headline">Add a New Location</v-card-title>
                 <v-card-text>
+                    
                     <v-form v-model="valid" lazy-validation ref="form">
                         <v-text-field  
                             label="Location ID"
                             v-model="store.id"
                             :rules="locationRules"
+                            outlined
+                            dense
                             required    
                         ></v-text-field>
 
                         <v-text-field
-                            label="Storename"
+                            label="Location Name"
                             v-model="store.name"
                             :rules="rules.storename"
+                            outlined
+                            dense
                             required    
                         ></v-text-field>
 
@@ -55,16 +60,29 @@
                             label="Address"
                             v-model="store.address"
                             :rules="rules.address"
+                            outlined
+                            dense
                             required    
                         ></v-text-field>
                         
+                        <Timezone @updateTimezone="updateTimezone" />
+
                         <v-text-field
                             label="Zipcode"
                             v-model="store.zipcode"
                             :rules="rules.zipcode"
+                            outlined 
+                            dense
                             required    
                         ></v-text-field> 
+
+
+                        <v-checkbox
+                            v-model="businessHours"
+                            label="Business Hours"
+                            ></v-checkbox>
                     </v-form>
+                          
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -78,9 +96,12 @@
 
 
 <script>
+import Timezone from './resources/Timezone';
 export default {
     props: ["locations"],
-
+    components: {
+        Timezone
+    },
     data(){
         return {
             dialog: false,
@@ -95,7 +116,73 @@ export default {
                 zipcode: "",
                 address: "",
                 id: "",
-                name: ""
+                name: "",
+                timezone: "America/Los_Angeles",
+                businessHours: false
+            },
+            days: {
+                sunday: [
+                    {
+                    open: '',
+                    close: '',
+                    id: '5ca5578b0c5c7',
+                    isOpen: false
+                    }
+                ],
+                monday: [
+                    {
+                    open: '0800',
+                    close: '1700',
+                    id: '5ca5578b0c5d1',
+                    isOpen: true
+                    }
+                ],
+                tuesday: [
+                    {
+                    open: '0800',
+                    close: '1700',
+                    id: '5ca5578b0c5d8',
+                    isOpen: true
+                    }
+                ],
+                wednesday: [
+                    {
+                    open: '0800',
+                    close: '1700',
+                    id: '5ca5578b0c5df',
+                    isOpen: true
+                    }
+                ],
+                thursday: [
+                    {
+                    open: '0800',
+                    close: '1700',
+                    id: '5ca5578b0c5e6',
+                    isOpen: true
+                    }
+                ],
+                friday: [
+                    {
+                    open: '0800',
+                    close: '1700',
+                    id: '5ca5578b0c5ec',
+                    isOpen: true
+                    },
+                    {
+                    open: '1900',
+                    close: '2200',
+                    id: '5ca5578b0c5f2',
+                    isOpen: true
+                    }
+                ],
+                saturday: [
+                    {
+                    open: '24hrs',
+                    close: '24hrs',
+                    id: '5ca5578b0c5f8',
+                    isOpen: true
+                    }
+                ]
             }
         }
 
@@ -125,6 +212,9 @@ export default {
 
 
     methods: {
+        updateTimezone(timezone){
+            alert(timezone);
+        },
         checkIfSelected(id){
             return (id==this.selected);
         },
@@ -161,6 +251,6 @@ export default {
 }
 
 .active {
-    background: red !important;
+    opacity: .3;
 }
 </style>
