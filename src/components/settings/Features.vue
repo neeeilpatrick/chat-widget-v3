@@ -1,5 +1,11 @@
 <template>
     <div class="main-container">
+
+
+        {{ (location!=null ? location.name : "")}}
+        <v-btn v-if="location!=null" @click="$emit('edit', location.id)">
+            Edit Location
+        </v-btn>
         <v-container fluid>
             <v-row>
                 <v-col class="d-flex" cols="12" sm="6">
@@ -48,11 +54,15 @@ import Chat from '../features/Chat';
 import Review from '../features/Review';
 
 export default {
+    props: ["location"],
     components: {
         CustomLink,
         Chat,
         Review
     },
+    mounted(){
+        console.log(this.location);
+    }, 
     data(){
         return {
             selectedType: null,

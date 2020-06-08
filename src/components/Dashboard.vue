@@ -64,11 +64,16 @@
 
 
                     <v-stepper-content step="1" >
-                        <Navbar :locations="locations" @updateLocations="updateLocation" />
+                        <Navbar 
+                            
+                            :locations="locations" 
+                            @update="updateLocation" 
+                            @display="showLocation"
+                            />
                         <v-row no-gutters>       
                             <v-col cols="12" sm="8">
                                 <v-card height="450pt" class="elevation-0 featureCard stepperCard">
-                                    <Features @delete="deleteFeatures" @update="features" />
+                                    <Features @delete="deleteFeatures" @update="features" :location="selectedLocation"/>
                                 </v-card>
                             </v-col>
 
@@ -137,12 +142,12 @@ export default {
         Widget,
         Navbar
     },
-    props: ["location"],
     data(){
         return{
             chatBubbleConfig: {},
             widgetConfig: {},
             featuresConfig: [],
+            selectedLocation: {},
             locations: [{
                 zipcode: "9000",
                 address: "CDO",
@@ -209,6 +214,12 @@ export default {
 
         updateLocation(location){
             this.locations.push(location);
+            console.log("New Location");
+            console.log(this.locations);
+        },
+
+        showLocation(location){
+            this.selectedLocation = location;
         }
         
     }
