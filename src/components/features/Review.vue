@@ -62,7 +62,7 @@
                         >    
                         </v-text-field>
 
-                        <v-btn v-if="link.removable" @click="deleteLink(link.id)" outlined color="red">Remove Link</v-btn>
+                        <v-btn v-if="link.removable" @click="params.links.splice(index, 1)" outlined color="red">Remove Link</v-btn>
                     </v-container>
                 </v-card>
                 <v-btn class="mt-5" @click="addLink()" outlined color="blue">Add Link</v-btn>
@@ -73,7 +73,7 @@
 
 <script>
 export default {
-    props: ['config'],
+    props: ['config', 'id'],
     data(){
         return {
             statusItems: ['Enable', 'Disable'],
@@ -85,7 +85,6 @@ export default {
                 },
                 links: [
                     {
-                        id: 1,
                         name: "",
                         thumbnail: "",
                         link: "",
@@ -113,12 +112,11 @@ export default {
             var isValid = this.$refs.form.validate();
             this.config.params = this.params;
             if(isValid){
-                this.$emit("updateReview", this.config);
+                this.$emit("updateReview", this.config, this.id);
             }
         },
         addLink(){
-            var id = new Date().getTime();
-            this.params.links.push({ id: id, name: null, thumbnail: null,link: null, removable: true});
+            this.params.links.push({name: null, thumbnail: null,link: null, removable: true});
         },
         deleteLink(id){
             var arr = this.params.links.filter(value => value.id !== id);

@@ -20,19 +20,41 @@
 
 
             <v-expansion-panels
+                v-if="renderComponent"
                 class="mr-5 mt-3"
                 :accordion="true"
                 :popout="true"
                 :tile="false"
             >
             <v-expansion-panel
-                v-for="feature in features" :key="feature.id"
+                v-for="(feature, index) in features" 
+                :key="index"
             >
                 <v-expansion-panel-header>{{feature.type}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                <CustomLink @updateLink="updateFeature" @deleteLink="deleteFeature" :config="feature" v-if="feature.type=='Custom Link' && feature.id != null"></CustomLink>
-                <Chat @updateChat="updateFeature" @deleteChat="deleteFeature" :config="feature" v-if="feature.type=='Chat' && feature.id != null"></Chat>
-                <Review @updateReview="updateFeature" :config="feature" v-if="feature.type=='Review' && feature.id != null"></Review>
+                    <CustomLink 
+                    @updateLink="updateFeature" 
+                    @deleteLink="deleteFeature" 
+                    :config="feature" 
+                    :id="index" 
+                    v-if="feature.type=='Custom Link'"
+                    
+                    ></CustomLink>
+
+                    <Chat 
+                    @updateChat="updateFeature" 
+                    @deleteChat="deleteFeature" 
+                    :config="feature" 
+                    :id="index" 
+                    v-if="feature.type=='Chat'"
+                    ></Chat>
+
+                    <Review 
+                    @updateReview="updateFeature" 
+                    :config="feature" 
+                    :id="index" 
+                    v-if="feature.type=='Review'"
+                    ></Review>
                 </v-expansion-panel-content>
             </v-expansion-panel>
             </v-expansion-panels>
@@ -48,6 +70,7 @@ import Chat from '../features/Chat';
 import Review from '../features/Review';
 
 export default {
+    props: ['data'],
     components: {
         CustomLink,
         Chat,
@@ -56,6 +79,7 @@ export default {
     data(){
         return {
             selectedType: null,
+            renderComponent: true,
             featureType: [
                 {
                     text: "Custom Link",
@@ -66,36 +90,58 @@ export default {
                     value: "Chat"
                 }
             ],
+            
             features: [
                 {
-                    id:1,
                     type: 'Chat',
                     removable: false
                     
                 },
                 {
-                    id:2,
                     type: 'Review',
                     removable: false,
                 }
             ],
         }
     },
+    // watch:{
+    //     data: {
+    //         deep: true,
+    //          handler(data){
+    //             var _self = this;
+    //             if(this.data.length > 0){
+    //                 data.forEach((value, index) => {
+    //                    _self.$set(_self.features, index, value );
+    //                 });
+    //             }
+    //             else{
+    //                 _self.staticFeatures.forEach((value, index) => {
+    //                    _self.$set(_self.features, index, value );
+    //                 });
+    //             }
+    //         }
+    //     }
+    // },
+    mounted(){
+        this.$emit("update", this.features);
+    },
     methods: {
         add(){
-            var id = new Date().getTime();
-            this.features.push({id: id, type: this.selectedType, removable:true});    
+            this.features.push({type: this.selectedType, removable:true});    
         },
         deleteFeature(id){
-            var arr = this.features.filter(value => value.id !== id);
-            this.features = arr;
             this.$emit("delete", id);
-        },
-        updateFeature(config){
-            var id =this.features.findIndex((value => value.id == config.id));
-            this.features[id] = config;
+            this.features.splice(id, 1); 
 
-            this.$emit("update", this.features[id]);
+            this.renderComponent = false;
+            this.$nextTick(() => {
+
+                this.renderComponent = true;
+            });   
+        },
+        updateFeature(config, index){
+            this.features[index] = config;
+            this.$emit("update", config, index);
         }
     },
 }

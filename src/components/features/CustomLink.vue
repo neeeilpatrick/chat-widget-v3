@@ -18,14 +18,14 @@
             required
           ></v-text-field>
           </v-form>
-          <v-btn v-if="config.removable" @click="deleteLink(config.id)" outlined color="red">Delete</v-btn>
+          <v-btn v-if="config.removable" @click="deleteLink(id)" outlined color="red">Delete</v-btn>
         </v-container>
     </div>
 </template>
 
 <script>
 export default {
-    props: ["config"],
+    props: ["config", "id"],
     data(){
         return{
             params: {
@@ -48,7 +48,7 @@ export default {
             var isValid = this.$refs.form.validate();
             
             this.config.params = this.params;
-            if(isValid) this.$emit("updateLink", this.config);
+            if(isValid) this.$emit("updateLink", this.config, this.id);
         },
         deleteLink(id){
             this.$emit("deleteLink", id);
