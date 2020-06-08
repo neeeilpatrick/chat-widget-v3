@@ -10,31 +10,30 @@ function bindEvent(element, eventName, eventHandler) {
 }
 
 // Listen to messages from parent window
-bindEvent(window, 'message', function (e) {
-    if(e.data=='open'){
-        document.getElementById("hl_text-widget--btn").click();
-    }
-});
+window.onload = function(){
+	bindEvent(window, 'message', function (e) {
+		if(e.data=='open'){
+			document.getElementById("hl_text-widget--btn").click();
+		}
+	});
+}
 
 
 
 var PROVISION = {
-	init: function(locationId, extras) {
+	init: function(extras) {
 		document.addEventListener("DOMContentLoaded", function(){
 
 			
 				console.log('Initializing Widget');
 				var widget = new TextWidget();
 			
-
+				
 				if(extras){
 					Object.keys(extras).forEach(function(key){
 						widget.CONFIG[key] = extras[key];
 					});
 				}
-
-
-				widget.CONFIG["location_id"] = locationId;
 
 				console.log(widget.CONFIG);
 				widget.load();
@@ -76,13 +75,14 @@ function TextWidget(){
 		header_line_1:      "Hello!",
 		header_line_2:      "We are online",
 		welcome_message:    "Please enter your information and we'll send you a text!",
-		bubble_message: 	  "Hi there, have a question? Text us here.",
-		bubble_image: 	  false,
+		bubble_message: 	"Hi there, have a question? Text us here.",
+		bubble_image: 	  	false,
 		bubble_text_color:  "000000",
 		bubble_background:  "ffffff",
-		image_style: 	"picture",
-		image_url:        "https://msg.everypages.com/resources/profile.jpg",
+		image_style: 		"picture",
+		image_url:        	"https://msg.everypages.com/resources/profile.jpg",
 		svg:                false,
+		locations:			[],
 		color_scheme:       "188bf6",
 		timezone:           "America/New_York",
 		here_prefix:        "WebChatHere",
@@ -146,11 +146,36 @@ function TextWidget(){
 		if(typeof this.CONFIG.color_scheme!='undefined'){
 			$(".hl_text-widget--btn,.chat_header, .hl_text-widget--cover").css("background", "#"+this.CONFIG.color_scheme);
 			
-			$("head").append(`<style>.override-svg, .override-header:hover .storename { color: #${this.CONFIG.color_scheme} !important;}</style>`);
+			$("head").append(`
+				<style>
+					.override-svg, .override-header:hover .storename { color: #${this.CONFIG.color_scheme} !important;}
+					.form__field:focus { border-bottom: 2px solid #${this.CONFIG.color_scheme} !important; }	
+				</style>`);
 
 			$(".hl_location--search svg").addClass("override-svg");
 			$(".hl_location").addClass("override-header");
-			
+
+
+
+
+
+			var _self = this;
+			$(".form__field").keyup(function(){
+				var keyword = $(this).val();
+
+				var isExist = false;
+				_self.CONFIG.locations.forEach(function(location){
+					if(location.name.indexOf(keyword)!=-1 || location.address.indexOf(keyword)!=-1 || location.zipcode.indexOf(keyword)!=-1){
+						$(`[data-id='${location.id}']`).show();
+						isExist = true;
+					} else $(`[data-id='${location.id}']`).hide();
+				});
+
+				if(isExist) $(`.hl_location--no-results`).hide();
+				else $(`.hl_location--no-results`).show();
+
+				if(keyword.trim()=="") $(`[data-id='${location.id}']`).show();
+			});
 
 			
 		}
@@ -186,16 +211,43 @@ function TextWidget(){
 
 
 	this.locationSearchListener = function(){
+		var _self = this;
 		$(".hl_location").each(function(){
 			$(this).click(function(){
 				$(".location-container").hide();
 				$(".hl-widget-header,.feature-container").show();
+
+
+				var id = $(this).data("id");
+				var config = _self.getLocationData(id);
+				
+				if(!!config){
+					$(".replies, .hl_text-widget--prompt").html("");
+					$('.hl_selected-location').find(".storename").html(config.name);
+					$(".hl_selected-location").find(".address").html(`${config.address} ${config.zipcode}`);
+
+					
+					// BOOKMARK
+					var attr = {
+						is_store_open: false,
+						location_id:   id
+					}
+			
+					console.log(_self.CONFIG);
+					config.features.forEach(function(feature){
+						if(feature.type.replace(" ", "-").toLowerCase()=="chat") 			new Chat(feature.params, attr).render();
+						if(feature.type.replace(" ", "-").toLowerCase()=="custom-link") 	new CustomLink(feature.params).render();
+						if(feature.type.replace(" ", "-").toLowerCase()=="call") 			new Call(feature.params).render();
+						if(feature.type.replace(" ", "-").toLowerCase()=="review")			new Review(feature.params).render();
+					});
+				}
 			});
 		});
 
 		$(".go-back").click(function(){
 			$(".location-container").show();
 			$(".hl-widget-header,.feature-container").hide();
+			$(".replies, .hl_text-widget--prompt").html("");
 		});
 	}
 
@@ -210,6 +262,22 @@ function TextWidget(){
 			_self.toggleWidget();
 			
 		});
+	}
+
+	this.getLocationData = function(id){
+
+		var isExist = false;
+		var loc = null;
+		this.CONFIG.locations.forEach(function(location){
+			if(location.id==id){
+				isExist = true;
+				loc = location;
+			}
+		});
+
+		if(isExist) return loc;
+		else return;
+
 	}
 
 
@@ -848,6 +916,7 @@ function Templates(){
 
 
 	this.init = function(config){
+		console.log(config);
 		return `
 			
 			<div id='hl_text-widget' class='hl_text-widget'>
@@ -868,6 +937,17 @@ function Templates(){
 	}
 
 	this.locationSelector = function(config){
+		
+		var location = ``;
+		config.locations.forEach(function(loc){
+			location += `
+				<div class="hl_location" data-id="${loc.id}">
+					<div class='storename'>${loc.name}</div>
+					<div class='address'>${loc.address} ${loc.zipcode}</div>
+				</div>
+			`
+		});
+
 		return `
 		<div class="hl_text-widget--box location-container" id="hl_text-widget--box" style="display: none;">
 			<div class="hl_text-widget--box-inner" id="hl_text-widget--location">
@@ -884,17 +964,9 @@ function Templates(){
 						</div>
 
 						<div class="hl_location--results">
-							<div class="hl_location">
-								<div class='storename'>Peterson's Harley-Davidson of ...</div>
-								<div class='address'>19400 NW 2nd Ave, Miami, FL 33169...</div>
-							</div>
+							${ location }
 
-							<div class="hl_location">
-								<div class='storename'>Peterson's Harley-Davidson of ...</div>
-								<div class='address'>19400 NW 2nd Ave, Miami, FL 33169...</div>
-							</div>
-
-							
+							<div class='hl_location--no-results'>No result</div>
 						</div>
 					</div>
 				</div>
@@ -955,6 +1027,13 @@ function Templates(){
 
 
 	this.bubble = 	function(bubbleMessage, image, bubbleImage, backgroundColor, textColor, isMobile){
+		console.log(bubbleMessage);
+		console.log(image);
+		console.log(bubbleImage);
+		console.log(backgroundColor);
+		console.log(textColor);
+		console.log(isMobile);
+		
 		var profile = image;
 		if(bubbleImage!=false && bubbleImage!='false' && bubbleImage!=undefined && bubbleImage!=null) profile = bubbleImage;
 		 

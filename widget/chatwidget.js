@@ -1,4 +1,4 @@
-var domain = "http://127.0.0.1:5500/widget/";
+var domain = "http://127.0.0.1:5500/";
 // var domain = "http://127.0.0.1:8001/";
 var trigger_class = ".mktchat";
 
@@ -55,41 +55,42 @@ function injectJS(){
         iframe.setAttribute('class','iframe mobile');
     }
 
-    config.settings.bubble = hideBubble;
-    console.log(config.settings);
-    Object.keys(config.settings).forEach(function(keyword){
+    config.bubble = hideBubble;
+    console.log(config);
+    Object.keys(config).forEach(function(keyword){
         if(keyword=="color_scheme" || keyword=="bubble_background" || keyword=="bubble_text_color"){
-            config.settings[keyword] = config.settings[keyword].replace("#", "");
+            config[keyword] = config[keyword].replace("#", "");
         }
     });
 
 
 
-
-    config.settings.features.forEach(function(feature, i){
-            if(feature.type=="review"){
-                feature.links.forEach(function(link, o){
-                    if(link.link.indexOf("#")!=-1){
-                        link = link.link.replace("#", "~");
-                        config.settings.features[i].links[o].link = link
-                    }
+    /**
+     *  REPLACE # FROM LINKS TO ~
+     */
+    // config.settings.features.forEach(function(feature, i){
+    //         if(feature.type=="review"){
+    //             feature.links.forEach(function(link, o){
+    //                 if(link.link.indexOf("#")!=-1){
+    //                     link = link.link.replace("#", "~");
+    //                     config.settings.features[i].links[o].link = link
+    //                 }
                     
-                });
+    //             });
                 
                 
-                console.log(config.settings.features[i].links);
-            }
-    });
+    //             console.log(config.settings.features[i].links);
+    //         }
+    // });
     
-    console.log(config.settings);
-    console.log(JSON.stringify(config.settings));
+    console.log(JSON.stringify(config));
     
     var html = `
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                 <link rel="stylesheet" type="text/css" href="${domain}/library/text_widget.css">
                 <script src="${domain}/library/text_widget.js" widget-token="${config.token}"><\/script>
-                <script>PROVISION.init('${config.location_id}', ${JSON.stringify(config.settings)});<\/script>
+                <script>PROVISION.init(${JSON.stringify(config)});<\/script>
             <\/head>
         <body></body>`;
     iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
