@@ -1,6 +1,6 @@
 <template>
     <v-select
-        v-model="timezone"
+        v-model="zone"
         :items="items"
         item-text="text"
         item-value="value"
@@ -17,6 +17,7 @@ export default {
     props: ["timezone"],
     data(){
         return {
+            zone: "",
             items: [
                     {
                         "value":"Pacific/Honolulu",
@@ -1259,13 +1260,15 @@ export default {
                         "text":"(GMT+14:00) Kiritimati"
                     }
                     ]
+        
         }
     },
     mounted(){
-      
+        
+        this.zone = this.timezone;
     },
     watch: {
-        timezone(newValue){
+        zone(newValue){
             this.$emit("updateTimezone", newValue);
         }
     }

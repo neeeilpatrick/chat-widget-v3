@@ -1,5 +1,27 @@
 <template>
     <div class="main-container">
+
+        
+        {{ (location!=null ? location.name : "")}}
+        <v-btn v-if="location!=null" @click="dialog=!dialog">
+            Edit Location
+        </v-btn>
+
+        <v-btn 
+            v-if="location!=null"
+            @click="deleteLocation"
+        >
+            Delete Location
+        </v-btn>
+
+        <LocationForm 
+            :locations="locations" 
+            :location="location"
+            :isOpen="dialog" 
+            @update="updateLocation" 
+            @close="dialog=false"
+        />
+
         <v-container fluid>
             <v-row>
                 <v-col class="d-flex" cols="12" sm="6">
@@ -20,19 +42,41 @@
 
 
             <v-expansion-panels
+                v-if="renderComponent"
                 class="mr-5 mt-3"
                 :accordion="true"
                 :popout="true"
                 :tile="false"
             >
             <v-expansion-panel
-                v-for="feature in features" :key="feature.id"
+                v-for="(feature, index) in features" 
+                :key="index"
             >
                 <v-expansion-panel-header>{{feature.type}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                <CustomLink @updateLink="updateFeature" @deleteLink="deleteFeature" :config="feature" v-if="feature.type=='Custom Link' && feature.id != null"></CustomLink>
-                <Chat @updateChat="updateFeature" @deleteChat="deleteFeature" :config="feature" v-if="feature.type=='Chat' && feature.id != null"></Chat>
-                <Review @updateReview="updateFeature" :config="feature" v-if="feature.type=='Review' && feature.id != null"></Review>
+                    <CustomLink 
+                    @updateLink="updateFeature" 
+                    @deleteLink="deleteFeature" 
+                    :config="feature" 
+                    :id="index" 
+                    v-if="feature.type=='Custom Link'"
+                    
+                    ></CustomLink>
+
+                    <Chat 
+                    @updateChat="updateFeature" 
+                    @deleteChat="deleteFeature" 
+                    :config="feature" 
+                    :id="index" 
+                    v-if="feature.type=='Chat'"
+                    ></Chat>
+
+                    <Review 
+                    @updateReview="updateFeature" 
+                    :config="feature" 
+                    :id="index" 
+                    v-if="feature.type=='Review'"
+                    ></Review>
                 </v-expansion-panel-content>
             </v-expansion-panel>
             </v-expansion-panels>
@@ -43,19 +87,27 @@
 </template>
 
 <script>
+import LocationForm from './../resources/LocationForm';
 import CustomLink from '../features/CustomLink';
 import Chat from '../features/Chat';
 import Review from '../features/Review';
 
 export default {
+    props: ['data', 'location', 'locations'],
     components: {
         CustomLink,
         Chat,
-        Review
+        Review,
+        LocationForm
     },
+    mounted(){
+        this.$emit("update", this.features);
+    }, 
     data(){
         return {
             selectedType: null,
+            renderComponent: true,
+            dialog: false,
             featureType: [
                 {
                     text: "Custom Link",
@@ -66,36 +118,52 @@ export default {
                     value: "Chat"
                 }
             ],
-            features: [
-                {
-                    id:1,
-                    type: 'Chat',
-                    removable: false
-                    
-                },
-                {
-                    id:2,
-                    type: 'Review',
-                    removable: false,
-                }
-            ],
+            features: [],
+        }
+    },
+    watch:{
+        data: {
+            deep: true,
+             handler(data){
+                var _self = this;
+                _self.features = [];
+                data.forEach((value, index) => {
+                       _self.$set(_self.features, index, value );
+                });
+            }
         }
     },
     methods: {
+        deleteLocation(){
+            this.$emit("delete-location", this.location.id);
+        },
         add(){
-            var id = new Date().getTime();
-            this.features.push({id: id, type: this.selectedType, removable:true});    
+            this.features.push({type: this.selectedType, removable:true});    
         },
         deleteFeature(id){
-            var arr = this.features.filter(value => value.id !== id);
-            this.features = arr;
             this.$emit("delete", id);
-        },
-        updateFeature(config){
-            var id =this.features.findIndex((value => value.id == config.id));
-            this.features[id] = config;
+            this.features.splice(id, 1); 
 
-            this.$emit("update", this.features[id]);
+            this.renderComponent = false;
+            this.$nextTick(() => {
+
+                this.renderComponent = true;
+            });   
+        },
+        updateFeature(config, index){
+            this.features[index] = config;
+            this.$emit("update", config, index);
+        },
+
+        updateLocation(location){
+            var list = this.locations;
+            list.forEach(function(loc, index){
+                if(loc.id==location.id){
+                    list[index] = location;
+                }
+            });
+
+            this.$emit("updateList", list);
         }
     },
 }

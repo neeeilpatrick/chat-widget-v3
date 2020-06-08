@@ -4,7 +4,6 @@
         
 
         <v-form lazy-validation v-model="valid" ref="form">
-            {{checkData}}
             <v-radio-group v-model="config.image_style" row>
                 <v-radio label="Picture" value="picture"></v-radio>
                 <v-radio label="Icon" value="icon"></v-radio>

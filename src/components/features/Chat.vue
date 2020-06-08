@@ -77,14 +77,14 @@
                     required
                 ></v-text-field>
             </v-form>
-            <v-btn v-if="config.removable" @click="deleteChat(config.id)" outlined color="red">Delete</v-btn>
+            <v-btn v-if="config.removable" @click="deleteChat(id)" outlined color="red">Delete</v-btn>
         </v-container>
     </div>
 </template>
 
 <script>
 export default {
-     props: ["config"],
+     props: ["config", "id"],
      data(){
          return{
             prefixStatus: ['Enable', 'Disable'],
@@ -128,7 +128,7 @@ export default {
             var isValid = this.$refs.form.validate();
 
             this.config.params = this.params;
-            if(isValid)this.$emit("updateChat", this.config);
+            if(isValid)this.$emit("updateChat", this.config, this.id);
          },
          deleteChat(id){
             this.$emit("deleteChat", id);
