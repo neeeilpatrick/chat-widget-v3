@@ -1,10 +1,17 @@
 <template>
     <div class="main-container">
 
-
+        
         {{ (location!=null ? location.name : "")}}
         <v-btn v-if="location!=null" @click="dialog=!dialog">
             Edit Location
+        </v-btn>
+
+        <v-btn 
+            v-if="location!=null"
+            @click="deleteLocation"
+        >
+            Delete Location
         </v-btn>
 
         <LocationForm 
@@ -127,6 +134,9 @@ export default {
         }
     },
     methods: {
+        deleteLocation(){
+            this.$emit("delete-location", this.location.id);
+        },
         add(){
             this.features.push({type: this.selectedType, removable:true});    
         },

@@ -3,21 +3,22 @@
         <v-navigation-drawer
         absolute
         >
-
-            <v-btn 
-                v-for="location in locations" 
-                text
-                outlined
-                block
-                tile
-                color="blue"
-                :key="location.id"
-                :class="{active: checkIfSelected(location.id)}"
-                @click="selectLocation(location)"
-                >
-                {{ location.name }}
-            </v-btn>
-
+            <div v-if="locations.length==0" class="no-location">No Locations</div>
+            <div v-if="locations.length!=0" >
+                <v-btn 
+                    v-for="location in locations" 
+                    text
+                    outlined
+                    block
+                    tile
+                    color="blue"
+                    :key="location.id"
+                    :class="{active: checkIfSelected(location.id)}"
+                    @click="selectLocation(location)"
+                    >
+                    {{ location.name }}
+                </v-btn>
+            </div>
             <v-btn 
                 text 
                 outlined
@@ -36,7 +37,6 @@
             :locations="locations" 
             :isOpen="dialog" 
             @update="updateLocation" 
-            @edit="editLocation"
             @close="dialog=false"
         />
     </nav>
@@ -46,24 +46,32 @@
 <script>
 import LocationForm from './resources/LocationForm'
 export default {
-    props: ["locations"],
+    props: ["locations", "select"],
     components: {
         LocationForm
     },
     data(){
         return {
-            dialog: false,
+            dialog: true,
             selected: null,
         }
 
     },
 
-    
+
+    watch: {
+        select(value){
+            this.selected = value;
+        }
+    },
+
+
     mounted(){
        if(this.locations.length!=0 && this.selected==null){
             this.selectLocation(this.locations[0]);
        }
     },
+    
 
     methods: {
 
@@ -80,17 +88,13 @@ export default {
        
 
         selectLocation(location){
-            console.log(location);
+            
             this.selected = location.id;
             this.$emit("display", location);
         }, 
 
         updateLocation(location){
             this.$emit('update', location);
-        },
-
-        editLocation(){
-
         }
     }
 }
@@ -108,5 +112,12 @@ export default {
 
 .active {
     opacity: .3;
+}
+
+.no-location {
+    padding: 13px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 </style>

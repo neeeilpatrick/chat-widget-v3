@@ -62,7 +62,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="red darken-1" text @click="close">Cancel</v-btn>
+                <v-btn color="red darken-1" text v-if="locations.length!=0" @click="close">Cancel</v-btn>
                 <v-btn color="blue darken-5" text v-if="!isEdit" @click="addLocation()" :disabled="!valid">Add</v-btn>
                 <v-btn color="blue darken-5" text v-if="isEdit" @click="addLocation()" :disabled="!valid">Update</v-btn>
             </v-card-actions>
@@ -172,11 +172,12 @@ export default {
         isBusinessHours(value){
             if(value) {
                 this.maxWidth = "700";
-                this.locations.businessHours = this.daysDefault;
+                this.days = this.daysDefault;
+                this.store.businessHours = this.daysDefault;
             }
             else{
                 this.maxWidth = "300";
-                this.locations.businessHours = false;
+                this.store.businessHours = false;
                 
             }
         },
@@ -184,7 +185,7 @@ export default {
         isOpen(value){
             this.dialog = value;
             
-            
+            console.log(this.location);
             if(value && this.location!=null){
                 console.log(this.location);
                 this.isEdit = true;
@@ -195,7 +196,8 @@ export default {
                     businessHours: this.location.businessHours,
                     name: this.location.name
                 }
-
+                
+                if(typeof this.location.features!='undefined') this.store.features = this.location.features;
                 if(typeof this.location.businessHours=='undefined' || this.location.businessHours==false){
                     this.isBusinessHours = false;
                     this.days = this.daysDefault;

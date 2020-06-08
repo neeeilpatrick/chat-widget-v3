@@ -69,7 +69,7 @@
 
                     <v-stepper-content step="1" >
                         <Navbar 
-                            
+                            :select="selectedLocation.id"
                             :locations="locations" 
                             @update="updateLocation" 
                             @display="showLocation"
@@ -82,6 +82,7 @@
                                         :locations="locations"
                                         :data="featuresConfig" 
                                         @delete="deleteFeatures" 
+                                        @delete-location="deleteLocation"
                                         @updateList="updateList"
                                         @update="features" />
                                 </v-card>
@@ -177,37 +178,9 @@ export default {
         return{
             chatBubbleConfig: {},
             widgetConfig: {},
-            featuresConfig: [],
             selectedLocation: {},
-            locations: [{
-                zipcode: "9000",
-                address: "CDO",
-                id: "132",
-                name: "Cagayan de Oro",
-                features:[
-                {
-                    type:"Custom Link",
-                    removable:true,
-                    params:{
-                        buttontext:"1",
-                        link:"1"
-                    }
-                },
-                 {
-                    type:"Custom Link",
-                    removable:true,
-                    params:{
-                        buttontext:"2",
-                        link:"2"
-                    }
-                }
-            ]
-            },{
-                zipcode: "9001",
-                address: "Lanao del Norte",
-                id: "ldn",
-                name: "Candis, Tubod LDN"
-            }]
+            featuresConfig: [],
+            locations: []
         }
     },
     
@@ -218,6 +191,16 @@ export default {
         }
     },
     methods: {
+        deleteLocation(id){
+            var _self= this;
+            this.locations.forEach(function(location, index){
+                if(location.id==id) _self.locations.splice(index, 1);
+            });
+            
+
+            if(this.locations.length!=0) _self.selectedLocation = _self.locations[0];
+            else _self.selectedLocation = {};
+        },
         chatBubble(config){
             this.chatBubbleConfig = config; 
         },
@@ -258,8 +241,6 @@ export default {
 
         updateLocation(location){
             this.locations.push(location);
-            console.log("New Location");
-            console.log(this.locations);
         },
 
         updateList(locations){
