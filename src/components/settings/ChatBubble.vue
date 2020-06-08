@@ -12,43 +12,34 @@
             </v-col>
         </v-row>
 
-        <v-expansion-panels
-                class="mr-5 mt-3"
-                :accordion="true"
-                :tile="false"
-        >
 
-        <v-expansion-panel>
-                <v-expansion-panel-header>Color Scheme</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-text-field v-model="config.color_scheme" label="Color Scheme" ></v-text-field>
-                    <v-color-picker :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
-                </v-expansion-panel-content>
-        </v-expansion-panel>
+            <v-row>
+                <v-col cols="12" sm="4">
+                    <div v-bind:style="{background: config.color_scheme}" @click="color_scheme_active = !color_scheme_active; bubble_background_active = false; bubble_text_color_active = false" id="colorScheme"></div>
+                    <div class="colorPicker">
+                        <v-color-picker @change="editColorScheme" v-if="color_scheme_active" :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
+                    </div>
+                </v-col>
 
-        <v-expansion-panel>
-                <v-expansion-panel-header>Background Color</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-text-field v-model="config.bubble_background" label="Background Color" ></v-text-field>
-                    <v-color-picker :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
-                </v-expansion-panel-content>
-        </v-expansion-panel>
+                <v-col cols="12" sm="4">
+                    <div v-bind:style="{background: config.bubble_background}" @click="bubble_background_active = !bubble_background_active; color_scheme_active = false; bubble_text_color_active = false"  id="colorBackground"></div>
+                    <div class="colorPicker">
+                        <v-color-picker v-if="bubble_background_active" :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
+                    </div>
+                </v-col>
 
-        <v-expansion-panel>
-                <v-expansion-panel-header>Text Color</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-text-field v-model="config.bubble_text_color" label="Text Color" ></v-text-field>
-                    <v-color-picker :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
-                </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        </v-expansion-panels>
+                <v-col cols="12" sm="4">
+                    <div v-bind:style="{background: config.bubble_text_color}" @click="bubble_text_color_active = !bubble_text_color_active; color_scheme_active = false; bubble_background_active = false"  id="colorBubble"></div>
+                    <div class="colorPicker">
+                        <v-color-picker v-if="bubble_text_color_active" :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
+                    </div>
+                </v-col>
+            </v-row>
         
-        
-        
-        
-        
-        <v-btn @click="validate" :disabled="!valid" class="mt-3" color="primary">
+        <v-btn class="mr-3 mt-3" outlined  @click="$emit('switchScreen', 1)">
+            Back
+        </v-btn>
+        <v-btn @click="validate" outlined :disabled="!valid" class="mt-3" color="primary">
              Next
         </v-btn>
         </v-form>
@@ -85,8 +76,31 @@ export default {
         validate(){
             var isValid = this.$refs.form.validate();
             if(isValid) this.$emit("update", this.config);
+            this.$emit('switchScreen', 3)
         },
+        editColorScheme(){
+            document.getElementById("colorScheme").style.backgroundColor = this.config.color_scheme;
+        }
 
     }
 }
 </script>
+
+<style scoped>
+#colorScheme, #colorBackground, #colorBubble{
+        background: beige;
+        border-radius: 50%;
+        border: solid 2px;
+        height: 50pt;
+        width: 50pt;
+        margin: auto !important;
+
+}
+
+.colorPicker{
+    position: absolute;
+    z-index: 2;
+    bottom: 185pt;
+}
+
+</style>

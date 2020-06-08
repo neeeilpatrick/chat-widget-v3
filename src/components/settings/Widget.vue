@@ -56,7 +56,10 @@
 
         </v-form>
 
-        <v-btn depressed color="primary" :disabled="!valid" @click="validate">Next</v-btn>
+        <v-btn class="mr-3" outlined  @click="$emit('switchScreen', 2)">
+            Back
+        </v-btn>
+        <v-btn depressed color="primary" outlined :disabled="!valid" @click="validate">Next</v-btn>
 
     </v-container>
 </template>
@@ -93,6 +96,7 @@ export default {
 
 
             if(isValid) this.$emit("update", this.config);
+            this.$emit('switchScreen', 4)
         }
     }
 }

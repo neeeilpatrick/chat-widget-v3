@@ -1,11 +1,11 @@
 <template>
     <div>
         <v-card>
-            <v-stepper class="elevation-0" >
+            <v-stepper v-model="stepElement" class="elevation-0" >
                 <v-stepper-header>
 
                     <v-stepper-step
-                        editable
+                        :complete="stepElement > 1"
                         alt-labels
                         step="1"
                         @click="openFeature(true)"
@@ -14,8 +14,8 @@
                     </v-stepper-step>
                     <v-divider></v-divider>
 
-                  <v-stepper-step
-                        editable
+                    <v-stepper-step
+                        :complete="stepElement > 2"
                         alt-labels
                         step="2"
                         @click="openFeature(false)"
@@ -25,7 +25,7 @@
                     <v-divider></v-divider>
 
                     <v-stepper-step
-                        editable
+                        :complete="stepElement > 3"
                         alt-labels
                         step="3"
                         @click="openFeature(false)"
@@ -35,7 +35,6 @@
                     <v-divider></v-divider>
                     
                     <v-stepper-step
-                        editable
                         alt-labels
                         step="4"
                         @click="openFeature(false)"
@@ -51,7 +50,7 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-card height="450pt" class="stepperCard elevation-2">
-                                    <ChatBubble @update="chatBubble" />
+                                    <ChatBubble @switchScreen="swithStep" @update="chatBubble" />
                                 </v-card>
                             </v-col>
 
@@ -68,7 +67,7 @@
 
                     <v-stepper-content step="1" >
                         <Navbar 
-                            
+                            :select="selectedLocation.id"
                             :locations="locations" 
                             @update="updateLocation" 
                             @display="showLocation"
@@ -81,7 +80,9 @@
                                         :locations="locations"
                                         :data="featuresConfig" 
                                         @delete="deleteFeatures" 
+                                        @delete-location="deleteLocation"
                                         @updateList="updateList"
+                                        @switchScreen="swithStep"
                                         @update="features" />
                                 </v-card>
                             </v-col>
@@ -100,7 +101,7 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-card height="450pt" class="stepperCard elevation-2">
-                                    <Widget @update="widget" />
+                                    <Widget @switchScreen="swithStep" @update="widget" />
                                 </v-card>
                             </v-col>
 
@@ -118,7 +119,7 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-card height="auto" class="elevation-0 stepperCard">
-                                    <GenerateCode :config="generateCodeController" />
+                                    <GenerateCode  @switchScreen="swithStep" :config="generateCodeController" />
                                 </v-card>
                             </v-col>
 
@@ -142,6 +143,7 @@
 .stepperCard{
     width: auto !important;
     margin-right: 25pt;
+    cursor: pointer;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -187,39 +189,12 @@ export default {
     },
     data(){
         return{
+            stepElement: 1,
             chatBubbleConfig: {},
             widgetConfig: {},
-            featuresConfig: [],
             selectedLocation: {},
-            locations: [{
-                zipcode: "9000",
-                address: "CDO",
-                id: "132",
-                name: "Cagayan de Oro",
-                features:[
-                {
-                    type:"Custom Link",
-                    removable:true,
-                    params:{
-                        buttontext:"1",
-                        link:"1"
-                    }
-                },
-                 {
-                    type:"Custom Link",
-                    removable:true,
-                    params:{
-                        buttontext:"2",
-                        link:"2"
-                    }
-                }
-            ]
-            },{
-                zipcode: "9001",
-                address: "Lanao del Norte",
-                id: "ldn",
-                name: "Candis, Tubod LDN"
-            }]
+            featuresConfig: [],
+            locations: []
         }
     },
     
@@ -230,6 +205,19 @@ export default {
         }
     },
     methods: {
+        swithStep(id){
+            this.stepElement = id
+        },
+        deleteLocation(id){
+            var _self= this;
+            this.locations.forEach(function(location, index){
+                if(location.id==id) _self.locations.splice(index, 1);
+            });
+            
+
+            if(this.locations.length!=0) _self.selectedLocation = _self.locations[0];
+            else _self.selectedLocation = {};
+        },
         chatBubble(config){
             this.chatBubbleConfig = config; 
         },
@@ -270,8 +258,6 @@ export default {
 
         updateLocation(location){
             this.locations.push(location);
-            console.log("New Location");
-            console.log(this.locations);
         },
 
         updateList(locations){

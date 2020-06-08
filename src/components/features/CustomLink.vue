@@ -3,10 +3,10 @@
         <v-container fluid>
             <v-form lazy-validation ref="form">
             <v-text-field
-            v-model="params.buttontext"
+            v-model="params.button_text"
             label="Button Text"
             @change="add"
-            :rules="rules.buttontextRule"
+            :rules="rules.button_textRule"
             required
           ></v-text-field>
 
@@ -29,11 +29,11 @@ export default {
     data(){
         return{
             params: {
-                buttontext: "",
+                button_text: "",
                 link: ""
             },
             rules: {
-                buttontextRule: [v => !!v || 'Button Text is required'],
+                button_textRule: [v => !!v || 'Button Text is required'],
                 linkRule: [v => !!v || 'Link is required']
             }
         }

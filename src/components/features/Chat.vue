@@ -3,10 +3,10 @@
         <v-container fluid>
             <v-form lazy-validation ref="form">
                 <v-text-field
-                    v-model="params.buttontext"
+                    v-model="params.button_text"
                     label="Button Text"
                     @change="add"
-                    :rules="rules.buttontext"
+                    :rules="rules.button_text"
                     required
                 ></v-text-field>
 
@@ -89,7 +89,7 @@ export default {
          return{
             prefixStatus: ['Enable', 'Disable'],
             params: {
-                buttontext: "",
+                button_text: "",
                 phone_number: "",
                 responses: {
                     initial: "",
@@ -106,7 +106,7 @@ export default {
                 }
             },
             rules: {
-                buttontext: [v => !!v || 'Button Text is required'],
+                button_text: [v => !!v || 'Button Text is required'],
                 initial: [v => !!v || 'Initial Message is required'],
                 phone_number: [v => !!v || 'Phone Number is required'],
                 confirmationdefault: [v => !!v || 'Confirmation Message is required'],

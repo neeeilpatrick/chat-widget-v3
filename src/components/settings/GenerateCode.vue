@@ -10,6 +10,9 @@
           shaped
         ></v-textarea>
 
+        <v-btn class="mr-3" outlined  @click="$emit('switchScreen', 3)">
+            Back
+        </v-btn>
         <v-btn @click="show">Copy</v-btn>
     </v-container>
 </template>

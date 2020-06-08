@@ -2,13 +2,35 @@
     <div class="main-container">
         <v-row>
             <v-col cols="12" sm="6">
-                {{ (location!=null ? location.name : "")}}<br>
-                <span style="font-size:12px;">{{ (location!=null ? location.id : "")}}</span>
+                <v-row>
+                    <v-col cols="12" sm="6">
+                        {{ (location!=null ? location.name : "")}}<br>
+                        <span style="font-size:12px;">{{ (location!=null ? location.id : "")}}</span>
+                    </v-col>
+
+                    <v-col cols="12" sm="6">
+                        <v-btn class="float-right mr-3 mt-1"
+                        x-small
+                        outlined v-if="location!=null" @click="dialog=!dialog">
+                            Edit Location
+                        </v-btn>
+                         <v-btn 
+                        class="float-right mr-3 mt-1"
+                        x-small
+                        color="red"
+                        outlined
+                            v-if="location!=null"
+                            @click="deleteLocation"
+                        >
+                            Delete Location
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </v-col>
 
             <v-col cols="12" sm="6">
-                <v-btn class="float-right mr-3 mt-1" outlined v-if="location!=null" @click="dialog=!dialog">
-                    Edit Location
+                <v-btn class="float-right mr-3 mt-1" outlined v-if="location!=null" @click="$emit('switchScreen', 2)">
+                    Next
                 </v-btn>
             </v-col>
         </v-row>
@@ -132,6 +154,9 @@ export default {
         }
     },
     methods: {
+        deleteLocation(){
+            this.$emit("delete-location", this.location.id);
+        },
         add(){
             if(this.selectedType != null) this.features.push({type: this.selectedType, removable:true});    
         },
