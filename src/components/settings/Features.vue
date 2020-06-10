@@ -1,38 +1,31 @@
 <template>
-    <div class="main-container">
+    <div class="main-container mt-3">
         <v-row>
-            <v-col cols="12" sm="6">
-                <v-row>
-                    <v-col cols="12" sm="6">
+
+                    <v-col class="ml-3" cols="12" sm="8">
                         {{ (location!=null ? location.name : "")}}<br>
                         <span style="font-size:12px;">{{ (location!=null ? location.id : "")}}</span>
                     </v-col>
 
-                    <v-col cols="12" sm="6">
-                        <v-btn class="float-right mr-3 mt-1"
+                    <v-col class="ml-10" cols="12" sm="3">
+                        <v-btn
+                        v-if="features.length!=0"
+                        class="float-right mt-1"
                         x-small
-                        outlined v-if="location!=null" @click="dialog=!dialog">
+                        outlined @click="dialog=!dialog">
                             Edit Location
                         </v-btn>
                          <v-btn 
-                        class="float-right mr-3 mt-1"
+                        v-if="features.length!=0"
+                        class="float-right  mt-1"
                         x-small
                         color="red"
                         outlined
-                            v-if="location!=null"
-                            @click="deleteLocation"
+                        @click="deleteLocation"
                         >
                             Delete Location
                         </v-btn>
                     </v-col>
-                </v-row>
-            </v-col>
-
-            <v-col cols="12" sm="6">
-                <v-btn class="float-right mr-3 mt-1" outlined v-if="location!=null" @click="$emit('switchScreen', 2)">
-                    Next
-                </v-btn>
-            </v-col>
         </v-row>
 
         <LocationForm 
@@ -44,7 +37,7 @@
         />
 
         <v-container fluid>
-            <v-row>
+            <v-row class="ma-auto">
                 <v-col cols="12" sm="6">
                     <v-select
                     v-model="selectedType"
@@ -53,11 +46,12 @@
                     item-value="value"
                     label="Select"
                     outlined
+                    dense
                     ></v-select>
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                    <v-btn large @click="add" color="blue darken-4" outlined class="mt-1">Add</v-btn>
+                    <v-btn @click="add" color="blue darken-4" outlined class="mt-1">Add</v-btn>
                 </v-col>
             </v-row>
 
@@ -100,9 +94,7 @@
                 </v-expansion-panel-content>
             </v-expansion-panel>
             </v-expansion-panels>
-
         </v-container>
-
     </div>
 </template>
 

@@ -3,18 +3,24 @@
         <v-container fluid>
             <v-form lazy-validation ref="form">
             <v-text-field
+            prepend-inner-icon="mdi-card-text"
             v-model="params.button_text"
             label="Button Text"
             @change="add"
             :rules="rules.button_textRule"
+            dense
+            outlined
             required
           ></v-text-field>
 
           <v-text-field
+          prepend-inner-icon="mdi-link"
           v-model="params.link"
             label="Link"
             @change="add"
             :rules="rules.linkRule"
+            dense
+            outlined
             required
           ></v-text-field>
           </v-form>

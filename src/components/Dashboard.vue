@@ -1,16 +1,16 @@
 <template>
     <div>
-        <v-card>
             <v-stepper v-model="stepElement" class="elevation-0" >
+                <v-card class="stepperHeaderCard">
                 <v-stepper-header>
 
                     <v-stepper-step
                         :complete="stepElement > 1"
                         alt-labels
                         step="1"
-                        @click="openFeature(true)"
+                        @click="swithStep(1)"
                     >
-                        Features
+                        <span class="stepperLabel">Features</span>
                     </v-stepper-step>
                     <v-divider></v-divider>
 
@@ -18,9 +18,10 @@
                         :complete="stepElement > 2"
                         alt-labels
                         step="2"
-                        @click="openFeature(false)"
+                        @click="swithStep(2)"
                     >
-                        Proactive Chat Bubble
+                    <span class="stepperLabel">Proactive Chat Bubble</span>
+                        
                     </v-stepper-step>
                     <v-divider></v-divider>
 
@@ -28,20 +29,23 @@
                         :complete="stepElement > 3"
                         alt-labels
                         step="3"
-                        @click="openFeature(false)"
+                        @click="$refs.ChatBubble.validate();"
                     >
-                        Widget
+                    <span class="stepperLabel">Widget</span>
+                        
                     </v-stepper-step>
                     <v-divider></v-divider>
                     
                     <v-stepper-step
                         alt-labels
                         step="4"
-                        @click="openFeature(false)"
+                        @click="$refs.widget.validate();"
                     >
-                        Generate Code
+                    <span class="stepperLabel">Generate Code</span>
+                        
                     </v-stepper-step>
                 </v-stepper-header>
+                </v-card>
 
                 <v-stepper-items class="elevation-0">
                     
@@ -49,24 +53,32 @@
                     <v-stepper-content step="2" >
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
-                                <v-card height="450pt" class="stepperCard elevation-2">
-                                    <ChatBubble @switchScreen="swithStep" @update="chatBubble" />
+                                <v-card height="500pt" class="stepperCard elevation-0 elevation-2">
+                                    <ChatBubble ref="ChatBubble" @switchScreen="swithStep" @nextBtnStatus="nextButtonStatus" @update="chatBubble" />
                                 </v-card>
                             </v-col>
 
                             <v-col cols="12" sm="4" >
-                                <v-card height="420pt" class="gray lighten-1">
+                                <v-card height="420pt" class="gray elevation-0 stepperCard lighten-1">
                                     <v-card-text>
                                         <h1 style="text-align:center;">This is view</h1>
                                     </v-card-text>
                                 </v-card>
+                                <v-col cols="12" sm="12">
+                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="swithStep(1)">
+                                            Back
+                                        </v-btn>
+                                        <v-btn color="#142850" :disabled="!nextBtnChatBubble" class="float-right mr-8 mt-3" outlined @click="$refs.ChatBubble.validate();">
+                                            Next
+                                        </v-btn>
+                                </v-col>
                             </v-col>
                         </v-row>
                     </v-stepper-content>
 
 
                     <v-stepper-content step="1" >
-                        <Navbar 
+                        <Navbar
                             :select="selectedLocation.id"
                             :locations="locations" 
                             @update="updateLocation" 
@@ -74,7 +86,7 @@
                             />
                         <v-row no-gutters>       
                             <v-col cols="12" sm="8">
-                                <v-card height="450pt" class="elevation-0 featureCard stepperCard">
+                                <v-card height="500pt" class="featureCard elevation-0 stepperCard">
                                     <Features  
                                         :location="selectedLocation"
                                         :locations="locations"
@@ -88,11 +100,18 @@
                             </v-col>
 
                             <v-col cols="12" sm="4">
-                                <v-card height="420pt" class="gray lighten-1">
+                                <v-card height="420pt" class="gray elevation-0 stepperCard lighten-1">
                                     <v-card-text>
                                         <h1 style="text-align:center;">This is view</h1>
                                     </v-card-text>
                                 </v-card>
+                                <v-row>
+                                    <v-col cols="12" sm="12">
+                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="swithStep(2)">
+                                            Next
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
                             </v-col>
                         </v-row>
                     </v-stepper-content>
@@ -100,17 +119,25 @@
                     <v-stepper-content step="3" >
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
-                                <v-card height="450pt" class="stepperCard elevation-2">
-                                    <Widget @switchScreen="swithStep" @update="widget" />
+                                <v-card height="500pt" class="stepperCard elevation-0">
+                                    <Widget ref="widget" @nextBtnStatus="nextButtonStatus" @switchScreen="swithStep" @update="widget" />
                                 </v-card>
                             </v-col>
 
                             <v-col cols="12" sm="4">
-                                <v-card height="450pt" class="gray lighten-1">
+                                <v-card height="420pt" class="gray elevation-0 stepperCard lighten-1">
                                     <v-card-text>
                                         <h1 style="text-align:center;">This is view</h1>
                                     </v-card-text>
                                 </v-card>
+                                <v-col cols="12" sm="12">
+                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="swithStep(2)">
+                                            Back
+                                        </v-btn>
+                                        <v-btn :disabled="!nextBtnWidget"  color="#142850" class="float-right mr-8 mt-3" outlined @click="$refs.widget.validate();">
+                                            Next
+                                        </v-btn>
+                                </v-col>
                             </v-col>
                         </v-row>
                     </v-stepper-content>
@@ -124,7 +151,7 @@
                             </v-col>
 
                             <v-col cols="12" sm="4">
-                                <v-card height="450pt" class="gray lighten-1">
+                                <v-card height="500pt" class="gray stepperCard lighten-1">
                                     <v-card-text>
                                         <h1 style="text-align:center;">This is view</h1>
                                     </v-card-text>
@@ -134,8 +161,6 @@
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
-
-        </v-card>
     </div>
 </template>
 
@@ -143,6 +168,8 @@
 .stepperCard{
     width: auto !important;
     margin-right: 25pt;
+    margin-top: 20pt;
+    margin-left: 25pt;
     cursor: pointer;
     overflow-x: hidden;
     overflow-y: auto;
@@ -155,6 +182,7 @@
 .stepperCard::-webkit-scrollbar {
     width: 3px;
     background-color: #F5F5F5;
+    visibility: hidden;
 } 
 
 .stepperCard::-webkit-scrollbar-thumb {
@@ -166,6 +194,34 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
 }
+
+.stepperLabel{
+    color: #dae1e7;
+}
+
+.v-stepper__step--active{
+    color:red !important;
+}
+
+.v-stepper__header{
+    margin-left: 250pt;
+    margin-right: 250pt;
+    cursor: pointer;
+    box-shadow: none !important;
+}
+
+.stepperHeaderCard{
+   background-color: #27496d;
+   border-radius: 0px !important;
+}
+.v-stepper__content {
+    box-shadow: none;
+    width: auto  ;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #dae1e7;
+} 
 
 
 
@@ -189,6 +245,8 @@ export default {
     },
     data(){
         return{
+            nextBtnChatBubble: false,
+            nextBtnWidget: false,
             stepElement: 1,
             chatBubbleConfig: {},
             widgetConfig: {},
@@ -207,6 +265,10 @@ export default {
     methods: {
         swithStep(id){
             this.stepElement = id
+        },
+        nextButtonStatus(status, type){
+            if(type == "chat-bubble") this.nextBtnChatBubble = status;
+            if(type == "widget") this.nextBtnWidget = status;
         },
         deleteLocation(id){
             var _self= this;
@@ -249,11 +311,6 @@ export default {
         },
         addNewLocation(location){
             this.locations.push(location);
-        },
-
-        openFeature(toggle){
-            this.toggleFeatureNav = toggle;
-            // this.$emit('openFeature', toggle);
         },
 
         updateLocation(location){

@@ -1,6 +1,7 @@
 <template>
     <nav>
         <v-navigation-drawer
+        class="elavation-0"
         absolute
         >
             <div v-if="locations.length==0" class="no-location">No Locations</div>
@@ -52,7 +53,7 @@ export default {
     },
     data(){
         return {
-            dialog: true,
+            dialog: false,
             selected: null,
         }
 

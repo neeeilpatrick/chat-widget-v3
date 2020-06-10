@@ -3,50 +3,68 @@
         <v-container fluid>
             <v-form lazy-validation ref="form">
                 <v-text-field
+                    prepend-inner-icon="mdi-card-text"
                     v-model="params.button_text"
                     label="Button Text"
                     @change="add"
                     :rules="rules.button_text"
+                    dense
+                    outlined
                     required
                 ></v-text-field>
 
                  <v-text-field
+                    prepend-inner-icon="mdi-message-arrow-right"
                     v-model="params.responses.initial"
                     label="Initial Message"
                     @change="add"
                     :rules="rules.initial"
+                    dense
+                    outlined
                     required
                 ></v-text-field>
 
                  <v-text-field
+                    prepend-inner-icon="mdi-card-account-phone"
                     v-model="params.phone_number"
                     label="Phone Number"
                     @change="add"
                     :rules="rules.phone_number"
+                    dense
+                    outlined
                     required
                 ></v-text-field>
 
                  <v-text-field
+                    prepend-inner-icon="mdi-thumb-up"
                     v-model="params.responses.confirmation.default"
                     label="Confirmation Message"
                     @change="add"
                     :rules="rules.confirmationdefault"
+                    dense
+                    outlined
                     required
                 ></v-text-field>
 
                 <v-text-field
+                    prepend-inner-icon="mdi-exit-run"
                     v-model="params.responses.confirmation.away"
                     label="Away Message"
                     @change="add"
                     :rules="rules.confirmationaway"
+                    dense
+                    outlined
                     required
                 ></v-text-field>
 
                 <v-text-field
+                    prepend-inner-icon="mdi-walk"
                     v-model="params.responses.confirmation.here"
                     label="Here Message"
                     @change="add"
                     :rules="rules.confirmationhere"
+                    dense
+                    outlined
                     required
                 ></v-text-field>
 
@@ -57,23 +75,30 @@
                     label="Status"
                     @change="add"
                     :rules="rules.prefixstatus"
+                    dense
                     outlined
                     ></v-select>
                 </v-col>
 
                 <v-text-field
+                    v-if="params.responses.prefix.status == 'Enable'"
                     v-model="params.responses.prefix.away"
                     label="Away Prefix"
                     @change="add"
                     :rules="rules.prefixaway"
+                    dense
+                    outlined
                     required
                 ></v-text-field>
 
                 <v-text-field
+                    v-if="params.responses.prefix.status == 'Enable'"
                     v-model="params.responses.prefix.here"
                     label="Here Prefix"
                     @change="add"
                     :rules="rules.prefixhere"
+                    dense
+                    outlined
                     required
                 ></v-text-field>
             </v-form>
@@ -101,7 +126,7 @@ export default {
                     prefix: {
                         here: "",
                         away: "",
-                        status: ""
+                        status: "Enable"
                     }
                 }
             },

@@ -16,3 +16,15 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-content__wrap{
+   
+    width: auto  ;
+    height: auto;
+    margin-top: 200px;
+    margin: 0;
+    padding: 0;
+    background-color: #dae1e7;
+}
+</style>

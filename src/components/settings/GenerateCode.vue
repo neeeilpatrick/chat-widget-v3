@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container class="mt-5" fluid>
         <v-textarea
           label="Generated Code"
           v-model="jsonFormatCode"
@@ -7,7 +7,6 @@
           outlined
           rows="15"
           row-height="25"
-          shaped
         ></v-textarea>
 
         <v-btn class="mr-3" outlined  @click="$emit('switchScreen', 3)">

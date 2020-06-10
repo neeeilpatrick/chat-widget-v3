@@ -1,66 +1,77 @@
 <template>
-    <v-container fluid>
+    <v-container class="mt-5 pl-12 pr-12" fluid>
         <v-form lazy-validation v-model="valid" ref="form">
-            <v-radio-group v-model="config.image_style" row>
+            <v-radio-group
+                    @change="nextButtonActive" dense v-model="config.image_style" row>
                 <v-radio label="Picture" value="picture"></v-radio>
                 <v-radio label="Icon" value="icon"></v-radio>
                 <v-radio label="No Image" value="no-image"></v-radio>
             </v-radio-group>
 
-            <v-text-field 
+            <v-text-field
+                    prepend-inner-icon="mdi-file-image"
+                    @change="nextButtonActive" 
                     v-if="config.image_style=='picture'"
                     v-model="config.image_url"
                     :rules="rules.image_url"
+                    dense
                     label="Image Link"
                     placeholder="https://msg.everypages.com/resources/profile.jpg"
                     outlined
                 ></v-text-field>
 
-            <v-text-field 
+            <v-text-field
+                    prepend-inner-icon="mdi-format-line-style"
+                    @change="nextButtonActive" 
                     v-model="config.header_line_1"
                     :rules="rules.header_line_1"
+                    dense
                     label="Header"
                     placeholder="Hello!"
                     outlined
                 ></v-text-field>
 
-            <v-text-field 
+            <v-text-field
+                    prepend-inner-icon="mdi-format-font"
+                    @change="nextButtonActive" 
                     v-model="config.header_line_2"
                     :rules="rules.header_line_2"
+                    dense
                     label="Subheader"
                     placeholder="What can we help you with?"
                     outlined
                 ></v-text-field>
 
-            <v-text-field 
+            <v-text-field
+                    prepend-inner-icon="mdi-android-messages"
+                    @change="nextButtonActive" 
                     v-model="config.welcome_message"
                     :rules="rules.welcome_message"
+                    dense
                     label="Welcome Message"
                     placeholder="Welcome! Click one of the buttons to get started!"
                     outlined
                 ></v-text-field>
 
-            <v-text-field 
+            <v-text-field
+                    prepend-inner-icon="mdi-format-title"
                     v-model="powered_by_title"
+                    dense
                     label="PoweredBy Title"
                     placeholder="Go High Level"
                     outlined
                 ></v-text-field>
 
-            <v-text-field 
+            <v-text-field
+                    prepend-inner-icon="mdi-cellphone-link"
                     v-model="powered_by_link"
+                    dense
                     label="PoweredBy Link"
                     placeholder="https://gohighlevel.com/home-page"
                     outlined
                 ></v-text-field>
 
         </v-form>
-
-        <v-btn class="mr-3" outlined  @click="$emit('switchScreen', 2)">
-            Back
-        </v-btn>
-        <v-btn depressed color="primary" outlined :disabled="!valid" @click="validate">Next</v-btn>
-
     </v-container>
 </template>
 
@@ -91,17 +102,27 @@ export default {
     methods: {
         validate(){
             var isValid = this.$refs.form.validate();
+            if(this.powered_by_link.length <= 0) this.powered_by_link = 'https://gohighlevel.com/home-page';
+            if(this.powered_by_title.length <= 0) this.powered_by_title = 'Go High Level'
             var poweredByInterpolated = `<a href='${this.powered_by_link}' target='_blank'>${this.powered_by_title}</a>`;
             this.config.powered_by = poweredByInterpolated;
 
-
-            if(isValid) this.$emit("update", this.config);
-            this.$emit('switchScreen', 4)
-        }
+            if(isValid){
+                this.$emit("update", this.config);
+                this.$emit('switchScreen', 4)
+            }
+        },
+        nextButtonActive(){
+            var isValid = this.$refs.form.validate();
+            if(isValid) this.$emit("nextBtnStatus", true, "widget")
+            else this.$emit("nextBtnStatus", false, "widget")
+        },
     }
 }
 </script>
 
 <style scoped>
-
+.mdi {
+    font-size: 12pt !important;
+}
 </style>

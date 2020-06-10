@@ -10,6 +10,7 @@
                     label="Status"
                     :rules="rules.status"
                     outlined
+                    dense
                     required
                     ></v-select>
                 </v-col>
@@ -17,8 +18,10 @@
                 <v-text-field
                 @change="add"
                 label="Button Text"
-                :rules="rules.buttontext"
-                v-model="params.buttontext"
+                :rules="rules.button_text"
+                v-model="params.button_text"
+                dense
+                outlined
                 required
                 >    
                 </v-text-field>
@@ -28,6 +31,8 @@
                 label="Review Message"
                 :rules="rules.initial"
                 v-model="params.responses.initial"
+                dense
+                outlined
                 rows="5"
                 required
                 ></v-textarea>
@@ -40,6 +45,8 @@
                         :label="'Name ' + (index+1)"
                         :rules="rules.linksName"
                         v-model="link.name"
+                        dense
+                        outlined
                         required
                         >    
                         </v-text-field>
@@ -49,6 +56,8 @@
                         :label="'Thumbnail ' + (index+1)"
                         :rules="rules.linksThumbnail"
                         v-model="link.thumbnail"
+                        dense
+                        outlined
                         required
                         >    
                         </v-text-field>
@@ -58,6 +67,8 @@
                         :label="'Link' + (index+1)"
                         :rules="rules.linksLink"
                         v-model="link.link"
+                        dense
+                        outlined
                         required
                         >    
                         </v-text-field>
@@ -79,7 +90,7 @@ export default {
             statusItems: ['Enable', 'Disable'],
             params:{
                 status: null,
-                buttontext: "",
+                button_text: "",
                 responses: {
                     initial: ""
                 },
@@ -94,7 +105,7 @@ export default {
             },
             rules: {
                 status: [v => !!v || 'Status is required'],
-                buttontext: [v => !!v || 'Button Text is required'],
+                button_text: [v => !!v || 'Button Text is required'],
                 initial: [v => !!v || 'Review Message is required'],
                 linksName: [v => !!v || 'Review Message is required'],
                 linksThumbnail: [v => !!v || 'Review Message is required'],
