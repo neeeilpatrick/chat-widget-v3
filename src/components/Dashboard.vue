@@ -55,7 +55,11 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-card class="stepperCard elevation-0 elevation-2">
-                                    <ChatBubble ref="ChatBubble" @switchScreen="swithStep" @nextBtnStatus="nextButtonStatus" @update="chatBubble" />
+                                    <ChatBubble 
+                                    ref="ChatBubble" 
+                                    @switchScreen="swithStep" 
+                                    @nextBtnStatus="nextButtonStatus" 
+                                    @update="chatBubble" />
                                 </v-card>
                             </v-col>
 
@@ -121,7 +125,11 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-card class="stepperCard elevation-0">
-                                    <Widget ref="widget" @nextBtnStatus="nextButtonStatus" @switchScreen="swithStep" @update="widget" />
+                                    <Widget 
+                                    ref="widget" 
+                                    @nextBtnStatus="nextButtonStatus" 
+                                    @switchScreen="swithStep" 
+                                    @update="widget" />
                                 </v-card>
                             </v-col>
 
@@ -147,7 +155,9 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-card height="auto" class="elevation-0 stepperCard">
-                                    <GenerateCode  @switchScreen="swithStep" :config="generateCodeController" />
+                                    <GenerateCode  
+                                    @switchScreen="swithStep" 
+                                    :config="generateCodeController" />
                                 </v-card>
                             </v-col>
 

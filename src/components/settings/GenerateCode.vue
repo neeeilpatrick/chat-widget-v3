@@ -28,7 +28,7 @@
             color="#27496d"
             dark
         >
-            <v-card-text>
+            <v-card-text class="pt-3">
             Please stand by
             <v-progress-linear
                 indeterminate
@@ -38,15 +38,37 @@
             </v-card-text>
         </v-card>
         </v-dialog>
+
+        <v-dialog
+        v-model="copyStatus"
+        hide-overlay
+        persistent
+        width="300"
+        >
+            <v-card
+                color="#27496d"
+                dark
+                class="ma-auto"
+                style="text-align: center;"
+            >
+                Successfully copied config to Clipboard
+        </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
 <script>
+import Vue from 'vue'
+import VueClipboard from 'vue-clipboard2'
+ 
+VueClipboard.config.autoSetContainer = true // add this line
+Vue.use(VueClipboard)
 export default {
     props: ['config'],
     data(){
         return{
             dialog: false,
+            copyStatus: false,
             jsonFormatCode: "",
             finalConfig: {}
         }
@@ -63,8 +85,20 @@ var config = ${JSON.stringify(this.config)}
 
 <script src="https://msg.everypages.com/prompted-chat/v2/chatwidget.js"></ script>`;
             this.dialog = false;
+            this.doCopy();
             }, 3000);
-        }
+        },
+        doCopy() {
+            var _self = this;
+            _self.$copyText(_self.jsonFormatCode).then(function (e) {
+            _self.copyStatus = true;
+                console.log(e);
+            setTimeout(() => { _self.copyStatus = false }, 2000);
+            }, function (e) {
+            alert('Can not copy')
+            console.log(e)
+            })
+      }
     }
 }
 </script>
