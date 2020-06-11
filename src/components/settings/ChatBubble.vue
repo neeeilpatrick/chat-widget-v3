@@ -143,7 +143,7 @@ export default {
 .colorPicker{
     position: absolute;
     z-index: 2;
-    bottom: 250pt;
+    bottom: 180pt;
 }
 
 .v-icon.v-icon{

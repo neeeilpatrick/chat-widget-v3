@@ -88,6 +88,7 @@ export default {
             increment: 0,
             config: {
                 image_style: "picture",
+                bubble: true,
                 image_url: "",
                 header_line_1: "",
                 header_line_2: "",
@@ -107,8 +108,13 @@ export default {
     methods: {
         validate(){
             var isValid = this.$refs.form.validate();
+            if(this.config.header_line_1.length <= 0) this.header_line_1 = 'Hello!';
+            if(this.config.header_line_2.length <= 0) this.header_line_1 = 'What can we help you with?';
+            if(this.config.welcome_message.length <= 0) this.welcome_message = 'Welcome! Click one of the buttons to get started!';
             if(this.powered_by_link.length <= 0) this.powered_by_link = 'https://gohighlevel.com/home-page';
-            if(this.powered_by_title.length <= 0) this.powered_by_title = 'Go High Level'
+            if(this.powered_by_title.length <= 0) this.powered_by_title = 'Go High Level';
+
+
             var poweredByInterpolated = `<a href='${this.powered_by_link}' target='_blank'>${this.powered_by_title}</a>`;
             this.config.powered_by = poweredByInterpolated;
 

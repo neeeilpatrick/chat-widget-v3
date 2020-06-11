@@ -157,6 +157,7 @@
                                 <v-card height="auto" class="elevation-0 stepperCard">
                                     <GenerateCode  
                                     @switchScreen="swithStep" 
+                                    :loader="dialog"
                                     :config="generateCodeController" />
                                 </v-card>
                             </v-col>
@@ -173,6 +174,26 @@
                 </v-stepper-items>
             </v-stepper>
         </v-card>
+         <v-dialog
+        v-model="dialog"
+        hide-overlay
+        persistent
+        width="300"
+        >
+        <v-card
+            color="#27496d"
+            dark
+        >
+            <v-card-text class="pt-3">
+            Please stand by
+            <v-progress-linear
+                indeterminate
+                color="white"
+                class="mb-0"
+            ></v-progress-linear>
+            </v-card-text>
+        </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -263,6 +284,7 @@ export default {
     },
     data(){
         return{
+            dialog: false,
             nextBtnChatBubble: false,
             nextBtnWidget: false,
             stepElement: 1,
@@ -283,6 +305,10 @@ export default {
     methods: {
         swithStep(id){
             this.stepElement = id
+            if(this.stepElement == 4){
+                this.dialog = true;
+                setTimeout(() => { this.dialog = false; }, 2000);
+            }
         },
         nextButtonStatus(status, type){
             if(type == "chat-bubble") this.nextBtnChatBubble = status;
