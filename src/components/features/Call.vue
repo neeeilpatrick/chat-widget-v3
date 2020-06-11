@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-10">
+     <div class="mt-10">
         <v-container fluid>
             <v-form lazy-validation ref="form">
             <v-text-field
@@ -15,10 +15,10 @@
 
           <v-text-field
           prepend-inner-icon="mdi-link"
-          v-model="params.link"
+          v-model="params.phone_number"
             label="Link"
             @change="add"
-            :rules="rules.linkRule"
+            :rules="rules.phone_number"
             dense
             outlined
             required
@@ -36,11 +36,11 @@ export default {
         return{
             params: {
                 button_text: "",
-                link: ""
+                phone_number: ""
             },
             rules: {
                 button_textRule: [v => !!v || 'Button Text is required'],
-                linkRule: [v => !!v || 'Link is required']
+                phone_number: [v => !!v || 'Link is required']
             }
         }
     },
@@ -54,17 +54,11 @@ export default {
             var isValid = this.$refs.form.validate();
             
             this.config.params = this.params;
-            if(isValid) this.$emit("updateLink", this.config, this.id);
+            if(isValid) this.$emit("updateCall", this.config, this.id);
         },
         deleteLink(id){
-            this.$emit("deleteLink", id);
+            this.$emit("deleteCall", id);
         }
     },
 }
 </script>
-
-<style scoped>
-.v-icon.v-ivon{
-    font-size: 15px !important;
-}
-</style>

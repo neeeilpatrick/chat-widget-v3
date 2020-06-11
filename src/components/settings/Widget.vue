@@ -9,6 +9,7 @@
             </v-radio-group>
 
             <v-text-field
+                    class="mb-3"
                     prepend-inner-icon="mdi-file-image"
                     @change="nextButtonActive" 
                     v-if="config.image_style=='picture'"
@@ -21,6 +22,7 @@
                 ></v-text-field>
 
             <v-text-field
+                    class="mb-3"
                     prepend-inner-icon="mdi-format-line-style"
                     @change="nextButtonActive" 
                     v-model="config.header_line_1"
@@ -32,6 +34,7 @@
                 ></v-text-field>
 
             <v-text-field
+                    class="mb-3"
                     prepend-inner-icon="mdi-format-font"
                     @change="nextButtonActive" 
                     v-model="config.header_line_2"
@@ -43,6 +46,7 @@
                 ></v-text-field>
 
             <v-text-field
+                    class="mb-3"
                     prepend-inner-icon="mdi-android-messages"
                     @change="nextButtonActive" 
                     v-model="config.welcome_message"
@@ -54,6 +58,7 @@
                 ></v-text-field>
 
             <v-text-field
+                    class="mb-3"
                     prepend-inner-icon="mdi-format-title"
                     v-model="powered_by_title"
                     dense
@@ -63,6 +68,7 @@
                 ></v-text-field>
 
             <v-text-field
+                    class="mb-3"
                     prepend-inner-icon="mdi-cellphone-link"
                     v-model="powered_by_link"
                     dense
@@ -70,7 +76,6 @@
                     placeholder="https://gohighlevel.com/home-page"
                     outlined
                 ></v-text-field>
-
         </v-form>
     </v-container>
 </template>
@@ -122,7 +127,7 @@ export default {
 </script>
 
 <style scoped>
-.mdi {
-    font-size: 12pt !important;
+.v-icon.v-ivon{
+    font-size: 15px !important;
 }
 </style>

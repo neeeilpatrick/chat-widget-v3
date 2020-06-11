@@ -53,7 +53,7 @@ export default {
     },
     data(){
         return {
-            dialog: false,
+            dialog: true,
             selected: null,
         }
 

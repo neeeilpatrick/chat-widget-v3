@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div> 
+        <v-card style="border-radius:0px;" class="mt-6 mr-10 ml-10 elavation-23">
             <v-stepper v-model="stepElement" class="elevation-0" >
                 <v-card class="stepperHeaderCard">
                 <v-stepper-header>
@@ -53,7 +54,7 @@
                     <v-stepper-content step="2" >
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
-                                <v-card height="500pt" class="stepperCard elevation-0 elevation-2">
+                                <v-card class="stepperCard elevation-0 elevation-2">
                                     <ChatBubble ref="ChatBubble" @switchScreen="swithStep" @nextBtnStatus="nextButtonStatus" @update="chatBubble" />
                                 </v-card>
                             </v-col>
@@ -86,7 +87,7 @@
                             />
                         <v-row no-gutters>       
                             <v-col cols="12" sm="8">
-                                <v-card height="500pt" class="featureCard elevation-0 stepperCard">
+                                <v-card class="featureCard elevation-0 stepperCard">
                                     <Features  
                                         :location="selectedLocation"
                                         :locations="locations"
@@ -119,7 +120,7 @@
                     <v-stepper-content step="3" >
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
-                                <v-card height="500pt" class="stepperCard elevation-0">
+                                <v-card class="stepperCard elevation-0">
                                     <Widget ref="widget" @nextBtnStatus="nextButtonStatus" @switchScreen="swithStep" @update="widget" />
                                 </v-card>
                             </v-col>
@@ -151,7 +152,7 @@
                             </v-col>
 
                             <v-col cols="12" sm="4">
-                                <v-card height="500pt" class="gray stepperCard lighten-1">
+                                <v-card height="445pt" class="gray mb-12 stepperCard lighten-1">
                                     <v-card-text>
                                         <h1 style="text-align:center;">This is view</h1>
                                     </v-card-text>
@@ -161,6 +162,7 @@
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
+        </v-card>
     </div>
 </template>
 
@@ -173,6 +175,8 @@
     cursor: pointer;
     overflow-x: hidden;
     overflow-y: auto;
+    height: 450pt;
+    margin-bottom: 10px;
 }
 
 .featureCard{
@@ -223,6 +227,10 @@
     background-color: #dae1e7;
 } 
 
+
+.v-icon.v-icon{
+    font-size: 15px !important;
+}
 
 
 </style>

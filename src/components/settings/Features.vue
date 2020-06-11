@@ -10,20 +10,20 @@
                     <v-col class="ml-10" cols="12" sm="3">
                         <v-btn
                         v-if="features.length!=0"
-                        class="float-right mt-1"
-                        x-small
+                        class="float-right mt-1 mr-3"
+                        small
                         outlined @click="dialog=!dialog">
-                            Edit Location
+                            <v-icon>mdi-pencil-box</v-icon>
                         </v-btn>
                          <v-btn 
                         v-if="features.length!=0"
-                        class="float-right  mt-1"
-                        x-small
+                        class="float-right mr-3 mt-1"
+                        small
                         color="red"
                         outlined
                         @click="deleteLocation"
                         >
-                            Delete Location
+                            <v-icon>mdi-trash-can</v-icon>
                         </v-btn>
                     </v-col>
         </v-row>
@@ -91,6 +91,14 @@
                     :id="index" 
                     v-if="feature.type=='Review'"
                     ></Review>
+
+                    <Call
+                    @updateCall="updateFeature" 
+                    @deleteCall="deleteFeature" 
+                    :config="feature" 
+                    :id="index" 
+                    v-if="feature.type=='Call'">
+                    </Call>
                 </v-expansion-panel-content>
             </v-expansion-panel>
             </v-expansion-panels>
@@ -102,6 +110,7 @@
 import LocationForm from './../resources/LocationForm';
 import CustomLink from '../features/CustomLink';
 import Chat from '../features/Chat';
+import Call from '../features/Call';
 import Review from '../features/Review';
 
 export default {
@@ -109,6 +118,7 @@ export default {
     components: {
         CustomLink,
         Chat,
+        Call,
         Review,
         LocationForm
     },
@@ -128,6 +138,10 @@ export default {
                 {
                     text: "Chat",
                     value: "Chat"
+                },
+                {
+                    text: "Call",
+                    value: "Call"
                 }
             ],
             features: [],
@@ -180,4 +194,10 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.v-icon.v-icon{
+    font-size: 15px !important;
+}
+</style>
 

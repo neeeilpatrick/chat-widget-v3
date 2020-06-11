@@ -2,6 +2,7 @@
   "name": "chat-widget-v3",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://msg.everypages.com/prompted-chat/v3/editor/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

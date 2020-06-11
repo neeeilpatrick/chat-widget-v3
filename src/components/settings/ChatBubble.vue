@@ -3,6 +3,7 @@
         <v-form v-model="valid" lazy-validation ref="form">
 
         <v-text-field 
+            class="mb-3"
             prepend-inner-icon="mdi-image-edit"
             dense
             outlined
@@ -14,6 +15,7 @@
         </v-text-field>
 
         <v-text-field 
+            class="mb-3"
             prepend-inner-icon="mdi-message-alert"
             dense
             outlined
@@ -25,6 +27,7 @@
         </v-text-field>
 
         <v-text-field 
+            class="mb-3"
             prepend-inner-icon="mdi-image-area-close"
             dense
             outlined
@@ -141,6 +144,10 @@ export default {
     position: absolute;
     z-index: 2;
     bottom: 250pt;
+}
+
+.v-icon.v-icon{
+    font-size: 15px !important;
 }
 
 </style>

@@ -161,3 +161,9 @@ export default {
      }
 }
 </script>
+
+<style scoped>
+.v-icon.v-ivon{
+    font-size: 15px !important;
+}
+</style>
