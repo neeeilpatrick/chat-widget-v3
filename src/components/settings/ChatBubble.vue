@@ -8,9 +8,9 @@
             dense
             outlined
             v-model="config.svg" 
-            :rules="rules.icon" 
             label="Icon"
             @change="nextButtonActive" 
+            @click="config.svg = ''"
             placeholder="https://yourwebsite.com/chaticon.png">
         </v-text-field>
 
@@ -20,9 +20,9 @@
             dense
             outlined
             v-model="config.bubble_message" 
-            :rules="rules.bubbleMessage" 
             label="Bubble Message"
             @change="nextButtonActive" 
+            @click="config.bubble_message = ''"
             placeholder="Hi there, have a question? Text us here.">
         </v-text-field>
 
@@ -32,9 +32,9 @@
             dense
             outlined
             v-model="config.bubble_image" 
-            :rules="rules.bubbleImage" 
             label="Bubble Image"
             @change="nextButtonActive" 
+            @click="config.bubble_image = ''"
             placeholder="https://msg.everypages.com/resources/profile.jpg">
         </v-text-field>
 
@@ -85,9 +85,9 @@ export default {
         return {
             valid: true,
             config: {
-                svg: null,
-                bubble_image: null,
-                bubble_message: null,
+                svg: "",
+                bubble_image: "",
+                bubble_message: "",
                 bubble_on_mobile: false,
                 color_scheme: "#589bd6",
                 bubble_background: "#9e1a1a", 
@@ -97,23 +97,17 @@ export default {
             color_scheme_active: false,
             bubble_background_active: false,
             bubble_text_color_active: false,
-            rules: {
-                icon: [v => !!v || 'Icon is required'],
-                bubbleMessage: [v => !!v || 'Bubble Message is required'],
-                bubbleImage: [v => !!v || 'Bubble Image is required']
-            }
         }
-    },
-    mounted(){
-        this.popupItem = this.$el
     },
     methods:{
         validate(){
-            var isValid = this.$refs.form.validate();
-            if(isValid){
-                this.$emit("update", this.config);
-                this.$emit('switchScreen', 3);
-            }
+            if(this.config.svg.length <=0) this.config.svg = 'https://yourwebsite.com/chaticon.png';
+            if(this.config.bubble_message.length <=0) this.config.bubble_message = 'Hi there, have a question? Text us here.';
+            if(this.config.bubble_image.length <=0) this.config.bubble_image = 'https://msg.everypages.com/resources/profile.jpg';
+            
+            this.$emit("update", this.config);
+            this.$emit('switchScreen', 3);
+            
         },
         nextButtonActive(){
             var isValid = this.$refs.form.validate();

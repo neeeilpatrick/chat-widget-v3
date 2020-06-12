@@ -11,10 +11,10 @@
             <v-text-field
                     class="mb-3"
                     prepend-inner-icon="mdi-file-image"
-                    @change="nextButtonActive" 
+                    @change="nextButtonActive"
+                    @click="config.image_url = ''"
                     v-if="config.image_style=='picture'"
                     v-model="config.image_url"
-                    :rules="rules.image_url"
                     dense
                     label="Image Link"
                     placeholder="https://msg.everypages.com/resources/profile.jpg"
@@ -25,8 +25,8 @@
                     class="mb-3"
                     prepend-inner-icon="mdi-format-line-style"
                     @change="nextButtonActive" 
+                    @click="config.header_line_1 = ''"
                     v-model="config.header_line_1"
-                    :rules="rules.header_line_1"
                     dense
                     label="Header"
                     placeholder="Hello!"
@@ -36,9 +36,9 @@
             <v-text-field
                     class="mb-3"
                     prepend-inner-icon="mdi-format-font"
-                    @change="nextButtonActive" 
+                    @change="nextButtonActive"
+                    @click="config.header_line_2 = ''"
                     v-model="config.header_line_2"
-                    :rules="rules.header_line_2"
                     dense
                     label="Subheader"
                     placeholder="What can we help you with?"
@@ -49,8 +49,8 @@
                     class="mb-3"
                     prepend-inner-icon="mdi-android-messages"
                     @change="nextButtonActive" 
+                    @click="config.welcome_message = ''"
                     v-model="config.welcome_message"
-                    :rules="rules.welcome_message"
                     dense
                     label="Welcome Message"
                     placeholder="Welcome! Click one of the buttons to get started!"
@@ -97,20 +97,17 @@ export default {
             },
             powered_by_title: "",
             powered_by_link: "",
-            rules: {
-                image_url:  [ v => !!v || 'Image link is required' ],
-                header_line_1:  [ v => !!v || 'Header is required' ],
-                header_line_2:  [ v => !!v || 'Subheader is required' ],
-                welcome_message: [ v => !!v || 'Welcome message is required' ]
-            }
         }
     },
     methods: {
         validate(){
             var isValid = this.$refs.form.validate();
-            if(this.config.header_line_1.length <= 0) this.header_line_1 = 'Hello!';
-            if(this.config.header_line_2.length <= 0) this.header_line_1 = 'What can we help you with?';
-            if(this.config.welcome_message.length <= 0) this.welcome_message = 'Welcome! Click one of the buttons to get started!';
+            if(this.config.image_style == 'picture')
+            if(this.config.image_url.length <= 0) this.config.image_url = 'https://msg.everypages.com/resources/profile.jpg';
+            
+            if(this.config.header_line_1.length <= 0) this.config.header_line_1 = 'Hello!';
+            if(this.config.header_line_2.length <= 0) this.config.header_line_2 = 'What can we help you with?';
+            if(this.config.welcome_message.length <= 0) this.config.welcome_message = 'Welcome! Click one of the buttons to get started!';
             if(this.powered_by_link.length <= 0) this.powered_by_link = 'https://gohighlevel.com/home-page';
             if(this.powered_by_title.length <= 0) this.powered_by_title = 'Go High Level';
 
@@ -124,9 +121,7 @@ export default {
             }
         },
         nextButtonActive(){
-            var isValid = this.$refs.form.validate();
-            if(isValid) this.$emit("nextBtnStatus", true, "widget")
-            else this.$emit("nextBtnStatus", false, "widget")
+            this.$emit("nextBtnStatus", true, "widget")
         },
     }
 }

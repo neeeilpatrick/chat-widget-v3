@@ -73,7 +73,7 @@
                                         <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="swithStep(1)">
                                             Back
                                         </v-btn>
-                                        <v-btn color="#142850" :disabled="!nextBtnChatBubble" class="float-right mr-8 mt-3" outlined @click="$refs.ChatBubble.validate();">
+                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="$refs.ChatBubble.validate();">
                                             Next
                                         </v-btn>
                                 </v-col>
@@ -112,7 +112,7 @@
                                 </v-card>
                                 <v-row>
                                     <v-col cols="12" sm="12">
-                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="swithStep(2)">
+                                        <v-btn color="#142850" :disabled="featureStepBtn" class="float-right mr-8 mt-3" outlined @click="swithStep(2)">
                                             Next
                                         </v-btn>
                                     </v-col>
@@ -143,7 +143,7 @@
                                         <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="swithStep(2)">
                                             Back
                                         </v-btn>
-                                        <v-btn :disabled="!nextBtnWidget"  color="#142850" class="float-right mr-8 mt-3" outlined @click="$refs.widget.validate();">
+                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="$refs.widget.validate();">
                                             Next
                                         </v-btn>
                                 </v-col>
@@ -284,9 +284,8 @@ export default {
     },
     data(){
         return{
+            featureStepBtn: true,
             dialog: false,
-            nextBtnChatBubble: false,
-            nextBtnWidget: false,
             stepElement: 1,
             chatBubbleConfig: {},
             widgetConfig: {},
@@ -304,10 +303,12 @@ export default {
     },
     methods: {
         swithStep(id){
-            this.stepElement = id
+            if(id == 2){ if(!this.featureStepBtn) this.stepElement = id;
+            }else this.stepElement = id;
+
             if(this.stepElement == 4){
                 this.dialog = true;
-                setTimeout(() => { this.dialog = false; }, 2000);
+                setTimeout(() => { this.dialog = false; }, 750);
             }
         },
         nextButtonStatus(status, type){
@@ -343,12 +344,11 @@ export default {
             var id = this.locations.findIndex((value => value.id == location.id));
             var filtered = this.featuresConfig.filter(function (el) { return el != null; });
             
-            console.log(this.locations);
             if(typeof this.locations[id].features=='undefined') this.locations[id].features = null;
             this.locations[id].features = filtered;
 
 
-            console.log(this.locations);
+            if(typeof this.locations[id].features != "undefined") this.featureStepBtn = false;
         },
         deleteFeatures(id){
             this.featuresConfig.splice(id, 1);
