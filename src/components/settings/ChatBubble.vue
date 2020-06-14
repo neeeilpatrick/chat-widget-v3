@@ -1,6 +1,6 @@
 <template>
     <v-container class="mt-5 pl-12 pr-12" fluid>
-        <v-form v-model="valid" lazy-validation ref="form">
+        <v-form lazy-validation ref="form">
 
         <v-text-field 
             class="mb-3"
@@ -45,28 +45,28 @@
         </v-row>
         </v-form>
 
-        <v-row>
-            <v-col cols="12" sm="4">
-                <div v-click-outside="hideColorPicker" v-bind:style="{background: config.color_scheme}" @click="color_scheme_active = !color_scheme_active; bubble_background_active = false; bubble_text_color_active = false" id="colorScheme"></div>
-                <p style="text-align:center; font-size: 10pt;">Color Sceme</p>
+        <v-row v-click-outside="hideColorPicker">
+            <v-col  cols="12" sm="4">
+                <div v-bind:style="{background: config.color_scheme}" @click="color_scheme_active = !color_scheme_active; bubble_background_active = false; bubble_text_color_active = false" id="colorScheme"></div>
+                <p style="text-align:center; font-size: 10pt;">Color Scheme</p>
                 <div class="colorPicker">
-                    <v-color-picker v-show="color_scheme_active" :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
+                    <v-color-picker v-if="color_scheme_active" :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
                 </div>
             </v-col>
 
             <v-col cols="12" sm="4">
-                <div v-click-outside="hideColorPicker" v-bind:style="{background: config.bubble_background}" @click="bubble_background_active = !bubble_background_active; color_scheme_active = false; bubble_text_color_active = false"  id="colorBackground"></div>
+                <div  v-bind:style="{background: config.bubble_background}" @click="bubble_background_active = true; color_scheme_active = false; bubble_text_color_active = false"  id="colorBackground"></div>
                 <p style="text-align:center; font-size: 10pt;">Bubble Background</p>
                 <div class="colorPicker">
-                    <v-color-picker v-show="bubble_background_active" :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
+                    <v-color-picker v-if="bubble_background_active" :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
                 </div>
             </v-col>
 
             <v-col cols="12" sm="4">
-                <div v-click-outside="hideColorPicker" v-bind:style="{background: config.bubble_text_color}" @click="bubble_text_color_active = !bubble_text_color_active; color_scheme_active = false; bubble_background_active = false"  id="colorBubble"></div>
+                <div v-bind:style="{background: config.bubble_text_color}" @click="bubble_text_color_active = !bubble_text_color_active; color_scheme_active = false; bubble_background_active = false"  id="colorBubble"></div>
                 <p style="text-align:center; font-size: 10pt;">Bubble Text Color</p>
                 <div class="colorPicker">
-                    <v-color-picker v-show="bubble_text_color_active" :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
+                    <v-color-picker v-if="bubble_text_color_active" :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
                 </div>
             </v-col>
         </v-row>
@@ -83,7 +83,6 @@ export default {
     },
     data(){
         return {
-            valid: true,
             config: {
                 svg: "",
                 bubble_image: "",
@@ -110,14 +109,14 @@ export default {
             
         },
         nextButtonActive(){
-            var isValid = this.$refs.form.validate();
-            if(isValid) this.$emit("nextBtnStatus", true, "chat-bubble")
-            else this.$emit("nextBtnStatus", false, "chat-bubble")
+            this.$emit("nextBtnStatus", true, "chat-bubble")
+            this.$emit("nextBtnStatus", false, "chat-bubble")
         },
         hideColorPicker(){
             this.color_scheme_active = false;
             this.bubble_background_active = false;
-            this.bubble_text_color_active = false;   
+            this.bubble_text_color_active = false;  
+            console.log("Clicked"); 
         }
     }
 }
@@ -127,7 +126,7 @@ export default {
 #colorScheme, #colorBackground, #colorBubble{
         background: beige;
         border-radius: 50%;
-        border: solid 1px;
+        border: solid 1px gray;
         height: 15pt;
         width: 15pt;
         margin: auto !important;
@@ -136,7 +135,7 @@ export default {
 
 .colorPicker{
     position: absolute;
-    z-index: 2;
+    z-index: 5;
     bottom: 180pt;
 }
 
