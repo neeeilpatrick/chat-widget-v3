@@ -1,7 +1,6 @@
 <template>
     <div> 
-        <v-card style="border-radius:0px;" class="mt-6 mr-10 ml-10 elavation-23">
-            {{generateCodeController}}
+        <v-card style="border-radius:0px;">
             <v-stepper v-model="stepElement" class="elevation-0" >
                 <v-card class="stepperHeaderCard">
                 <v-stepper-header>
@@ -10,7 +9,7 @@
                         :complete="stepElement > 1"
                         alt-labels
                         step="1"
-                        @click="swithStep(1)"
+                        @click="switchStep(1)"
                     >
                         <span class="stepperLabel">Features</span>
                     </v-stepper-step>
@@ -20,7 +19,7 @@
                         :complete="stepElement > 2"
                         alt-labels
                         step="2"
-                        @click="swithStep(2)"
+                        @click="switchStep(2)"
                     >
                     <span class="stepperLabel">Proactive Chat Bubble</span>
                         
@@ -31,7 +30,7 @@
                         :complete="stepElement > 3"
                         alt-labels
                         step="3"
-                        @click="swithStep(3);"
+                        @click="switchStep(3);"
                     >
                     <span class="stepperLabel">Widget</span>
                         
@@ -41,7 +40,7 @@
                     <v-stepper-step
                         alt-labels
                         step="4"
-                        @click="swithStep(4)"
+                        @click="switchStep(4)"
                     >
                     <span class="stepperLabel">Generate Code</span>
                         
@@ -55,28 +54,20 @@
                     <v-stepper-content step="2" >
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
-                                <v-card class="stepperCard elevation-0 elevation-2">
-                                    <ChatBubble 
-                                    ref="ChatBubble" 
-                                    @switchScreen="swithStep" 
-                                    @update="chatBubble" />
-                                </v-card>
-                            </v-col>
-
-                            <v-col cols="12" sm="4" >
-                                <v-card height="420pt" class="gray elevation-0 stepperCard lighten-1">
-                                    <v-card-text>
-                                        <h1 style="text-align:center;">This is view</h1>
-                                    </v-card-text>
-                                </v-card>
                                 <v-col cols="12" sm="12">
-                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="swithStep(1)">
+                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="switchStep(1)">
                                             Back
                                         </v-btn>
-                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="$refs.ChatBubble.validate();">
+                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="switchStep(3)">
                                             Next
                                         </v-btn>
                                 </v-col>
+                                <v-card class="stepperCard elevation-0 elevation-2">
+                                    <ChatBubble 
+                                    ref="ChatBubble" 
+                                    @switchScreen="switchStep" 
+                                    @update="chatBubble" />
+                                </v-card>
                             </v-col>
                         </v-row>
                     </v-stepper-content>
@@ -91,6 +82,13 @@
                             />
                         <v-row no-gutters>       
                             <v-col cols="12" sm="8">
+                                <v-row>
+                                    <v-col cols="12" sm="12">
+                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="switchStep(2)">
+                                            Next
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
                                 <v-card class="featureCard elevation-0 stepperCard">
                                     <Features  
                                         :location="selectedLocation"
@@ -99,24 +97,9 @@
                                         @delete="deleteFeatures" 
                                         @delete-location="deleteLocation"
                                         @updateList="updateList"
-                                        @switchScreen="swithStep"
+                                        @switchScreen="switchStep"
                                         @update="features" />
                                 </v-card>
-                            </v-col>
-
-                            <v-col cols="12" sm="4">
-                                <v-card height="420pt" class="gray elevation-0 stepperCard lighten-1">
-                                    <v-card-text>
-                                        <h1 style="text-align:center;">This is view</h1>
-                                    </v-card-text>
-                                </v-card>
-                                <v-row>
-                                    <v-col cols="12" sm="12">
-                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="swithStep(2)">
-                                            Next
-                                        </v-btn>
-                                    </v-col>
-                                </v-row>
                             </v-col>
                         </v-row>
                     </v-stepper-content>
@@ -124,28 +107,20 @@
                     <v-stepper-content step="3" >
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
-                                <v-card class="stepperCard elevation-0">
-                                    <Widget 
-                                    ref="widget" 
-                                    @switchScreen="swithStep" 
-                                    @update="widget" />
-                                </v-card>
-                            </v-col>
-
-                            <v-col cols="12" sm="4">
-                                <v-card height="420pt" class="gray elevation-0 stepperCard lighten-1">
-                                    <v-card-text>
-                                        <h1 style="text-align:center;">This is view</h1>
-                                    </v-card-text>
-                                </v-card>
                                 <v-col cols="12" sm="12">
-                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="swithStep(2)">
+                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="switchStep(2)">
                                             Back
                                         </v-btn>
-                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="$refs.widget.validate();">
+                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="switchStep(4)">
                                             Next
                                         </v-btn>
                                 </v-col>
+                                <v-card class="stepperCard elevation-0">
+                                    <Widget 
+                                    ref="widget" 
+                                    @switchScreen="switchStep" 
+                                    @update="widget" />
+                                </v-card>
                             </v-col>
                         </v-row>
                     </v-stepper-content>
@@ -153,19 +128,16 @@
                     <v-stepper-content step="4">
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
+                                <v-col cols="12" sm="12">
+                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="switchStep(3)">
+                                            Back
+                                        </v-btn>
+                                </v-col>
                                 <v-card height="auto" class="elevation-0 stepperCard">
                                     <GenerateCode  
-                                    @switchScreen="swithStep" 
+                                    @switchScreen="switchStep" 
                                     :loader="dialog"
                                     :config="generateCodeController" />
-                                </v-card>
-                            </v-col>
-
-                            <v-col cols="12" sm="4">
-                                <v-card height="445pt" class="gray mb-12 stepperCard lighten-1">
-                                    <v-card-text>
-                                        <h1 style="text-align:center;">This is view</h1>
-                                    </v-card-text>
                                 </v-card>
                             </v-col>
                         </v-row>
@@ -200,7 +172,6 @@
 .stepperCard{
     width: auto !important;
     margin-right: 25pt;
-    margin-top: 20pt;
     margin-left: 25pt;
     cursor: pointer;
     overflow-x: hidden;
@@ -251,7 +222,7 @@
 .v-stepper__content {
     box-shadow: none;
     width: auto  ;
-    height: auto;
+    height: 540pt;
     margin: 0;
     padding: 0;
     background-color: #dae1e7;
@@ -301,7 +272,7 @@ export default {
         }
     },
     methods: {
-        swithStep(id){
+        switchStep(id){
             this.stepElement = id;
 
             if(this.stepElement == 4){

@@ -12,6 +12,7 @@
                     class="mb-3"
                     prepend-inner-icon="mdi-file-image"
                     @click="config.image_url = ''"
+                    @change="validate"
                     v-if="config.image_style=='picture'"
                     v-model="config.image_url"
                     dense
@@ -24,6 +25,7 @@
                     class="mb-3"
                     prepend-inner-icon="mdi-format-line-style"
                     @click="config.header_line_1 = ''"
+                    @change="validate"
                     v-model="config.header_line_1"
                     dense
                     label="Header"
@@ -35,6 +37,7 @@
                     class="mb-3"
                     prepend-inner-icon="mdi-format-font"
                     @click="config.header_line_2 = ''"
+                    @change="validate"
                     v-model="config.header_line_2"
                     dense
                     label="Subheader"
@@ -46,6 +49,7 @@
                     class="mb-3"
                     prepend-inner-icon="mdi-android-messages"
                     @click="config.welcome_message = ''"
+                    @change="validate"
                     v-model="config.welcome_message"
                     dense
                     label="Welcome Message"

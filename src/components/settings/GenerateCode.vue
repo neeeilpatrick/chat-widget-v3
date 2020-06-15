@@ -9,10 +9,6 @@
           rows="15"
           row-height="25"
         ></v-textarea>
-
-        <v-btn class="mr-3" outlined  @click="$emit('switchScreen', 3)">
-            Back
-        </v-btn>
         <v-btn 
         outlined
         @click="show">Copy</v-btn>

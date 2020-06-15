@@ -9,6 +9,7 @@
             outlined
             v-model="config.svg" 
             label="Icon"
+            @change="validate"
             @click="config.svg = ''"
             placeholder="https://yourwebsite.com/chaticon.png">
         </v-text-field>
@@ -20,6 +21,7 @@
             outlined
             v-model="config.bubble_message" 
             label="Bubble Message"
+            @change="validate"
             @click="config.bubble_message = ''"
             placeholder="Hi there, have a question? Text us here.">
         </v-text-field>
@@ -31,6 +33,7 @@
             outlined
             v-model="config.bubble_image" 
             label="Bubble Image"
+            @change="validate"
             @click="config.bubble_image = ''"
             placeholder="https://msg.everypages.com/resources/profile.jpg">
         </v-text-field>
@@ -43,28 +46,67 @@
         </v-form>
 
         <v-row v-click-outside="hideColorPicker">
-            <v-col  cols="12" sm="4">
-                <div v-bind:style="{background: config.color_scheme}" @click="color_scheme_active = !color_scheme_active; bubble_background_active = false; bubble_text_color_active = false" id="colorScheme"></div>
-                <p style="text-align:center; font-size: 10pt;">Color Scheme</p>
-                <div class="colorPicker">
-                    <v-color-picker v-if="color_scheme_active" :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
-                </div>
+            <v-col cols="12" sm="4">
+                <v-card>
+                    <v-container fluid>
+                    <v-row>
+                        <v-col cols="12" sm="8">
+                            <p style="font-size: 10pt;">Color Scheme</p>
+                            <p style="font-size: 10pt;">{{config.color_scheme}}</p>
+                        </v-col>
+
+                        <v-col cols="12" sm="4">
+                            <div v-bind:style="{background: config.color_scheme}" @click="color_scheme_active = !color_scheme_active; bubble_background_active = false; bubble_text_color_active = false" id="colorScheme"></div>
+                        </v-col>
+                    </v-row>
+                    </v-container>
+                    
+                    <div class="colorPicker">
+                        <v-color-picker v-if="color_scheme_active" :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
+                    </div>
+                </v-card>
             </v-col>
 
             <v-col cols="12" sm="4">
-                <div  v-bind:style="{background: config.bubble_background}" @click="bubble_background_active = true; color_scheme_active = false; bubble_text_color_active = false"  id="colorBackground"></div>
-                <p style="text-align:center; font-size: 10pt;">Bubble Background</p>
-                <div class="colorPicker">
-                    <v-color-picker v-if="bubble_background_active" :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
-                </div>
+              <v-card>
+                  <v-container fluid>
+                  <v-row>
+                      <v-col cols="12" sm="8">
+                            <p style="font-size: 10pt;">Bubble Background</p>
+                            <p style="font-size: 10pt;"> {{config.bubble_background}}</p>
+                      </v-col>
+
+                      <v-col cols="12" sm="4">
+                          <div  v-bind:style="{background: config.bubble_background}" @click="bubble_background_active = true; color_scheme_active = false; bubble_text_color_active = false"  id="colorBackground"></div>
+                      </v-col>
+                  </v-row>   
+                  </v-container>
+
+                    <div class="colorPicker">
+                        <v-color-picker v-if="bubble_background_active" :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
+                    </div>
+              </v-card>
             </v-col>
 
             <v-col cols="12" sm="4">
-                <div v-bind:style="{background: config.bubble_text_color}" @click="bubble_text_color_active = !bubble_text_color_active; color_scheme_active = false; bubble_background_active = false"  id="colorBubble"></div>
-                <p style="text-align:center; font-size: 10pt;">Bubble Text Color</p>
-                <div class="colorPicker">
-                    <v-color-picker v-if="bubble_text_color_active" :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
-                </div>
+               <v-card>
+                   <v-container fluid>
+                   <v-row>
+                       <v-col cols="12" sm="8">
+                            <p style="font-size: 10pt;">Bubble Text Color</p>
+                            <p style="font-size: 10pt;">{{config.bubble_text_color}}</p>
+                       </v-col>
+
+                       <v-col cols="12" sm="4">
+                            <div v-bind:style="{background: config.bubble_text_color}" @click="bubble_text_color_active = !bubble_text_color_active; color_scheme_active = false; bubble_background_active = false"  id="colorBubble"></div>
+                       </v-col>
+                   </v-row>
+                   </v-container>
+
+                    <div class="colorPicker">
+                        <v-color-picker v-if="bubble_text_color_active" :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
+                    </div>
+               </v-card>
             </v-col>
         </v-row>
        
@@ -119,18 +161,22 @@ export default {
         border: solid 1px gray;
         height: 15pt;
         width: 15pt;
-        margin: auto !important;
+        margin-top: 5pt !important;
 
 }
 
 .colorPicker{
     position: absolute;
     z-index: 5;
-    bottom: 180pt;
+    bottom: 30pt;
 }
 
 .v-icon.v-icon{
     font-size: 15px !important;
+}
+
+.v-application p{
+    margin: 0pt !important;
 }
 
 </style>

@@ -12,6 +12,7 @@
                         v-if="features.length!=0"
                         class="float-right mt-1 mr-3"
                         small
+                        icon
                         outlined @click="dialog=!dialog">
                             <v-icon>mdi-pencil-box</v-icon>
                         </v-btn>
@@ -19,6 +20,7 @@
                         v-if="features.length!=0"
                         class="float-right mr-3 mt-1"
                         small
+                        icon
                         color="red"
                         outlined
                         @click="deleteLocation"

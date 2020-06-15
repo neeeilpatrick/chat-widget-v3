@@ -19,16 +19,19 @@ export default {
 
 <style>
 .v-content__wrap{
-   
-    width: auto  ;
-    height: auto;
-    margin-top: 200px;
-    margin: 0;
-    padding: 0;
     background-color: #1b1b2f;
 }
 
 .theme--light.v-input input, .theme--light.v-input textarea{
     color: gray;
+}
+
+.v-text-field{
+    font-size: 10pt !important;
+    padding: 0pt !important;
+}
+
+input[type=text]{
+  padding: 0pt !important;
 }
 </style>
