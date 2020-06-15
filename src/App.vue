@@ -19,7 +19,7 @@ export default {
 
 <style>
 .v-content__wrap{
-    background-color: #1b1b2f;
+    background-color: #dae1e7;
 }
 
 .theme--light.v-input input, .theme--light.v-input textarea{

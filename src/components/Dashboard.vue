@@ -1,6 +1,6 @@
 <template>
     <div> 
-        <v-card style="border-radius:0px;">
+        <v-card style="border-radius:0px; box-shadow: none !important; background: #dae1e7;">
             <v-stepper v-model="stepElement" class="elevation-0" >
                 <v-card class="stepperHeaderCard">
                 <v-stepper-header>
@@ -222,7 +222,7 @@
 .v-stepper__content {
     box-shadow: none;
     width: auto  ;
-    height: 540pt;
+    height: 100vh;
     margin: 0;
     padding: 0;
     background-color: #dae1e7;
