@@ -1,5 +1,5 @@
 <template>
-    <v-container class="mt-5 pl-12 pr-12" fluid>
+    <v-container class="mt-12 pl-12 pr-12" fluid>
         <v-form lazy-validation v-model="valid" ref="form">
             <v-radio-group
                      dense v-model="config.image_style" row>

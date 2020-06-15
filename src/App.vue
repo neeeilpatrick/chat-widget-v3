@@ -34,4 +34,9 @@ export default {
 input[type=text]{
   padding: 0pt !important;
 }
+
+.v-application .d-flex {
+    display: flex !important;
+    padding: 0px !important;
+}
 </style>

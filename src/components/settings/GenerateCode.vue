@@ -1,5 +1,5 @@
 <template>
-    <v-container class="mt-5" fluid>
+    <v-container class="mt-5 pb-12" fluid>
         <v-textarea
             class="generatedCode"
           label="Generated Code"

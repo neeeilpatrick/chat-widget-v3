@@ -4,7 +4,7 @@
 
                     <v-col class="ml-3" cols="12" sm="8">
                         {{ (location!=null ? location.name : "")}}<br>
-                        <span style="font-size:12px;">Location ID: {{ (location!=null ? location.id : "")}}</span>
+                        <span style="font-size:12px;">{{ (location!=null ? location.id : "")}}</span>
                     </v-col>
 
                     <v-col class="ml-10" cols="12" sm="3">
@@ -52,7 +52,7 @@
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                    <v-btn @click="add" color="blue darken-4" outlined class="mt-1">Add</v-btn>
+                    <v-btn @click="add" color="blue darken-4" style="height: 40px;" outlined>Add</v-btn>
                 </v-col>
             </v-row>
 

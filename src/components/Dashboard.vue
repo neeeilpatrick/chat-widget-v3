@@ -55,10 +55,10 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-col cols="12" sm="12">
-                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="switchStep(1)">
+                                        <v-btn color="#142850" class="ml-5 mt-3" outlined  @click="switchStep(1)">
                                             Back
                                         </v-btn>
-                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="switchStep(3)">
+                                        <v-btn color="#142850" class="float-right mr-5 mt-3" outlined @click="switchStep(3)">
                                             Next
                                         </v-btn>
                                 </v-col>
@@ -108,10 +108,10 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-col cols="12" sm="12">
-                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="switchStep(2)">
+                                        <v-btn color="#142850" class="ml-5 mt-3" outlined  @click="switchStep(2)">
                                             Back
                                         </v-btn>
-                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="switchStep(4)">
+                                        <v-btn color="#142850" class="float-right mr-5 mt-3" outlined @click="switchStep(4)">
                                             Next
                                         </v-btn>
                                 </v-col>
@@ -129,7 +129,7 @@
                         <v-row no-gutters>
                             <v-col cols="12" sm="8">
                                 <v-col cols="12" sm="12">
-                                        <v-btn color="#142850" class="ml-10 mt-3" outlined  @click="switchStep(3)">
+                                        <v-btn color="#142850" class="ml-5 mt-3" outlined  @click="switchStep(3)">
                                             Back
                                         </v-btn>
                                 </v-col>
@@ -176,12 +176,14 @@
     cursor: pointer;
     overflow-x: hidden;
     overflow-y: auto;
-    height: 450pt;
+    height: 100vh !important;
     margin-bottom: 10px;
 }
 
 .featureCard{
+    height: 100vh;
     margin-left: 200pt;
+    padding-bottom: 150pt;
 }
 
 .stepperCard::-webkit-scrollbar {
