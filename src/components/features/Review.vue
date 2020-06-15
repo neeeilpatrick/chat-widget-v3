@@ -8,7 +8,6 @@
                     v-model="params.status"
                     :items="statusItems"
                     label="Status"
-                    :rules="rules.status"
                     outlined
                     dense
                     required
@@ -16,9 +15,10 @@
                 </v-col>
 
                 <v-text-field
+                v-if="params.status == 'Enable'"
                 @change="add"
+                @click="params.button_text = ''"
                 label="Button Text"
-                :rules="rules.button_text"
                 v-model="params.button_text"
                 dense
                 outlined
@@ -27,9 +27,10 @@
                 </v-text-field>
 
                 <v-textarea
+                v-if="params.status == 'Enable'"
                 @change="add"
+                @click="params.responses.initial = ''"
                 label="Review Message"
-                :rules="rules.initial"
                 v-model="params.responses.initial"
                 dense
                 outlined
@@ -37,13 +38,13 @@
                 required
                 ></v-textarea>
 
-                <v-card  v-for="(link, index) in params.links" :key="link.id">
-                    <v-container fluid >
+                <v-card v-for="(link, index) in params.links" :key="link.id">
+                    <v-container v-if="params.status == 'Enable'" fluid >
                         <h4>Links</h4>
                         <v-text-field
                         @change="add"
+                        @click="link.name = ''"
                         :label="'Name ' + (index+1)"
-                        :rules="rules.linksName"
                         v-model="link.name"
                         dense
                         outlined
@@ -53,8 +54,8 @@
 
                         <v-text-field
                         @change="add"
+                        @click="link.thumbnail = ''"
                         :label="'Thumbnail ' + (index+1)"
-                        :rules="rules.linksThumbnail"
                         v-model="link.thumbnail"
                         dense
                         outlined
@@ -64,8 +65,8 @@
 
                         <v-text-field
                         @change="add"
+                        @click="link.link = ''"
                         :label="'Link' + (index+1)"
-                        :rules="rules.linksLink"
                         v-model="link.link"
                         dense
                         outlined
@@ -76,7 +77,7 @@
                         <v-btn v-if="link.removable" @click="params.links.splice(index, 1)" outlined color="red">Remove Link</v-btn>
                     </v-container>
                 </v-card>
-                <v-btn class="mt-5" @click="addLink()" outlined color="blue">Add Link</v-btn>
+                <v-btn v-if="params.status == 'Enable'" class="mt-5" @click="addLink()" outlined color="blue">Add Link</v-btn>
             </v-form>
       </v-container>
     </div>
@@ -103,14 +104,6 @@ export default {
                     }
                 ]
             },
-            rules: {
-                status: [v => !!v || 'Status is required'],
-                button_text: [v => !!v || 'Button Text is required'],
-                initial: [v => !!v || 'Review Message is required'],
-                linksName: [v => !!v || 'Review Message is required'],
-                linksThumbnail: [v => !!v || 'Review Message is required'],
-                linksLink: [v => !!v || 'Review Message is required'],
-            }
         }
     },
     mounted(){
@@ -120,11 +113,15 @@ export default {
     },
     methods: {
         add(){
-            var isValid = this.$refs.form.validate();
+            if(this.params.button_text.length <= 0) this.params.button_text = "Leave a review";
+            if(this.params.responses.initial.length <= 0) this.params.responses.initial = "We always aim to help everyone. Please let us know if we fell short, so we can send your concern straight to the top.";
+            if(this.params.links[0].name.length <= 0) this.params.links[0].name = "Google";
+            if(this.params.links[0].thumbnail.length <= 0) this.params.links[0].thumbnail = "https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-512.png";
+            if(this.params.links[0].link.length <= 0) this.params.links[0].link = "https://google.com";
+
             this.config.params = this.params;
-            if(isValid){
-                this.$emit("updateReview", this.config, this.id);
-            }
+            this.$emit("updateReview", this.config, this.id);
+            
         },
         addLink(){
             this.params.links.push({name: null, thumbnail: null,link: null, removable: true});
@@ -138,9 +135,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.v-icon.v-ivon{
-    font-size: 15px !important;
-}
-</style>

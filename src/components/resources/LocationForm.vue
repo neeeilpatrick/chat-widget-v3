@@ -98,7 +98,49 @@ export default {
                 id: "",
                 name: "",
                 timezone: "America/Los_Angeles",
-                businessHours: false
+                businessHours: false,
+                features: [
+                    {
+                        type: 'Chat',
+                        removable: false,
+                        params: {
+                            button_text: "Connect with us!",
+                            phone_number: "(800) 555-1212",
+                            responses: {
+                                initial: "Please enter your information and we'll send you a text!",
+                                confirmation: {
+                                    away: "Someone will text you when we get back in",
+                                    here: "Someone will reach you shortly",
+                                    default: "We received your message."
+                                },
+                                prefix: {
+                                    here: "WebChatHere",
+                                    away: "WebChatAway",
+                                    status: "Enable"
+                                }
+                            }
+                        },
+                    },
+                    {
+                        type: 'Review',
+                        removable: false,
+                        params:{
+                            status: "Enable",
+                            button_text: "Leave a review",
+                            responses: {
+                                initial: "We always aim to help everyone. Please let us know if we fell short, so we can send your concern straight to the top. "
+                            },
+                            links: [
+                                {
+                                    name: "Google",
+                                    thumbnail: "https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-512.png",
+                                    link: "https://google.com",
+                                    removable: false
+                                }
+                            ]
+                        },
+                    }
+                ]
             },
             days: {},
             daysDefault: {
@@ -184,8 +226,7 @@ export default {
 
         isOpen(value){
             this.dialog = value;
-            
-            console.log(this.location);
+
             if(value && this.location!=null){
                 console.log(this.location);
                 this.isEdit = true;
@@ -272,7 +313,49 @@ export default {
                     address: "",
                     id: "",
                     businessHours: false,
-                    name: ""
+                    name: "",
+                    features: [
+                        {
+                            type: 'Chat',
+                            removable: false,
+                            params: {
+                                button_text: "Connect with us!",
+                                phone_number: "(800) 555-1212",
+                                responses: {
+                                    initial: "Please enter your information and we'll send you a text!",
+                                    confirmation: {
+                                        away: "Someone will text you when we get back in",
+                                        here: "Someone will reach you shortly",
+                                        default: "We received your message."
+                                    },
+                                    prefix: {
+                                        here: "WebChatHere",
+                                        away: "WebChatAway",
+                                        status: "Enable"
+                                    }
+                                }
+                            },
+                        },
+                        {
+                            type: 'Review',
+                            removable: false,
+                            params:{
+                                status: "Enable",
+                                button_text: "Leave a review",
+                                responses: {
+                                    initial: "We always aim to help everyone. Please let us know if we fell short, so we can send your concern straight to the top. "
+                                },
+                                links: [
+                                    {
+                                        name: "Google",
+                                        thumbnail: "https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-512.png",
+                                        link: "https://google.com",
+                                        removable: false
+                                    }
+                                ]
+                            },
+                        }
+                    ]
                 }
 
                 this.isBusinessHours = false;

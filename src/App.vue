@@ -27,4 +27,8 @@ export default {
     padding: 0;
     background-color: #1b1b2f;
 }
+
+.theme--light.v-input input, .theme--light.v-input textarea{
+    color: gray;
+}
 </style>

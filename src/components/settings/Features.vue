@@ -114,7 +114,7 @@ import Call from '../features/Call';
 import Review from '../features/Review';
 
 export default {
-    props: ['data', 'location', 'locations'],
+    props: ['featuresData', 'location', 'locations'],
     components: {
         CustomLink,
         Chat,
@@ -122,9 +122,6 @@ export default {
         Review,
         LocationForm
     },
-    mounted(){
-        this.$emit("update", this.features);
-    }, 
     data(){
         return {
             selectedType:  null,
@@ -147,16 +144,17 @@ export default {
             features: [],
         }
     },
-    watch:{
-        data: {
-            deep: true,
-             handler(data){
-                var _self = this;
-                _self.features = [];
-                data.forEach((value, index) => {
-                       _self.$set(_self.features, index, value );
-                });
-            }
+    watch: {
+        location: function() {
+            var _self = this;
+            _self.features = [];
+
+            this.$nextTick(function () {
+                _self.features = _self.featuresData;
+                // this.featuresData.forEach((value, index) => {
+                //     _self.$set(_self.features, index, value );
+                // }); 
+            });
         }
     },
     methods: {
@@ -164,11 +162,11 @@ export default {
             this.$emit("delete-location", this.location.id);
         },
         add(){
-            if(this.selectedType != null) this.features.push({type: this.selectedType, removable:true});    
+            if(this.selectedType != null) this.features.push({type: this.selectedType, removable:true});
         },
         deleteFeature(id){
-            this.$emit("delete", id);
             this.features.splice(id, 1); 
+            this.$emit("delete", this.features, this.location.id);
 
             this.renderComponent = false;
             this.$nextTick(() => {
@@ -178,7 +176,8 @@ export default {
         },
         updateFeature(config, index){
             this.features[index] = config;
-            this.$emit("update", config, index);
+            console.log(this.features[index]);
+            this.$emit("update", this.features[index], index, this.location.id);
         },
 
         updateLocation(location){
@@ -195,9 +194,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.v-icon.v-icon{
-    font-size: 15px !important;
-}
-</style>
 

@@ -2,7 +2,7 @@
     <v-container class="mt-5 pl-12 pr-12" fluid>
         <v-form lazy-validation v-model="valid" ref="form">
             <v-radio-group
-                    @change="nextButtonActive" dense v-model="config.image_style" row>
+                     dense v-model="config.image_style" row>
                 <v-radio label="Picture" value="picture"></v-radio>
                 <v-radio label="Icon" value="icon"></v-radio>
                 <v-radio label="No Image" value="no-image"></v-radio>
@@ -11,7 +11,6 @@
             <v-text-field
                     class="mb-3"
                     prepend-inner-icon="mdi-file-image"
-                    @change="nextButtonActive"
                     @click="config.image_url = ''"
                     v-if="config.image_style=='picture'"
                     v-model="config.image_url"
@@ -24,7 +23,6 @@
             <v-text-field
                     class="mb-3"
                     prepend-inner-icon="mdi-format-line-style"
-                    @change="nextButtonActive" 
                     @click="config.header_line_1 = ''"
                     v-model="config.header_line_1"
                     dense
@@ -36,7 +34,6 @@
             <v-text-field
                     class="mb-3"
                     prepend-inner-icon="mdi-format-font"
-                    @change="nextButtonActive"
                     @click="config.header_line_2 = ''"
                     v-model="config.header_line_2"
                     dense
@@ -48,7 +45,6 @@
             <v-text-field
                     class="mb-3"
                     prepend-inner-icon="mdi-android-messages"
-                    @change="nextButtonActive" 
                     @click="config.welcome_message = ''"
                     v-model="config.welcome_message"
                     dense
@@ -101,7 +97,6 @@ export default {
     },
     methods: {
         validate(){
-            var isValid = this.$refs.form.validate();
             if(this.config.image_style == 'picture')
             if(this.config.image_url.length <= 0) this.config.image_url = 'https://msg.everypages.com/resources/profile.jpg';
             
@@ -115,13 +110,8 @@ export default {
             var poweredByInterpolated = `<a href='${this.powered_by_link}' target='_blank'>${this.powered_by_title}</a>`;
             this.config.powered_by = poweredByInterpolated;
 
-            if(isValid){
-                this.$emit("update", this.config);
-                this.$emit('switchScreen', 4)
-            }
-        },
-        nextButtonActive(){
-            this.$emit("nextBtnStatus", true, "widget")
+            this.$emit("update", this.config);
+            
         },
     }
 }

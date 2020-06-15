@@ -1,6 +1,7 @@
 <template>
     <div> 
         <v-card style="border-radius:0px;" class="mt-6 mr-10 ml-10 elavation-23">
+            {{generateCodeController}}
             <v-stepper v-model="stepElement" class="elevation-0" >
                 <v-card class="stepperHeaderCard">
                 <v-stepper-header>
@@ -30,7 +31,7 @@
                         :complete="stepElement > 3"
                         alt-labels
                         step="3"
-                        @click="$refs.ChatBubble.validate();"
+                        @click="swithStep(3);"
                     >
                     <span class="stepperLabel">Widget</span>
                         
@@ -40,7 +41,7 @@
                     <v-stepper-step
                         alt-labels
                         step="4"
-                        @click="$refs.widget.validate();"
+                        @click="swithStep(4)"
                     >
                     <span class="stepperLabel">Generate Code</span>
                         
@@ -58,7 +59,6 @@
                                     <ChatBubble 
                                     ref="ChatBubble" 
                                     @switchScreen="swithStep" 
-                                    @nextBtnStatus="nextButtonStatus" 
                                     @update="chatBubble" />
                                 </v-card>
                             </v-col>
@@ -94,8 +94,8 @@
                                 <v-card class="featureCard elevation-0 stepperCard">
                                     <Features  
                                         :location="selectedLocation"
+                                        :featuresData="selectedLocation.features"
                                         :locations="locations"
-                                        :data="featuresConfig" 
                                         @delete="deleteFeatures" 
                                         @delete-location="deleteLocation"
                                         @updateList="updateList"
@@ -112,7 +112,7 @@
                                 </v-card>
                                 <v-row>
                                     <v-col cols="12" sm="12">
-                                        <v-btn color="#142850" :disabled="featureStepBtn" class="float-right mr-8 mt-3" outlined @click="swithStep(2)">
+                                        <v-btn color="#142850" class="float-right mr-8 mt-3" outlined @click="swithStep(2)">
                                             Next
                                         </v-btn>
                                     </v-col>
@@ -127,7 +127,6 @@
                                 <v-card class="stepperCard elevation-0">
                                     <Widget 
                                     ref="widget" 
-                                    @nextBtnStatus="nextButtonStatus" 
                                     @switchScreen="swithStep" 
                                     @update="widget" />
                                 </v-card>
@@ -303,17 +302,16 @@ export default {
     },
     methods: {
         swithStep(id){
-            if(id == 2){ if(!this.featureStepBtn) this.stepElement = id;
-            }else this.stepElement = id;
+            this.stepElement = id;
 
             if(this.stepElement == 4){
                 this.dialog = true;
-                setTimeout(() => { this.dialog = false; }, 750);
+                setTimeout(() => { 
+                    this.dialog = false; 
+                    this.$refs.widget.validate();
+                    this.$refs.ChatBubble.validate();
+                }, 750);
             }
-        },
-        nextButtonStatus(status, type){
-            if(type == "chat-bubble") this.nextBtnChatBubble = status;
-            if(type == "widget") this.nextBtnWidget = status;
         },
         deleteLocation(id){
             var _self= this;
@@ -331,27 +329,25 @@ export default {
         widget(config){
             this.widgetConfig = config;
         },
-        features(config, id){
+        features(config, id, locationId){
+            var index = this.locations.findIndex((value => value.id == locationId));
+
             if(config.type == "Review")
-            if(config.params.status == "Enable") this.$set(this.featuresConfig, id, config); 
-            else this.$set(this.featuresConfig, id, null); 
-            else this.$set(this.featuresConfig, id, config);
+            if(config.params.status == "Enable") this.$set(this.locations[index].features, id, config); 
+            else this.$set(this.locations[index].features, id,  { type: 'Review', removable: false }); 
+            else this.$set(this.locations[index].features, id, config);
 
-            this.updateConfig(this.selectedLocation);
-        },
-        updateConfig(location){
+            var filtered = this.locations[index].features.filter(function (el) { return el != null; });
+            this.$nextTick(function () {
+                console.log("Data Changed");
+                this.locations[index].features = filtered;
+            });
             
-            var id = this.locations.findIndex((value => value.id == location.id));
-            var filtered = this.featuresConfig.filter(function (el) { return el != null; });
-            
-            if(typeof this.locations[id].features=='undefined') this.locations[id].features = null;
-            this.locations[id].features = filtered;
 
-
-            if(typeof this.locations[id].features != "undefined") this.featureStepBtn = false;
         },
-        deleteFeatures(id){
-            this.featuresConfig.splice(id, 1);
+        deleteFeatures(config, locationId){
+            var index = this.locations.findIndex((value => value.id == locationId));
+            this.locations[index].features = config;
         },
         addNewLocation(location){
             this.locations.push(location);
@@ -372,20 +368,17 @@ export default {
         showLocation(location){
             this.selectedLocation = location;
 
-            if(typeof this.selectedLocation.features != "undefined"){
-                this.featuresConfig = this.selectedLocation.features;
-            }
-            else{
-                this.featuresConfig = [
-                {
-                    type: 'Chat',
-                    removable: false
-                    
-                },
-                {
-                    type: 'Review',
-                    removable: false,
-                }]
+            if(typeof this.selectedLocation.features == "undefined"){
+                this.selectedLocation.features = [
+                    {
+                        type: 'Chat',
+                        removable: false
+                    },
+                    {
+                        type: 'Review',
+                        removable: false,
+                    }
+                ]
             }
         }
         

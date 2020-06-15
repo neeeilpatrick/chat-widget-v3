@@ -9,7 +9,6 @@
             outlined
             v-model="config.svg" 
             label="Icon"
-            @change="nextButtonActive" 
             @click="config.svg = ''"
             placeholder="https://yourwebsite.com/chaticon.png">
         </v-text-field>
@@ -21,7 +20,6 @@
             outlined
             v-model="config.bubble_message" 
             label="Bubble Message"
-            @change="nextButtonActive" 
             @click="config.bubble_message = ''"
             placeholder="Hi there, have a question? Text us here.">
         </v-text-field>
@@ -33,7 +31,6 @@
             outlined
             v-model="config.bubble_image" 
             label="Bubble Image"
-            @change="nextButtonActive" 
             @click="config.bubble_image = ''"
             placeholder="https://msg.everypages.com/resources/profile.jpg">
         </v-text-field>
@@ -104,19 +101,12 @@ export default {
             if(this.config.bubble_message.length <=0) this.config.bubble_message = 'Hi there, have a question? Text us here.';
             if(this.config.bubble_image.length <=0) this.config.bubble_image = 'https://msg.everypages.com/resources/profile.jpg';
             
-            this.$emit("update", this.config);
-            this.$emit('switchScreen', 3);
-            
-        },
-        nextButtonActive(){
-            this.$emit("nextBtnStatus", true, "chat-bubble")
-            this.$emit("nextBtnStatus", false, "chat-bubble")
+            this.$emit("update", this.config);      
         },
         hideColorPicker(){
             this.color_scheme_active = false;
             this.bubble_background_active = false;
             this.bubble_text_color_active = false;  
-            console.log("Clicked"); 
         }
     }
 }

@@ -14,8 +14,6 @@
             Back
         </v-btn>
         <v-btn 
-        :disabled="dialog"
-        :loading="dialog"
         outlined
         @click="show">Copy</v-btn>
         
