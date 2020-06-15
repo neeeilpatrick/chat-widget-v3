@@ -243,7 +243,6 @@ import Widget from './../components/settings/Widget';
 import GenerateCode from './../components/settings/GenerateCode'
 import Navbar from './../components/Navbar';
 
-
 export default {
     components: {
         ChatBubble,
@@ -254,6 +253,7 @@ export default {
     },
     data(){
         return{
+            widgetInitiated: false,
             featureStepBtn: true,
             dialog: false,
             stepElement: 1,
@@ -264,10 +264,33 @@ export default {
             locations: []
         }
     },
-    
+
+    mounted(){
+        
+                console.log(window.$);
+        if(this.widgetInitiated==false){
+            this.widgetInitiated = true;
+                window.$(`#hl_text-widget, #hl_text-widget--btn`).remove();
+            PROVISION.init({...this.chatBubbleConfig, ...this.widgetConfig, locations: this.locations});
+        }
+        
+    },
+
     computed: {
         generateCodeController(){
-            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig, locations: this.locations}
+            var jsonData = {...this.chatBubbleConfig, ...this.widgetConfig, locations: this.locations};
+            console.log("CHANGED");
+            /*global PROVISION */
+            // $("#hl_text-widget, #hl_text-widget--btn").remove();
+            if(this.widgetInitiated==true){
+                // if(document.querySelector("#hl_text-widget")){
+                //     document.querySelector("#hl_text-widget").remove();
+                //     document.querySelector("#hl_text-widget--btn").remove();
+                // }
+                window.$(`#hl_text-widget, #hl_text-widget--btn`).remove();
+                PROVISION.refresh(jsonData);
+            }
+
             return jsonData;
         }
     },
@@ -310,7 +333,6 @@ export default {
 
             var filtered = this.locations[index].features.filter(function (el) { return el != null; });
             this.$nextTick(function () {
-                console.log("Data Changed");
                 this.locations[index].features = filtered;
             });
             

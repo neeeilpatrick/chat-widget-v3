@@ -89,6 +89,10 @@ export default {
         selectLocation(location){
             
             this.selected = location.id;
+            console.log(location.id);
+            window.$(".hl_location").each(function(){
+                if(window.$(this).data("id")==location.id) window.$(this).click();
+            });
             this.$emit("display", location);
         }, 
 
