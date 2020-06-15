@@ -4,7 +4,7 @@
 
                     <v-col class="ml-3" cols="12" sm="8">
                         {{ (location!=null ? location.name : "")}}<br>
-                        <span style="font-size:12px;">{{ (location!=null ? location.id : "")}}</span>
+                        <span style="font-size:12px;">Location ID: {{ (location!=null ? location.id : "")}}</span>
                     </v-col>
 
                     <v-col class="ml-10" cols="12" sm="3">
@@ -13,8 +13,8 @@
                         class="float-right mt-1 mr-3"
                         small
                         icon
-                        outlined @click="dialog=!dialog">
-                            <v-icon>mdi-pencil-box</v-icon>
+                        @click="dialog=!dialog">
+                            <v-icon>mdi-lead-pencil</v-icon>
                         </v-btn>
                          <v-btn 
                         v-if="features.length!=0"
@@ -22,7 +22,6 @@
                         small
                         icon
                         color="red"
-                        outlined
                         @click="deleteLocation"
                         >
                             <v-icon>mdi-trash-can</v-icon>

@@ -14,9 +14,9 @@
           ></v-text-field>
 
           <v-text-field
-          prepend-inner-icon="mdi-link"
+          prepend-inner-icon="mdi-phone"
           v-model="params.phone_number"
-            label="Link"
+            label="Phone Number"
             @change="add"
             :rules="rules.phone_number"
             dense

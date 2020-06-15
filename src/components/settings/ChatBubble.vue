@@ -62,7 +62,7 @@
                     </v-container>
                     
                     <div class="colorPicker">
-                        <v-color-picker v-if="color_scheme_active" :mode.sync="hex" v-model="config.color_scheme"></v-color-picker>
+                        <v-color-picker v-if="color_scheme_active" v-model="config.color_scheme"></v-color-picker>
                     </div>
                 </v-card>
             </v-col>
@@ -83,7 +83,7 @@
                   </v-container>
 
                     <div class="colorPicker">
-                        <v-color-picker v-if="bubble_background_active" :mode.sync="hex" v-model="config.bubble_background"></v-color-picker>
+                        <v-color-picker v-if="bubble_background_active" v-model="config.bubble_background"></v-color-picker>
                     </div>
               </v-card>
             </v-col>
@@ -104,7 +104,7 @@
                    </v-container>
 
                     <div class="colorPicker">
-                        <v-color-picker v-if="bubble_text_color_active" :mode.sync="hex" v-model="config.bubble_text_color"></v-color-picker>
+                        <v-color-picker v-if="bubble_text_color_active" v-model="config.bubble_text_color"></v-color-picker>
                     </div>
                </v-card>
             </v-col>
@@ -159,9 +159,10 @@ export default {
         background: beige;
         border-radius: 50%;
         border: solid 1px gray;
-        height: 15pt;
-        width: 15pt;
+        height: 20pt;
+        width: 20pt;
         margin-top: 5pt !important;
+
 
 }
 
