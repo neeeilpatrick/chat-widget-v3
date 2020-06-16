@@ -146,17 +146,14 @@ export default {
         }
     },
     watch: {
-        location: function() {
+        location() {
             var _self = this;
             _self.features = [];
 
             this.$nextTick(function () {
                 _self.features = _self.featuresData;
-                // this.featuresData.forEach((value, index) => {
-                //     _self.$set(_self.features, index, value );
-                // }); 
             });
-        }
+        },
     },
     methods: {
         deleteLocation(){

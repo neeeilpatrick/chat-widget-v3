@@ -3,6 +3,7 @@
         <v-navigation-drawer
         class="elavation-0"
         absolute
+        permanent
         >
             <div v-if="locations.length==0" class="no-location">No Locations</div>
             <div v-if="locations.length!=0" >
@@ -30,6 +31,12 @@
                 class="add-location">
                     <v-icon class="ma-1" left>mdi-map-marker-plus</v-icon>Add Location
             </v-btn>
+
+             <template v-slot:append>
+                <div style="margin-bottom: 60pt !important;" class="ml-12 pa-2">
+                    <v-btn @click="$emit('show', true)" outlined>Import Code</v-btn>
+                </div>
+            </template>
             
         </v-navigation-drawer>
 

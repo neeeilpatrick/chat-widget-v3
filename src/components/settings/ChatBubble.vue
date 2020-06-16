@@ -117,6 +117,7 @@
 import ClickOutside from 'vue-click-outside' 
 
 export default {
+    props: ['importConfig'],
     directives: {
         ClickOutside
     },
@@ -137,6 +138,13 @@ export default {
             bubble_text_color_active: false,
         }
     },
+    watch: {
+        importConfig(){
+            if(typeof this.importConfig != "undefined"){
+                this.config = this.importConfig;
+            }
+        }
+    },  
     methods:{
         validate(){
             if(this.config.svg.length <=0) this.config.svg = 'https://yourwebsite.com/chaticon.png';

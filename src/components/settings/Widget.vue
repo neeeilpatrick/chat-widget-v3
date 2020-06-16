@@ -82,6 +82,7 @@
 
 <script>
 export default {
+    props: ['importConfig'],
     data(){
         return {
             valid: true,
@@ -97,6 +98,13 @@ export default {
             },
             powered_by_title: "",
             powered_by_link: "",
+        }
+    },
+    watch: {
+        importConfig(){
+            if(typeof this.importConfig != "undefined"){
+                this.config = this.importConfig;
+            }
         }
     },
     methods: {

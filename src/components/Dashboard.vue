@@ -64,6 +64,7 @@
                                 </v-col>
                                 <v-card class="stepperCard elevation-0 elevation-2">
                                     <ChatBubble 
+                                    :importConfig="chatBubbleConfig"
                                     ref="ChatBubble" 
                                     @switchScreen="switchStep" 
                                     @update="chatBubble" />
@@ -79,6 +80,7 @@
                             :locations="locations" 
                             @update="updateLocation" 
                             @display="showLocation"
+                            @show="showImportDialog"
                             />
                         <v-row no-gutters>       
                             <v-col cols="12" sm="8">
@@ -118,7 +120,8 @@
                                 <v-card class="stepperCard elevation-0">
                                     <Widget 
                                     ref="widget" 
-                                    @switchScreen="switchStep" 
+                                    @switchScreen="switchStep"
+                                    :importConfig="widgetConfig"
                                     @update="widget" />
                                 </v-card>
                             </v-col>
@@ -145,6 +148,29 @@
                 </v-stepper-items>
             </v-stepper>
         </v-card>
+        
+        
+        <v-dialog
+            v-model="importCodeDialog"
+            persistent
+            width="600"
+        >
+            <v-card>
+               <v-container fluid>
+                    <v-textarea
+                    label="Import Code"
+                    v-model="importJsonCode"
+                    style="height: 445px;"
+                    outlined
+                    rows="15"
+                    row-height="25"
+                    ></v-textarea>
+
+                    <v-btn @click="importCode" outlined>Import</v-btn>
+               </v-container>
+            </v-card>
+        </v-dialog>
+
          <v-dialog
         v-model="dialog"
         hide-overlay
@@ -256,14 +282,15 @@ export default {
     },
     data(){
         return{
-            featureStepBtn: true,
+            importCodeDialog: false,
             dialog: false,
             stepElement: 1,
             chatBubbleConfig: {},
             widgetConfig: {},
             selectedLocation: {},
             featuresConfig: [],
-            locations: []
+            locations: [],
+            importJsonCode: ''
         }
     },
     
@@ -285,6 +312,49 @@ export default {
                     this.$refs.ChatBubble.validate();
                 }, 750);
             }
+        },
+        showImportDialog(status){
+            this.importCodeDialog = status;
+        },
+        retrieve(data){
+            var result = data.substr(data.indexOf("config")+6, data.length);
+            result = result.substr(result.indexOf("{"), result.length);
+            if(result.indexOf("/script")!=-1)result = result.substr(0, result.indexOf("/script")-1);
+
+            result = result.substr(0, result.lastIndexOf("}")+1);
+            eval(`result = ${result}`);
+            return result;
+        },
+        importCode(){
+            var importedCode = this.retrieve(this.importJsonCode);
+            this.chatBubbleConfig = {
+                svg: importedCode.svg,
+                bubble_image: importedCode.bubble_image,
+                bubble_message: importedCode.bubble_message,
+                bubble_on_mobile: importedCode.bubble_on_mobile,
+                color_scheme: importedCode.color_scheme,
+                bubble_background: importedCode.bubble_background, 
+                bubble_text_color: importedCode.bubble_text_color,
+            }
+
+            this.widgetConfig = {
+                image_style: importedCode.image_style,
+                bubble: importedCode.bubble,
+                image_url: importedCode.image_url,
+                header_line_1: importedCode.header_line_1,
+                header_line_2: importedCode.header_line_2,
+                welcome_message: importedCode.welcome_message,
+                powered_by: importedCode.powered_by,
+            }
+
+            this.locations = importedCode.locations;
+
+            this.dialog = true;
+            setTimeout(() => {
+                this.importCodeDialog = false;
+                this.dialog = false; 
+            },750);
+    
         },
         deleteLocation(id){
             var _self= this;
